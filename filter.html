@@ -187,7 +187,6 @@
         * @return {d3.Brush} 
         */
         function renderBrush(svg, data, x, samplingRate) {
-                  
             // set class back to 'brush' when dragging ends so we can hide all hover decorators 
             var onbrushend = () => {
                 gBrush.attr("class", "brush")
@@ -202,6 +201,7 @@
 
             // brush moved handler where we need to handle bar color, handles and so on    
             function brushmoved() {
+                var brushClassName = arguments[2][0].getAttribute("class");
                 var s = d3.event.selection;
                 var bar = svg.selectAll(".bar");
                 if (s == null) {
@@ -261,7 +261,7 @@
                 gBrush.attr("class", "brush brush-drag-w")
             })
 
-            var dragLabels = renderDragLabels(svg, x, brush);
+            var dragLabels = renderDragLabels(svg, data, x, brush);
 
             gBrush.call(brush.move, [data[filterStart * samplingRate].name, data[filterEnd * samplingRate].name].map(x));
 
@@ -299,7 +299,13 @@
         * @param {d3.Brush} brush
         * @return {d3.Selection} 
         */        
-        function renderDragLabels(svg, x, brush){
+        function renderDragLabels(svg, data, x, brush){
+            // calculate min max as these are the only values shown on axis
+            var xMin = d3.min(data, function (d) { return d.name; });
+            var xMax = d3.max(data, function (d) { return d.name; });
+            var range = xMax - xMin;
+            var valueRatio = range/width;
+            
             // drag mask, we need this in order to mask min/max values when drag label is over min/max labels
             var dragMask = svg.select(".brush").selectAll(".drag-label-mask")
                 .data([{ type: "w" }, { type: "e" }])
@@ -320,7 +326,8 @@
             brush.on("brush.label", ()=>{
                 var s = d3.event.selection;
                 dragLabel.text(function(d, i){
-                    return s[i]
+                    //FIME: handle floats? 
+                    return Math.round(s[i]*valueRatio+xMin);
                 }).attr("transform", function (d, i) {
                     // we need to calculate text length so we can create mask and center text
                     var textLength = this.getComputedTextLength();
