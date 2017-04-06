@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+    svg {
+        font-size: 10px;
+        font-family: Roboto;
+    }
+    /* BAR ======================================== */
+    .bar {
+        fill: #F1F1F1;
+    }
+    
+    .bar.active {
+        fill: #4AACE2;
+    }
+
+    /* BRUSH ======================================== */
+    .x-axis>path {
+        stroke: #bababa;
+    }
+
+    .x-axis>.tick>text {
+        fill:#7d7d7d;
+    }    
+    
+    /* BRUSH ======================================== */
+
+    .custom-handle {
+        transition: r 0.1s ease-out;
+        pointer-events: none;
+    }
+
+    .handle {
+        transition: all 0.1s ease-out;
+    }
+    
+    .custom-handle--w:hover,
+    .handle--w:hover~.custom-handle--w,
+    .custom-handle--e:hover,
+    .brush-drag-e .custom-handle--e,
+    .brush-drag-w .custom-handle--w,
+    .handle--e:hover~.custom-handle--e {
+        r: 5.5;
+        stroke-width: 3px;
+    }
+    
+    .custom-handle--w:hover,
+    .custom-handle--e:hover,
+    
+    .handle--w:hover~.custom-handle-line--w,
+    .handle--e:hover~.custom-handle-line--e,
+    
+    .handle--w:hover~.drag-label--w, 
+    .handle--e:hover~.drag-label--e,
+    .handle--w:hover~.drag-label-mask--w, 
+    .handle--e:hover~.drag-label-mask--e,    
+
+    .brush-drag-w .custom-handle-line--w,
+    .brush-drag-e .custom-handle-line--e,
+
+    .brush-drag-w .drag-label--w,
+    .brush-drag-e .drag-label--e,
+    .brush-drag-w .drag-label-mask--w,
+    .brush-drag-e .drag-label-mask--e
+
+     {
+        display: block;
+        visibility: visible;
+    }
+    
+    .brush>.selection {
+        fill: rgba(0, 0, 0, 0);
+        stroke: transparent;
+    }
+
+    /* DRAG LABEL ======================================== */
+    .drag-label {
+        visibility: hidden;
+        fill:#7d7d7d;
+    }
+    .drag-label-mask {
+        visibility: hidden;
+    }
+</style>
+
+<body>
+    <script src="//d3js.org/d3.v4.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <script>
+
+        // =================================================== INIT, TODO: replace this by attributes object
+
+        var width = 360;
+        var height = 200;
+        var margin = 25;
+        var axisTickFormat = ",.0f";
+        var container = document.body;
+        var filterStart = 2;
+        var filterEnd = 10;
+
+        d3.json("sample.json", (json) => {
+            init(json.content);
+        });
+
+        // =================================================== FUNCTIONS
+
+        /**
+        * @param {Array} buckets
+        */
+        function init(buckets){
+            var samplingRate = width / buckets.length;
+            var x = d3.scaleBand().range([0, width]);
+            var y = d3.scaleLinear().range([height, 0]);
+            var data = getData(buckets, samplingRate);
+            var svg = renderSVG(width, height, margin);
+            var bars = renderBars(svg, data, x, y);
+            var xAxis = renderXAxis(svg, data, x);
+            var brush = renderBrush(svg, data, x, samplingRate);            
+        }
+
+        /**
+        * @param {d3.Selection} svg
+        * @param {int} width
+        * @param {int} height
+        * @param {int} margin
+        * @return {d3.Selection} 
+        */
+        function renderSVG(width, height, margin){
+            return d3.select(container).append("svg")
+                .attr("width", width + margin * 2)
+                .attr("height", height + margin * 2)
+                .append("g")
+                .attr("transform",
+                "translate(" + margin + "," + margin + ")");
+        };
+
+        /**
+        * @param {Array} buckets
+        * @param {int} samplingRate - number of bars per column\
+        * @returns {Array} data from given buckets 
+        */
+        function getData(buckets, samplingRate){
+            var data = [];
+            buckets.forEach((bucket) => {
+                var step = (bucket.max - bucket.min) / samplingRate;
+                d3.range(bucket.min, bucket.max, step).forEach((name) => {
+                    data.push({
+                        name: name,
+                        value: bucket.content[0].frequency
+                    });
+                });
+            });
+            return data;
+        };            
+
+        /**
+        * @param {d3.Selection} svg
+        * @param {Array} data
+        * @param {d3.Axis} x
+        * @param {d3.Axis} y
+        * @return {d3.Selection} 
+        */
+        function renderBars(svg, data, x, y) {
+            // Scale the range of the data in the domains
+            x.domain(data.map(function (d) { return d.name; }));
+            y.domain([0, d3.max(data, function (d) { return d.value; })]);
+
+            // append the rectangles for the bar chart
+            var bar = svg.selectAll(".bar")
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", function (d) { return x(d.name); })
+                .attr("width", x.bandwidth())
+                .attr("y", function (d) { return y(d.value); })
+                .attr("height", function (d) { return height - y(d.value); });
+
+            return bar;
+        };        
+
+
+        /**
+        * @param {d3.Selection} svg
+        * @param {Array} data
+        * @param {d3.Axis} x
+        * @param {int} samplingRate - number of bars per column\
+        * @return {d3.Brush} 
+        */
+        function renderBrush(svg, data, x, samplingRate) {
+                  
+            // set class back to 'brush' when dragging ends so we can hide all hover decorators 
+            var onbrushend = () => {
+                gBrush.attr("class", "brush")
+            }
+
+            // create brushX and attach events
+            var brush = d3.brushX()
+                .extent([[0, 0], [width, height]])
+                .on("start brush end", brushmoved)
+                .handleSize(10)
+                .on("end.drag", onbrushend);
+
+            // brush moved handler where we need to handle bar color, handles and so on    
+            function brushmoved() {
+                var s = d3.event.selection;
+                var bar = svg.selectAll(".bar");
+                if (s == null) {
+                    bar.classed("active", false);
+                    handleLine.attr("display", "none");
+                } else {
+                    var sx = s.map(x);
+                    handle.attr("display", null).attr("transform", function (d, i) { return "translate(" + s[i] + "," + height + ")"; });
+                    handleLine.attr("transform", function (d, i) { return "translate(" + (s[i] - 1.5) + "," + 0 + ")"; });
+                    bar.classed("active", function (d) {
+                        var barX = x(d.name);
+                        return barX >= s[0] && barX < s[1];
+                    });
+                }
+            }
+
+            // brush container
+            var gBrush = svg.append("g")
+                .attr("class", "brush")
+                .call(brush);
+
+            // create custom brush handles (cicles)    
+            var handle = gBrush.selectAll(".custom-handle")
+                .data([{ type: "w" }, { type: "e" }])
+                .enter().append("circle")
+                .attr("class", function (d) {
+                    return "custom-handle custom-handle--" + d.type;
+                })
+                .attr("display", "none")
+                .attr("fill", "#ffffff")
+                .attr("fill-opacity", 1)
+                .attr("stroke", "#000")
+                .attr("stroke-width", 1)
+                .attr("cursor", "ew-resize")
+                .attr("r", 3.5);
+            
+            // create handle line decorator, note that this is only visible on hover as per styling above
+            var handleLine = gBrush.selectAll(".custom-handle-line")
+                .data([{ type: "w" }, { type: "e" }])
+                .enter().append("rect")
+                .attr("class", function (d) {
+                    return "custom-handle-line custom-handle-line--" + d.type;
+                })
+                .attr("display", "none")
+                .attr("pointer-events", "none")
+                .attr("fill", "#000000")
+                .attr("width", 3)
+                .attr("height", height - 5);
+
+            // we need to manually enable dragging on each handle as D3 doesn't seem to differentiate between dragging on east and west handles
+            // need to investigate and potentially file an issue so that the handler passes handle info    
+            gBrush.select(".handle--e").on("mousedown", function () {
+                gBrush.attr("class", "brush brush-drag-e")
+            });
+
+            gBrush.select(".handle--w").on("mousedown", function () {
+                gBrush.attr("class", "brush brush-drag-w")
+            })
+
+            var dragLabels = renderDragLabels(svg, x, brush);
+
+            gBrush.call(brush.move, [data[filterStart * samplingRate].name, data[filterEnd * samplingRate].name].map(x));
+
+            return brush;
+        }
+        
+        /**
+        * @param {d3.Selection} svg
+        * @param {Array} data
+        * @param {d3.axis} x
+        * @return {d3.Selection} 
+        */        
+        function renderXAxis(svg, data, x){
+            // calculate min max as these are the only values shown on axis
+            var xMin = d3.min(data, function (d) { return d.name; });
+            var xMax = d3.max(data, function (d) { return d.name; });
+
+            // create bottom axis
+            var axis = d3.axisBottom(x)
+                .tickValues([xMin, xMax])
+                .tickSize(0)
+                .tickFormat(d3
+                .format(axisTickFormat))
+                .tickPadding(15);
+
+            return svg.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .attr("class", "x-axis")
+                .call(axis);
+        }
+
+        /**
+        * @param {d3.Selection} svg
+        * @param {d3.axis} x
+        * @param {d3.Brush} brush
+        * @return {d3.Selection} 
+        */        
+        function renderDragLabels(svg, x, brush){
+            // drag mask, we need this in order to mask min/max values when drag label is over min/max labels
+            var dragMask = svg.select(".brush").selectAll(".drag-label-mask")
+                .data([{ type: "w" }, { type: "e" }])
+                .enter().append("rect")
+                .attr("class", function (d) {
+                    return "drag-label-mask drag-label-mask--" + d.type;
+                });
+
+            // drag label showing current filter range on hover
+            var dragLabel = svg.select(".brush").selectAll(".drag-label")
+                .data([{ type: "w" }, { type: "e" }])
+                .enter().append("text")
+                .attr("class", function (d) {
+                    return "drag-label drag-label--" + d.type;
+                });
+
+            // handle brush events
+            brush.on("brush.label", ()=>{
+                var s = d3.event.selection;
+                dragLabel.text(function(d, i){
+                    return s[i]
+                }).attr("transform", function (d, i) {
+                    // we need to calculate text length so we can create mask and center text
+                    var textLength = this.getComputedTextLength();
+                    
+                    // position mask
+                    dragMask.attr("transform", (d, i)=>{
+                        return "translate(" + (s[i]-textLength/2) + "," + (height+12)+ ")"; 
+                    });
+
+                    dragMask.attr("width", textLength);
+                    dragMask.attr("height", 20);
+                    dragMask.attr("fill", "white");
+
+                    // position text
+                    return "translate(" + (s[i]-textLength/2) + "," + (height + 22)+ ")"; 
+                });
+            });
+            return dragLabel;
+        }        
+    </script>
+</body>
