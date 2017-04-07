@@ -221,7 +221,11 @@
             function brushmoved() {
                 // TODO: detect which handle starts dragging
                 var brushClassName = arguments[2][0].getAttribute("class");
-                
+
+                if (brushClassName == "brush"){
+                    gBrush.attr("class", "brush brush-drag-w brush-drag-e")
+                }
+
                 var s = d3.event.selection;
                 var bar = svg.selectAll(".bar");
                 if (s == null) {
