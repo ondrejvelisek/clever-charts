@@ -109,7 +109,7 @@
         // =================================================== INIT, TODO: replace this by attributes object
 
         var width = 360;
-        var height = 200;
+        var height = 150;
         var margin = 25;
         var axisTickFormat = ",.0f";
         var container = document.body;
@@ -239,6 +239,7 @@
             // brush moved handler where we need to handle bar color, handles and so on    
             function brushmoved() {
                 var s = d3.event.selection;
+                // prevent brush when range is same (single click)
                 if (s && s[0] === s[1]) {
                     return;
                 };
@@ -251,7 +252,7 @@
                 }
 
                 var bar = svg.selectAll(".bar");
-                if (s == null) {
+                if (s === null) {
                     bar.classed("active", false);
                     handleLine.attr("display", "none");
                 } else {
@@ -380,12 +381,23 @@
             // handle brush events
             brush.on("brush.label", ()=>{
                 var s = d3.event.selection;
+                // this happens when selection is collapsed to either min,min or max, max, D3 automatically destroys selection
+                // which we don't reallyh want
+                // we can extend selection to whole area if this happens? 
+                if (!s) {
+                    setTimeout(()=>{
+                        selection = [data[0].value,data[data.length-1].value];
+                        select(svg, data, x, brush);
+                    });
+                    return;
+                };
+
                 selection = s.map(function(value, index){
+                    // FIXME: handle floats? 
                     return Math.round(value*valueRatio+xMin);
                 });
                 
                 dragLabel.text(function(d, i){
-                    //FIME: handle floats? 
                     return selection[i];
                 }).attr("transform", function (d, i) {
                     // we need to calculate text length so we can create mask and center text
