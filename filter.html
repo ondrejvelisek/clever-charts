@@ -27,7 +27,18 @@
 
     .custom-handle {
         transition: r 0.1s ease-out;
+        stroke:#4a4a4a;
         pointer-events: none;
+    }
+
+    .brush-axis-line {
+        stroke:#4a4a4a;
+        stroke-width: 1px;
+    }
+
+    .custom-handle-line {
+        stroke:#4a4a4a;
+        fill:#4a4a4a;
     }
 
     .handle {
@@ -201,7 +212,9 @@
 
             // brush moved handler where we need to handle bar color, handles and so on    
             function brushmoved() {
+                // TODO: detect which handle starts dragging
                 var brushClassName = arguments[2][0].getAttribute("class");
+                
                 var s = d3.event.selection;
                 var bar = svg.selectAll(".bar");
                 if (s == null) {
@@ -211,6 +224,8 @@
                     var sx = s.map(x);
                     handle.attr("display", null).attr("transform", function (d, i) { return "translate(" + s[i] + "," + height + ")"; });
                     handleLine.attr("transform", function (d, i) { return "translate(" + (s[i] - 1.5) + "," + 0 + ")"; });
+                    axisLine.attr("x1", s[0]);
+                    axisLine.attr("x2", s[1]);
                     bar.classed("active", function (d) {
                         var barX = x(d.name);
                         return barX >= s[0] && barX < s[1];
@@ -222,6 +237,14 @@
             var gBrush = svg.append("g")
                 .attr("class", "brush")
                 .call(brush);
+
+            var axisLine = gBrush
+                .append("line")
+                .attr("class", "brush-axis-line")
+                .attr("x1", 20)
+                .attr("x2", 120)
+                .attr("y1", height+0.5)
+                .attr("y2", height+0.5);
 
             // create custom brush handles (cicles)    
             var handle = gBrush.selectAll(".custom-handle")
