@@ -16,7 +16,7 @@
 
     /* BRUSH ======================================== */
     .x-axis>path {
-        stroke: #bababa;
+        stroke: #F1F1F1;
     }
 
     .x-axis>.tick>text {
@@ -33,6 +33,7 @@
 
     .brush-axis-line {
         stroke:#4a4a4a;
+        display: none;
         stroke-width: 1px;
     }
 
@@ -42,7 +43,7 @@
     }
 
     .handle {
-        transition: all 0.1s ease-out;
+        transition: all 0.05s ease-out;
     }
     
     .custom-handle--w:hover,
@@ -51,7 +52,7 @@
     .brush-drag-e .custom-handle--e,
     .brush-drag-w .custom-handle--w,
     .handle--e:hover~.custom-handle--e {
-        r: 5.5;
+        r: 4.5;
         stroke-width: 3px;
     }
     
@@ -72,7 +73,13 @@
     .brush-drag-w .drag-label--w,
     .brush-drag-e .drag-label--e,
     .brush-drag-w .drag-label-mask--w,
-    .brush-drag-e .drag-label-mask--e
+    .brush-drag-e .drag-label-mask--e,
+
+    .brush-drag-w .brush-axis-line,
+    .brush-drag-e .brush-axis-line,
+
+    .handle--w:hover~.brush-axis-line, 
+    .handle--e:hover~.brush-axis-line
 
      {
         display: block;
@@ -183,8 +190,8 @@
                 .attr("class", "bar")
                 .attr("x", function (d) { return x(d.name); })
                 .attr("width", x.bandwidth())
-                .attr("y", function (d) { return y(d.value); })
-                .attr("height", function (d) { return height - y(d.value); });
+                .attr("y", function (d) { return Math.round(y(d.value)); })
+                .attr("height", function (d) { return Math.round(height - y(d.value)); });
 
             return bar;
         };        
