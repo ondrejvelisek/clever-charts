@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
-    svg {
+    svg * {
         font-size: 10px;
         font-family: Roboto;
     }
@@ -98,6 +98,7 @@
     }
     .drag-label-mask {
         visibility: hidden;
+        fill:url(#brush-mask-gradient);
     }
 </style>
 
@@ -138,13 +139,55 @@
             select(svg, data, x, brush);   
         }
 
-        function select(svg, data, x, brush){
-            // calculate min max as these are the only values shown on axis
-            var xMin = d3.min(data, function (d) { return d.value; });
-            var xMax = d3.max(data, function (d) { return d.value; });
-            var range = xMax - xMin;
+        /**
+        * Returns min max values for given data
+        * @param {Array} data
+        * @returns {Object} minMax.min
+        * @returns {Object} minMax.max
+        */
+        function getXMinMax(data){
+            var min = d3.min(data, function (d) { return d.value; });
+            var max = d3.max(data, function (d) { return d.value; });
+
+            return {
+                min:min,
+                max:max
+            }
+        }
+
+        /**
+        * Returns data values from selection 
+        * @param {Array} data
+        * @returns {Array} values
+        */
+        function getValuesFromSelection(data){
+            var minMax = getXMinMax(data);
+            var range = minMax.max - minMax.min;
             var valueRatio = range / width;
-            svg.select(".brush").call(brush.move, [selection[0]/valueRatio-xMin, selection[1]/valueRatio-xMin]);
+            return [selection[0]/valueRatio-minMax.min, selection[1]/valueRatio-minMax.min];
+        }
+
+        /**
+        * Returns selection from given values 
+        * @param {Array} data
+        * @returns {Array} selection
+        */
+        function getSelectionFromValues(data){
+            var minMax = getXMinMax(data);
+            var range = minMax.max - minMax.min;
+            var valueRatio = range / width;
+            return [selection[0]*valueRatio-minMax.min, selection[1]*valueRatio-minMax.min];
+        }        
+
+        /**
+         * Triggers manual brush selection 
+        * @param {d3.Selection} svg
+        * @param {Array} data
+        * @param {d3.Axis} x
+        * @param {d3.Brush} brush
+        */
+        function select(svg, data, x, brush){
+            svg.select(".brush").call(brush.move, getValuesFromSelection(data));
         }
 
         /**
@@ -209,6 +252,29 @@
         };        
 
         /**
+        * @param {d3.Selection} brushSelection brush selection 
+        * @param {Array} data
+        * @return {d3.Selection} brush selection
+        */
+        function handleSelectionConstrains(brushSelection, data){
+            // handle when filter is on the left edge, by default, d3.js clears selection 
+            // we need to set it to no equal to prevent this
+            if (brushSelection[0] == 0 && brushSelection[1] == 0){
+                return [0,1];
+            // handle when filter is on the right edge, by default, d3.js clears selection 
+            // we need to set it to no equal to prevent this                
+            } else if (Math.round(brushSelection[0]) == width && Math.round(brushSelection[1]) == width){
+                return [brushSelection[0]-1, brushSelection[1]];
+            // handle when selection is equal and outside of edges, prevent equal selection              
+            } else if (brushSelection[0] == brushSelection[1]){
+                return [brushSelection[0], brushSelection[1]];
+            // otherwise return given selection    
+            } else {
+                return brushSelection;
+            }
+        }
+
+        /**
         * @param {d3.Selection} svg
         * @param {Array} data
         * @param {d3.Axis} x
@@ -225,7 +291,6 @@
                     setTimeout(()=>{
                         select(svg, data, x, brush);
                     });
-                    
                 }
             }
 
@@ -236,15 +301,29 @@
                 .handleSize(10)
                 .on("end.drag", onbrushend);
 
+
             // brush moved handler where we need to handle bar color, handles and so on    
             function brushmoved() {
                 var s = d3.event.selection;
                 // prevent brush when range is same (single click)
-                if (s && s[0] === s[1]) {
-                    return;
-                };
+                if (s) {
+                    s = handleSelectionConstrains(s, data);
 
-                // TODO: detect which handle starts dragging
+                    if (s[0] == s[1]){
+                        return;
+                    }
+
+                } else {
+                    return;
+                }
+
+                // we need to reorder left and right handle in DOM in order to keep handles accessible based on position
+                if (s && s[1] < width/2){
+                    leftHandle.parentNode.insertBefore(leftHandle, rightHandle);
+                } else if (s && s[0]>width/2){
+                    rightHandle.parentNode.insertBefore(rightHandle, leftHandle);
+                }                    
+
                 var brushClassName = arguments[2][0].getAttribute("class");
 
                 if (brushClassName == "brush"){
@@ -272,6 +351,9 @@
             var gBrush = svg.append("g")
                 .attr("class", "brush")
                 .call(brush);
+
+            var leftHandle = gBrush.select(".handle--w").node();
+            var rightHandle = gBrush.select(".handle--e").node();                
 
             var axisLine = gBrush
                 .append("line")
@@ -378,19 +460,34 @@
                     return "drag-label drag-label--" + d.type;
                 });
 
+            var maskGradient = svg.append("linearGradient")
+                .attr("id", "brush-mask-gradient")
+                .attr("gradientUnits", "userSpaceOnUse")
+                .attr("y1", 0).attr("x1", 50)
+                .attr("y2", 0).attr("x2", 0);
+
+                maskGradient.selectAll("stop")
+                .data([
+                    {offset: "0%", color: "rgba(255,255,255,0)"},
+                    {offset: "25%", color: "rgba(255,255,255,1)"},
+                    {offset: "75%", color: "rgba(255,255,255,1)"},
+                    {offset: "100%", color: "rgba(255,255,255,0)"}
+                ])
+                .enter().append("stop")
+                .attr("offset", function(d) { return d.offset; })
+                .attr("stop-color", function(d) { return d.color; });                
+
             // handle brush events
             brush.on("brush.label", ()=>{
                 var s = d3.event.selection;
                 // this happens when selection is collapsed to either min,min or max, max, D3 automatically destroys selection
                 // which we don't reallyh want
                 // we can extend selection to whole area if this happens? 
-                if (!s) {
-                    setTimeout(()=>{
-                        selection = [data[0].value,data[data.length-1].value];
-                        select(svg, data, x, brush);
-                    });
+                if (s) {
+                    s = handleSelectionConstrains(s, data);
+                } else {
                     return;
-                };
+                }
 
                 selection = s.map(function(value, index){
                     // FIXME: handle floats? 
@@ -402,13 +499,17 @@
                 }).attr("transform", function (d, i) {
                     // we need to calculate text length so we can create mask and center text
                     var textLength = this.getComputedTextLength();
+                    var maskPadding = 10;
+                    var maskWidth = textLength + maskPadding*2;
                     
                     // position mask
                     dragMask.attr("transform", (d, i)=>{
-                        return "translate(" + (s[i]-textLength/2) + "," + (height+12)+ ")"; 
+                        return "translate(" + (s[i]-textLength/2 - maskPadding) + "," + (height+12)+ ")"; 
                     });
+                    
+                    maskGradient.attr("x1", maskWidth);
 
-                    dragMask.attr("width", textLength);
+                    dragMask.attr("width", maskWidth);
                     dragMask.attr("height", 20);
                     dragMask.attr("fill", "white");
 
