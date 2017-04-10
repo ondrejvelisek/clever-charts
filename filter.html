@@ -284,7 +284,8 @@
         function renderBrush(svg, data, x) {
             // set class back to 'brush' when dragging ends so we can hide all hover decorators 
             var onbrushend = () => {
-                gBrush.attr("class", "brush")
+                gBrush.attr("class", "brush");
+                gBrush.attr("data-start-handle", "");
                 if (!d3.event.selection) {
                     // revert to old selection when nothing gets selected
                     // need to call this in setTimeout after current brushend completes
@@ -301,18 +302,22 @@
                 .handleSize(10)
                 .on("end.drag", onbrushend);
 
+            var initSelection;
+            brush.on("start", ()=>{
+                initSelection = d3.event.selection.slice(0)
+            });
 
             // brush moved handler where we need to handle bar color, handles and so on    
-            function brushmoved() {
+            function brushmoved(target, type, target) {
                 var s = d3.event.selection;
-                // prevent brush when range is same (single click)
                 if (s) {
                     s = handleSelectionConstrains(s, data);
 
+                    // prevent brush when range is same (single click)
                     if (s[0] == s[1]){
                         return;
                     }
-
+                // do nothing when there is no selection    
                 } else {
                     return;
                 }
@@ -324,12 +329,30 @@
                     rightHandle.parentNode.insertBefore(rightHandle, leftHandle);
                 }                    
 
-                var brushClassName = arguments[2][0].getAttribute("class");
-
+                var brushClassName = target[0].getAttribute("class");
+                var brushStartHandle = target[0].getAttribute("data-start-handle");
+                // show both sides when dragging whole filter
                 if (brushClassName == "brush"){
                     gBrush.attr("class", "brush brush-drag-w brush-drag-e")
                 }
 
+                // handle flipping side when east handle is moved over west,
+                // we need to show west handle instead
+                if (brushStartHandle == "e" && initSelection[0] != s[0]){
+                    gBrush.attr("class", "brush brush-drag-w");
+                } else if (brushStartHandle == "e"){
+                    gBrush.attr("class", "brush brush-drag-e");
+                }
+
+                // handle flipping side when wesst handle is moved over east,
+                // we need to show east handle instead
+                if (brushStartHandle == "w" && initSelection[1] != s[1]){
+                    gBrush.attr("class", "brush brush-drag-e");
+                } else if (brushStartHandle == "w"){
+                    gBrush.attr("class", "brush brush-drag-w");
+                }
+
+                // handle bar colors
                 var bar = svg.selectAll(".bar");
                 if (s === null) {
                     bar.classed("active", false);
@@ -393,12 +416,14 @@
 
             // we need to manually enable dragging on each handle as D3 doesn't seem to differentiate between dragging on east and west handles
             // need to investigate and potentially file an issue so that the handler passes handle info    
-            gBrush.select(".handle--e").on("mousedown", function () {
-                gBrush.attr("class", "brush brush-drag-e")
+            gBrush.select(".handle--e").on("mousedown.handle", function () {
+                gBrush.attr("class", "brush brush-drag-e");
+                gBrush.attr("data-start-handle", "e");
             });
 
-            gBrush.select(".handle--w").on("mousedown", function () {
-                gBrush.attr("class", "brush brush-drag-w")
+            gBrush.select(".handle--w").on("mousedown.handle", function () {
+                gBrush.attr("class", "brush brush-drag-w");
+                gBrush.attr("data-start-handle", "w")
             })
 
             var dragLabels = renderDragLabels(svg, data, x, brush);
