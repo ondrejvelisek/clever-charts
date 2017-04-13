@@ -22,7 +22,7 @@
     .x-axis>.tick>text {
         fill:#7d7d7d;
     }    
-    
+
     /* BRUSH ======================================== */
 
     .custom-handle {
@@ -89,7 +89,17 @@
     .brush>.selection {
         fill: rgba(0, 0, 0, 0);
         stroke: transparent;
+        cursor: grab;
+        cursor: -webkit-grab;
+        cursor: -moz-grab;
     }
+
+    .brush>.overlay.grabbing,
+    .brush>.selection.grabbing {
+        cursor: grabbing ;
+        cursor: -webkit-grabbing ;
+        cursor: -moz-grabbing ;
+    }    
 
     /* DRAG LABEL ======================================== */
     .drag-label {
@@ -312,7 +322,7 @@
             });
 
             // brush moved handler where we need to handle bar color, handles and so on    
-            function brushmoved(target, type, target) {
+            function brushmoved(behaviour, type, target) {
                 var s = d3.event.selection;
                 if (s) {
                     s = handleSelectionConstrains(s, data);
@@ -417,6 +427,18 @@
                 .attr("fill", "#000000")
                 .attr("width", 3)
                 .attr("height", height - 5);
+
+            // handle grabbing
+            gBrush.select(".selection").on("mousedown.grab",function(){
+                gBrush.select(".overlay").classed("grabbing", true);
+                gBrush.select(".selection").classed("grabbing", true);
+            })
+
+            brush.on("end",()=>{
+                gBrush.select(".overlay").classed("grabbing", false);
+                gBrush.select(".selection").classed("grabbing", false);
+            });
+                              
 
             // we need to manually enable dragging on each handle as D3 doesn't seem to differentiate between dragging on east and west handles
             // need to investigate and potentially file an issue so that the handler passes handle info    
