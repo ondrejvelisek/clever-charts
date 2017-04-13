@@ -5,6 +5,7 @@
         font-size: 10px;
         font-family: Roboto;
     }
+
     /* BAR ======================================== */
     .bar {
         fill: #F1F1F1;
@@ -21,13 +22,22 @@
 
     .x-axis>.tick>text {
         fill:#7d7d7d;
-    }    
+    }
 
     /* BRUSH ======================================== */
 
+    g.active .custom-handle {
+        stroke:#4a4a4a;
+        r:3.5;
+    }
+
+    g.inactive .custom-handle {
+        stroke:#bababa;
+        r:2.5;
+    }
+
     .custom-handle {
         transition: r 0.1s ease-out;
-        stroke:#4a4a4a;
         pointer-events: none;
     }
 
@@ -208,12 +218,25 @@
         * @return {d3.Selection} 
         */
         function renderSVG(width, height, margin){
-            return d3.select(container).append("svg")
+            var groupEl = d3.select(container).append("svg")
                 .attr("width", width + margin * 2)
-                .attr("height", height + margin * 2)
+                .attr("height", height + margin * 2)             
                 .append("g")
+                .classed("inactive", true)
                 .attr("transform",
                 "translate(" + margin + "," + margin + ")");
+
+            groupEl.on("mouseover.hover", ()=>{
+                groupEl.classed("active", true)
+                groupEl.classed("inactive", false)
+            })
+
+            groupEl.on("mouseout.hover", ()=>{
+                groupEl.classed("inactive", true)
+                groupEl.classed("active", false)
+            })
+
+            return groupEl;
         };
 
         /**
@@ -412,8 +435,7 @@
                 .attr("fill-opacity", 1)
                 .attr("stroke", "#000")
                 .attr("stroke-width", 1)
-                .attr("cursor", "ew-resize")
-                .attr("r", 3.5);
+                .attr("cursor", "ew-resize");
             
             // create handle line decorator, note that this is only visible on hover as per styling above
             var handleLine = gBrush.selectAll(".custom-handle-line")
