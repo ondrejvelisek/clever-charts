@@ -304,7 +304,11 @@
 
             var initSelection;
             brush.on("start", ()=>{
-                initSelection = d3.event.selection.slice(0)
+                var selection = d3.event.selection;
+                if (selection){
+                    initSelection = d3.event.selection.slice(0)
+                }
+                
             });
 
             // brush moved handler where we need to handle bar color, handles and so on    
@@ -323,10 +327,10 @@
                 }
 
                 // we need to reorder left and right handle in DOM in order to keep handles accessible based on position
-                if (s && s[1] < width/2){
+                if (s && s[0] < width/2){
                     leftHandle.parentNode.insertBefore(leftHandle, rightHandle);
                 } else if (s && s[0]>width/2){
-                    rightHandle.parentNode.insertBefore(rightHandle, leftHandle);
+                    leftHandle.parentNode.insertBefore(rightHandle, leftHandle);
                 }                    
 
                 var brushClassName = target[0].getAttribute("class");
