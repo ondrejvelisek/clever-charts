@@ -6,6 +6,10 @@
         font-family: Roboto;
     }
 
+    svg {
+        border:1px solid #eeeeee;
+    }
+
     /* BAR ======================================== */
     .bar {
         fill: #F1F1F1;
@@ -57,10 +61,12 @@
     }
     
     .custom-handle--w:hover,
-    .handle--w:hover~.custom-handle--w,
     .custom-handle--e:hover,
+
     .brush-drag-e .custom-handle--e,
     .brush-drag-w .custom-handle--w,
+
+    .handle--w:hover~.custom-handle--w,    
     .handle--e:hover~.custom-handle--e {
         r: 4.5;
         stroke-width: 3px;
@@ -218,20 +224,21 @@
         * @return {d3.Selection} 
         */
         function renderSVG(width, height, margin){
-            var groupEl = d3.select(container).append("svg")
+            var svgEl = d3.select(container).append("svg")
                 .attr("width", width + margin * 2)
-                .attr("height", height + margin * 2)             
-                .append("g")
+                .attr("height", height + margin * 2);
+
+            var groupEl = svgEl.append("g")
                 .classed("inactive", true)
                 .attr("transform",
                 "translate(" + margin + "," + margin + ")");
 
-            groupEl.on("mouseover.hover", ()=>{
+            svgEl.on("mouseover.hover", ()=>{
                 groupEl.classed("active", true)
                 groupEl.classed("inactive", false)
             })
 
-            groupEl.on("mouseout.hover", ()=>{
+            svgEl.on("mouseout.hover", ()=>{
                 groupEl.classed("inactive", true)
                 groupEl.classed("active", false)
             })
@@ -284,6 +291,16 @@
             return bar;
         };        
 
+        function getBrushSelection(){
+            var brushSelection = d3.event.selection;
+            if (typeof brushSelection[0] != "undefined"){
+                brushSelection[0] = Math.ceil(brushSelection[0]);
+                brushSelection[1] = Math.round(brushSelection[1]);
+            }
+
+            return brushSelection;
+        }
+
         /**
         * @param {d3.Selection} brushSelection brush selection 
         * @param {Array} data
@@ -296,11 +313,11 @@
                 return [0,1];
             // handle when filter is on the right edge, by default, d3.js clears selection 
             // we need to set it to no equal to prevent this                
-            } else if (Math.round(brushSelection[0]) == width && Math.round(brushSelection[1]) == width){
+            } else if (brushSelection[0] == width && brushSelection[1] == width){
                 return [brushSelection[0]-1, brushSelection[1]];
             // handle when selection is equal and outside of edges, prevent equal selection              
             } else if (brushSelection[0] == brushSelection[1]){
-                return [brushSelection[0], brushSelection[1]];
+                return [brushSelection[0], brushSelection[1]+1];
             // otherwise return given selection    
             } else {
                 return brushSelection;
@@ -337,16 +354,16 @@
 
             var initSelection;
             brush.on("start", ()=>{
-                var selection = d3.event.selection;
+                var selection = getBrushSelection();
                 if (selection){
-                    initSelection = d3.event.selection.slice(0)
+                    initSelection = d3.event.selection.slice(0);
                 }
-                
             });
 
             // brush moved handler where we need to handle bar color, handles and so on    
             function brushmoved(behaviour, type, target) {
-                var s = d3.event.selection;
+                var s = getBrushSelection();
+
                 if (s) {
                     s = handleSelectionConstrains(s, data);
 
@@ -435,7 +452,8 @@
                 .attr("fill-opacity", 1)
                 .attr("stroke", "#000")
                 .attr("stroke-width", 1)
-                .attr("cursor", "ew-resize");
+                .attr("cursor", "ew-resize")
+                .attr("r",3.5);
             
             // create handle line decorator, note that this is only visible on hover as per styling above
             var handleLine = gBrush.selectAll(".custom-handle-line")
@@ -552,7 +570,7 @@
 
             // handle brush events
             brush.on("brush.label", ()=>{
-                var s = d3.event.selection;
+                var s = getBrushSelection();
                 // this happens when selection is collapsed to either min,min or max, max, D3 automatically destroys selection
                 // which we don't reallyh want
                 // we can extend selection to whole area if this happens? 
