@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
-    svg * {
+    g * {
         font-size: 10px;
         font-family: Roboto;
     }
 
-    svg {
+    g {
         border:1px solid #eeeeee;
     }
 
@@ -157,12 +157,12 @@
             var x = d3.scaleBand().range([0, width]);
             var y = d3.scaleLinear().range([height, 0]);
             
-            var svg = renderSVG(width, height, margin);
-            var bars = renderBars(svg, data, x, y);
-            var xAxis = renderXAxis(svg, data, x);
-            var brush = renderBrush(svg, data, x);
+            var g = render(width, height, margin);
+            var bars = renderBars(g, data, x, y);
+            var xAxis = renderXAxis(g, data, x);
+            var brush = renderBrush(g, data, x);
 
-            select(svg, data, x, brush);   
+            select(g, data, x, brush);   
         }
 
         /**
@@ -207,23 +207,23 @@
 
         /**
          * Triggers manual brush selection 
-        * @param {d3.Selection} svg
+        * @param {d3.Selection} g
         * @param {Array} data
         * @param {d3.Axis} x
         * @param {d3.Brush} brush
         */
-        function select(svg, data, x, brush){
-            svg.select(".brush").call(brush.move, getValuesFromSelection(data));
+        function select(g, data, x, brush){
+            g.select(".brush").call(brush.move, getValuesFromSelection(data));
         }
 
         /**
-        * @param {d3.Selection} svg
+        * @param {d3.Selection} g
         * @param {int} width
         * @param {int} height
         * @param {int} margin
         * @return {d3.Selection} 
         */
-        function renderSVG(width, height, margin){
+        function render(width, height, margin){
             var svgEl = d3.select(container).append("svg")
                 .attr("width", width + margin * 2)
                 .attr("height", height + margin * 2);
@@ -267,19 +267,19 @@
         };            
 
         /**
-        * @param {d3.Selection} svg
+        * @param {d3.Selection} g
         * @param {Array} data
         * @param {d3.Axis} x
         * @param {d3.Axis} y
         * @return {d3.Selection} 
         */
-        function renderBars(svg, data, x, y) {
+        function renderBars(g, data, x, y) {
             // Scale the range of the data in the domains
             x.domain(data.map(function (d) {return d.value; }));
             y.domain([0, d3.max(data, function (d) { return d.volume; })]);
 
             // append the rectangles for the bar chart
-            var bar = svg.selectAll(".bar")
+            var bar = g.selectAll(".bar")
                 .data(data)
                 .enter().append("rect")
                 .attr("class", "bar")
@@ -325,13 +325,13 @@
         }
 
         /**
-        * @param {d3.Selection} svg
+        * @param {d3.Selection} g
         * @param {Array} data
         * @param {d3.Axis} x
         * @param {int} numOfBarsPerBucket - number of bars per column\
         * @return {d3.Brush} 
         */
-        function renderBrush(svg, data, x) {
+        function renderBrush(g, data, x) {
             // set class back to 'brush' when dragging ends so we can hide all hover decorators 
             var onbrushend = () => {
                 gBrush.attr("class", "brush");
@@ -340,7 +340,7 @@
                     // revert to old selection when nothing gets selected
                     // need to call this in setTimeout after current brushend completes
                     setTimeout(()=>{
-                        select(svg, data, x, brush);
+                        select(g, data, x, brush);
                     });
                 }
             }
@@ -407,7 +407,7 @@
                 }
 
                 // handle bar colors
-                var bar = svg.selectAll(".bar");
+                var bar = g.selectAll(".bar");
                 if (s === null) {
                     bar.classed("active", false);
                     handleLine.attr("display", "none");
@@ -425,7 +425,7 @@
             }
 
             // brush container
-            var gBrush = svg.append("g")
+            var gBrush = g.append("g")
                 .attr("class", "brush")
                 .call(brush);
 
@@ -492,18 +492,18 @@
                 gBrush.attr("data-start-handle", "w")
             })
 
-            var dragLabels = renderDragLabels(svg, data, x, brush);
+            var dragLabels = renderDragLabels(g, data, x, brush);
 
             return brush;
         }
         
         /**
-        * @param {d3.Selection} svg
+        * @param {d3.Selection} g
         * @param {Array} data
         * @param {d3.axis} x
         * @return {d3.Selection} 
         */        
-        function renderXAxis(svg, data, x){
+        function renderXAxis(g, data, x){
             // calculate min max as these are the only values shown on axis
             var xMin = d3.min(data, function (d) { return d.value; });
             var xMax = d3.max(data, function (d) { return d.value; });
@@ -516,19 +516,19 @@
                 .format(axisTickFormat))
                 .tickPadding(15);
 
-            return svg.append("g")
+            return g.append("g")
                 .attr("transform", "translate(0," + height + ")")
                 .attr("class", "x-axis")
                 .call(axis);
         }
 
         /**
-        * @param {d3.Selection} svg
+        * @param {d3.Selection} g
         * @param {d3.axis} x
         * @param {d3.Brush} brush
         * @return {d3.Selection} 
         */        
-        function renderDragLabels(svg, data, x, brush){
+        function renderDragLabels(g, data, x, brush){
             // calculate min max as these are the only values shown on axis
             var xMin = d3.min(data, function (d) { return d.value; });
             var xMax = d3.max(data, function (d) { return d.value; });
@@ -536,7 +536,7 @@
             var valueRatio = range / width;
             
             // drag mask, we need this in order to mask min/max values when drag label is over min/max labels
-            var dragMask = svg.select(".brush").selectAll(".drag-label-mask")
+            var dragMask = g.select(".brush").selectAll(".drag-label-mask")
                 .data([{ type: "w" }, { type: "e" }])
                 .enter().append("rect")
                 .attr("class", function (d) {
@@ -544,14 +544,14 @@
                 });
 
             // drag label showing current filter range on hover
-            var dragLabel = svg.select(".brush").selectAll(".drag-label")
+            var dragLabel = g.select(".brush").selectAll(".drag-label")
                 .data([{ type: "w" }, { type: "e" }])
                 .enter().append("text")
                 .attr("class", function (d) {
                     return "drag-label drag-label--" + d.type;
                 });
 
-            var maskGradient = svg.append("linearGradient")
+            var maskGradient = g.append("linearGradient")
                 .attr("id", "brush-mask-gradient")
                 .attr("gradientUnits", "userSpaceOnUse")
                 .attr("y1", 0).attr("x1", 50)
