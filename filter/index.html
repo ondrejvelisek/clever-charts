@@ -146,6 +146,9 @@
         var format = d3.format(",.0f");
         var container = document.body;
         var selection = [100, 200];
+        var minMax;
+
+        var refreshSelection = () => {};
 
         d3.json("sample.json", (json) => {
             init(json.content);
@@ -158,6 +161,7 @@
         */
         function init(buckets){
             var data = getData(buckets);
+            minMax = getXMinMax(data);
 
             var x = d3.scaleBand().range([0, width]);
             var y = d3.scaleLinear().range([height, 0]);
@@ -167,7 +171,11 @@
             var xAxis = renderXAxis(g, data, x);
             var brush = renderBrush(g, data, x);
 
-            select(g, data, x, brush);   
+            refreshSelection = ()=>{
+                g.select(".brush").call(brush.move, getViewSelection(data));
+            };
+
+            refreshSelection();   
         }
 
         /**
@@ -210,17 +218,6 @@
             var selection = [viewSelection[0]*valueRatio+minMax.min, viewSelection[1]*valueRatio+minMax.min];
             return [format(selection[0]), format(selection[1])];
         }        
-
-        /**
-         * Triggers manual brush selection 
-        * @param {d3.Selection} g
-        * @param {Array} data
-        * @param {d3.Axis} x
-        * @param {d3.Brush} brush
-        */
-        function select(g, data, x, brush){
-            g.select(".brush").call(brush.move, getViewSelection(data));
-        }
 
         /**
         * @param {d3.Selection} g
@@ -330,6 +327,43 @@
             }
         }
 
+
+        /**
+        * @param {index} slider index (0 - left, 1 - right)
+        */
+        function promptRange(index){
+            //TODO: replace this by calling external API or firing event
+            var promptResult = prompt(["left", "right"][index] + " slider value", selection[index]);
+            var newSelection = selection.slice();
+
+            var newValue = parseFloat(promptResult);
+            if (isNaN(newValue)) return;
+
+            // handle when left handle value is greater than right
+            if (index == 0 && newValue >= newSelection[1]){
+                newSelection[0] = newSelection[1];
+                newSelection[1] = newValue;
+            // handle when right handle value is greater than left
+            } else if (index == 1 && newValue <= newSelection[0]){
+                newSelection[1] = newSelection[0];
+                newSelection[0] = newValue;
+            } else {
+                newSelection[index] = newValue;
+            }
+
+            // prevent setting value smaller than minimum
+            newSelection[0] = Math.max(minMax.min, newSelection[0]);
+
+            // prevent setting value greater than maximum
+            newSelection[1] = Math.min(minMax.max, newSelection[1]);
+
+            if (newSelection[0] != newSelection[1]){
+                selection[0] = newSelection[0];
+                selection[1] = newSelection[1];
+                refreshSelection();
+            }
+        }
+
         /**
         * @param {d3.Selection} g
         * @param {Array} data
@@ -346,7 +380,7 @@
                     // revert to old selection when nothing gets selected
                     // need to call this in setTimeout after current brushend completes
                     setTimeout(()=>{
-                        select(g, data, x, brush);
+                        refreshSelection();
                     });
                 }
             }
@@ -497,6 +531,17 @@
                 gBrush.attr("class", "brush brush-drag-w");
                 gBrush.attr("data-start-handle", "w")
             })
+
+            gBrush.on("click", function (params) {
+                // note that we need to get target element using this method as d3 set pointer events to none on dragged sides 
+                var targetElement = document.elementFromPoint(d3.event.x, d3.event.y);
+                var targetElementClassName = d3.select(targetElement).attr("class");
+                if (targetElementClassName.indexOf("handle--w")!=-1){
+                    promptRange(0);
+                } else if (targetElementClassName.indexOf("handle--e")!=-1){
+                    promptRange(1);
+                }
+            })        
 
             var dragLabels = renderDragLabels(g, data, x, brush);
 
