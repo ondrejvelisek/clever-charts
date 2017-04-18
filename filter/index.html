@@ -40,6 +40,11 @@
         r:2.5;
     }
 
+    g.brush-drag .custom-handle {
+        stroke:#4a4a4a;
+        r:3.5;
+    }    
+
     .custom-handle {
         transition: r 0.1s ease-out;
         pointer-events: none;
@@ -138,7 +143,7 @@
         var width = 360;
         var height = 150;
         var margin = 25;
-        var axisTickFormat = ",.0f";
+        var format = d3.format(",.0f");
         var container = document.body;
         var selection = [100, 200];
 
@@ -186,7 +191,7 @@
         * @param {Array} data
         * @returns {Array} values
         */
-        function getValuesFromSelection(data){
+        function getViewSelection(data){
             var minMax = getXMinMax(data);
             var range = minMax.max - minMax.min;
             var valueRatio = range / width;
@@ -198,11 +203,12 @@
         * @param {Array} data
         * @returns {Array} selection
         */
-        function getSelectionFromValues(data){
+        function getDataSelection(viewSelection, data){
             var minMax = getXMinMax(data);
             var range = minMax.max - minMax.min;
             var valueRatio = range / width;
-            return [selection[0]*valueRatio-minMax.min, selection[1]*valueRatio-minMax.min];
+            var selection = [viewSelection[0]*valueRatio+minMax.min, viewSelection[1]*valueRatio+minMax.min];
+            return [format(selection[0]), format(selection[1])];
         }        
 
         /**
@@ -213,7 +219,7 @@
         * @param {d3.Brush} brush
         */
         function select(g, data, x, brush){
-            g.select(".brush").call(brush.move, getValuesFromSelection(data));
+            g.select(".brush").call(brush.move, getViewSelection(data));
         }
 
         /**
@@ -387,23 +393,23 @@
                 var brushStartHandle = target[0].getAttribute("data-start-handle");
                 // show both sides when dragging whole filter
                 if (brushClassName == "brush"){
-                    gBrush.attr("class", "brush brush-drag-w brush-drag-e")
+                    gBrush.attr("class", "brush brush-drag brush-drag-w brush-drag-e")
                 }
 
                 // handle flipping side when east handle is moved over west,
                 // we need to show west handle instead
                 if (brushStartHandle == "e" && initSelection[0] != s[0]){
-                    gBrush.attr("class", "brush brush-drag-w");
+                    gBrush.attr("class", "brush brush-drag brush-drag-w");
                 } else if (brushStartHandle == "e"){
-                    gBrush.attr("class", "brush brush-drag-e");
+                    gBrush.attr("class", "brush brush-drag brush-drag-e");
                 }
 
                 // handle flipping side when wesst handle is moved over east,
                 // we need to show east handle instead
                 if (brushStartHandle == "w" && initSelection[1] != s[1]){
-                    gBrush.attr("class", "brush brush-drag-e");
+                    gBrush.attr("class", "brush brush-drag brush-drag-e");
                 } else if (brushStartHandle == "w"){
-                    gBrush.attr("class", "brush brush-drag-w");
+                    gBrush.attr("class", "brush brush-drag brush-drag-w");
                 }
 
                 // handle bar colors
@@ -512,8 +518,7 @@
             var axis = d3.axisBottom(x)
                 .tickValues([xMin, xMax])
                 .tickSize(0)
-                .tickFormat(d3
-                .format(axisTickFormat))
+                .tickFormat(format)
                 .tickPadding(15);
 
             return g.append("g")
@@ -580,10 +585,7 @@
                     return;
                 }
 
-                selection = s.map(function(value, index){
-                    // FIXME: handle floats? 
-                    return Math.round(value*valueRatio+xMin);
-                });
+                selection = getDataSelection(s, data);
                 
                 dragLabel.text(function(d, i){
                     return selection[i];
