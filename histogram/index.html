@@ -10,6 +10,10 @@
         border:1px solid #eeeeee;
     }
 
+    g .invisiblebar {
+        cursor:pointer;
+    }
+
     /* BAR ======================================== */
 
     /* BRUSH ======================================== */
@@ -166,7 +170,7 @@
             renderSelectionControls(g, x, data);
 
             handleHoverState(g, x);
-            handleClick(g, x);
+            handleClick(g, x, data, minMax);
         }
 
         function toggleCategory(categoryIndex, g, x){
@@ -174,13 +178,33 @@
             renderSelection(g, x);
         }
 
-        function handleClick(g, x){
-            g.on("mousedown", (target)=>{
-                var categoryIndex = d3.select(d3.event.target).attr("data-category-index");
+        function handleClick(g, x, data, minMax){
+            g.on("click", (target)=>{
+                var target = d3.select(d3.event.target);
+                var categoryIndex = target.attr("data-category-index");
                 if (categoryIndex != null){
                     toggleCategory(categoryIndex, g, x)
                 }
-                
+
+                var handleIndex = target.attr("data-handle-index");
+                if (handleIndex != null){
+                    var promptResult = prompt("value", target.attr("data-handle-value"));
+                    var positions = g.selectAll(".custom-handle").nodes().map(handle=>{
+                        return parseInt(d3.select(handle).attr("x"))+5;
+                    });
+
+                    promptResult = Math.min(minMax.max, promptResult);
+                    promptResult = Math.max(minMax.min, promptResult);
+                    positions[handleIndex] = valueToPosition(promptResult);
+
+                    positions = positions.sort((p1, p2)=>{
+                        return p1-p2;
+                    });
+                    updateSelection(positions, g, x);
+                    destroySelectionControls(g);   
+                    renderSelectionControls(g, x, data);
+
+                }
             })
         }
 
@@ -278,16 +302,32 @@
             renderSelection(g, x);
         }
 
+
+        // /**
+        // * @param {d3.Selection} g
+        // * @param {int} position  
+        // * Creates drag handle
+        // */
+        // function updateHandle(g, value, x, handleIndex){
+        //     var position = valueToPosition(value);
+        //     d3.select(g.selectAll(".custom-handle").nodes()[handleIndex]).attr("x", position-5).attr("data-handle-value", value);
+        //     d3.select(g.selectAll(".custom-handle-circle").nodes()[handleIndex]).attr("transform", "translate(" + position + "," + height + ")");
+        //     d3.select(g.selectAll(".custom-handle-line").nodes()[handleIndex]).attr("x", position-2);
+        // }
+
         /**
         * @param {d3.Selection} g
         * @param {int} position  
         * Creates drag handle
         */
-        function createHandle(g, position, x){
+        function createHandle(g, value, x, handleIndex){
+            var position = valueToPosition(value);
             // handle
             var handle = g.append("rect")
             .attr("class", "custom-handle")
             .attr("fill-opacity", 0)
+            .attr("data-handle-index", handleIndex)
+            .attr("data-handle-value", value)
             .attr("cursor", "ew-resize")
             .attr("width",10)
             .attr("height", height+5)
@@ -430,6 +470,7 @@
                handle.attr("x", xpos-5);
                line.attr("x", xpos-2);
                circle.attr("transform", "translate(" + xpos + "," + height + ")");
+               handle.attr("data-handle-value", positionToValue(xpos))
 
                setOverState();
 
@@ -458,12 +499,20 @@
         */
         function renderSelectionControls(g, x, data){
             selection.forEach((s, index)=>{
-                createHandle(g, valueToPosition(s.from), x);
+                createHandle(g, s.from, x, index);
                 if (index == selection.length-1){
-                    createHandle(g, valueToPosition(s.to), x);
+                    createHandle(g, s.to, x, index);
                 }
                 
             });
+        }
+
+        /**
+        * Destroy controls
+        * @param {d3.Selection} g
+        */
+        function destroySelectionControls(g){
+            g.selectAll(".custom-handle, .custom-handle-circle, .custom-handle-line, .drag-label,.drag-label-mask").remove();
         }
 
         /**
