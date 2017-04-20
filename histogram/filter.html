@@ -109,21 +109,9 @@
 
         var selection = [
             {
-                from:1,
-                to:50,
-                color:"#71CFFF"
-            }, {
                 from:50,
-                to:100,
-                color:"#66D842"
-            }, {
-                from:100,
-                to:150,
-                color:"#FFC600"
-            }, {
-                from:150,
-                to:200,
-                color:"#FF9271"
+                to:250,
+                color:"#71CFFF"
             }
         ];
 
@@ -165,23 +153,7 @@
             var xAxis = renderXAxis(g, data, x);   
             renderSelectionControls(g, x, data);
 
-            handleHoverState(g, x);
-            handleClick(g, x);
-        }
-
-        function toggleCategory(categoryIndex, g, x){
-            selection[categoryIndex].disabled ^= true;
-            renderSelection(g, x);
-        }
-
-        function handleClick(g, x){
-            g.on("mousedown", (target)=>{
-                var categoryIndex = d3.select(d3.event.target).attr("data-category-index");
-                if (categoryIndex != null){
-                    toggleCategory(categoryIndex, g, x)
-                }
-                
-            })
+            //handleHoverState(g, x);
         }
 
         function fireEvent(eventName, eventValue){
@@ -203,7 +175,7 @@
                     overCategoryIndex = categoryIndex;
                     renderSelection(g, x);
                     
-                    if (overCategoryIndex == null){
+                    if (!overCategoryIndex || overCategoryIndex == -1){
                         fireEvent("selectionHoverChange", null);
                     } else {
                         fireEvent("selectionHoverChange", overCategoryIndex);
@@ -229,7 +201,7 @@
                 if (within) return i;
             }
 
-            return null;
+            return -1;
         }
 
         /**
@@ -248,14 +220,12 @@
             g.selectAll(".bar").attr("fill", function (d) {
                 var barX = x(d.value);
                 var barCategoryIndex = getBarCategoryIndex(barX);
-                if (barCategoryIndex == null){
+                if (barCategoryIndex == -1){
                     return inactiveCategoryColor;
-                } else if (selection[barCategoryIndex].disabled){
-                    return inactiveCategoryColor;
-                } if (overCategoryIndex == barCategoryIndex){
+                } else if (overCategoryIndex == barCategoryIndex){
                     return hoverCategoryColor;
                 } else {
-                    return selection[barCategoryIndex].color;                    
+                    return selection[barCategoryIndex].color;
                 }
             });
         }
