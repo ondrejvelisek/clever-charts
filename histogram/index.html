@@ -91,7 +91,9 @@
 </style>
 
 <body>
-    <script src="//d3js.org/d3.v4.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+    
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <script>
 
@@ -102,6 +104,9 @@
         var margin = 25;
         var format = d3.format(",.0f");
         var container = document.body;
+        var inactiveCategoryColor = "#f0f0f0";
+        var hoverCategoryColor = "#ffea00";
+
         var selection = [
             {
                 from:1,
@@ -114,13 +119,15 @@
             }, {
                 from:100,
                 to:150,
-                color:"#F3EE7D"
+                color:"#FFC600"
             }, {
                 from:150,
                 to:200,
                 color:"#FF9271"
             }
         ];
+
+        var overCategoryIndex = -1;
 
         var viewSelection;
         var positionToData;
@@ -157,20 +164,56 @@
             renderSelection(g, x);
             var xAxis = renderXAxis(g, data, x);   
             renderSelectionControls(g, x, data);
+
+            handleHoverState(g, x);
+        }
+
+        function fireEvent(eventName, eventValue){
+            console.log("Firing " + eventName + ": "+eventValue);
+        }
+
+        function handleHoverState(g, x){
+            // we need to create cancellable task as in some cases, mouseover is not triggered if 
+            // quickly moving mouse outside of bars. In order to handle this, we need to handle 
+            // mouseout but only when it's outside of bars which only happens when subsequent 
+            // mouseover doesn't cancel this task
+            var mouseOutTask = _.debounce(onMouseOut, 10);
+            g.on("mouseout", mouseOutTask);
+
+            g.on("mouseover", ()=>{
+                mouseOutTask.cancel();
+                var categoryIndex = d3.select(d3.event.target).attr("data-category-index");
+                if (overCategoryIndex != categoryIndex){
+                    overCategoryIndex = categoryIndex;
+                    renderSelection(g, x);
+                    
+                    if (!overCategoryIndex || overCategoryIndex == -1){
+                        fireEvent("selectionHoverChange", null);
+                    } else {
+                        fireEvent("selectionHoverChange", overCategoryIndex);
+                    }
+                }
+            })
+
+            function onMouseOut(){
+                overCategoryIndex = null;
+                renderSelection(g, x);
+            }
+
         }
 
         /**
         * Returns bar color based on X position
         * @returns {String} color
         */
-        function getBarColor(barX){
+        function getBarCategoryIndex(barX){
             for (var i=0;i<selection.length;i++){
                 var s = selection[i];
                 var within = barX >= valueToPosition(s.from) && barX < valueToPosition(s.to);
-                if (within) return s.color;
+                if (within) return i;
             }
 
-            return "#f0f0f0";
+            return -1;
         }
 
         /**
@@ -179,12 +222,23 @@
         * @param {d3.Axis} x
         */
         function renderSelection(g, x){
-            // handle bar colors
-            var bar = g.selectAll(".bar");
-            bar.attr("fill", function (d) {
+            // handle bar category
+            g.selectAll(".invisiblebar").attr("data-category-index", function (d) {
                 var barX = x(d.value);
-                var color = getBarColor(barX);
-                return color;
+                return getBarCategoryIndex(barX);
+            });
+
+            // handle bar colors
+            g.selectAll(".bar").attr("fill", function (d) {
+                var barX = x(d.value);
+                var barCategoryIndex = getBarCategoryIndex(barX);
+                if (barCategoryIndex == -1){
+                    return inactiveCategoryColor;
+                } else if (overCategoryIndex == barCategoryIndex){
+                    return hoverCategoryColor;
+                } else {
+                    return selection[barCategoryIndex].color;
+                }
             });
         }
 
@@ -274,7 +328,7 @@
                 }).attr("transform", function(){
                     return updateLabelPosition(this, position);
                 });          
-                
+
                       
             
             // handle hover state
@@ -311,9 +365,7 @@
 
             function startdrag(){
                 g.classed("dragging", true);
-                g.selectAll(".custom-handle").attr("pointer-events", "none");
-                g.selectAll(".custom-handle-line").attr("pointer-events", "none");
-                g.selectAll(".custom-handle-circle").attr("pointer-events", "none");
+                g.selectAll(".custom-handle, .custom-handle-circle, .custom-handle-line, .bar, .invisiblebar").attr("pointer-events", "none");
 
                 handle.attr("pointer-events", "all");
                 line.attr("pointer-events", "all");
@@ -322,9 +374,7 @@
 
             function enddrag(){
                 g.classed("dragging", false);
-                g.selectAll(".custom-handle").attr("pointer-events", "all");
-                g.selectAll(".custom-handle-line").attr("pointer-events", "all");
-                g.selectAll(".custom-handle-circle").attr("pointer-events", "all");
+                g.selectAll(".custom-handle, .custom-handle-circle, .custom-handle-line, .bar, .invisiblebar").attr("pointer-events", "all");
 
                 if (!isOver){
                     unsetOverState();
@@ -380,8 +430,6 @@
                 });  
                       
             }
-
-
         }
 
         /**
@@ -487,6 +535,17 @@
                 .attr("width", x.bandwidth())
                 .attr("y", function (d) { return Math.round(y(d.volume)); })
                 .attr("height", function (d) { return Math.round(height - y(d.volume)); });
+
+            // space filling rectangles
+            g.selectAll(".invisiblebar")
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "invisiblebar")
+                .attr("x", function (d) { return x(d.value); })
+                .attr("width", x.bandwidth())
+                .attr("y", 0)
+                .attr("fill", "transparent")
+                .attr("height", height);                
 
             return bar;
         };        
