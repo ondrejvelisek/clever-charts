@@ -10,6 +10,10 @@
         border:1px solid #eeeeee;
     }
 
+    g .selectionbar {
+        
+    }
+
     /* BAR ======================================== */
 
     /* BRUSH ======================================== */
@@ -92,7 +96,6 @@
 
 <body>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
     
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <script>
@@ -105,13 +108,13 @@
         var format = d3.format(",.0f");
         var container = document.body;
         var inactiveCategoryColor = "#f0f0f0";
-        var hoverCategoryColor = "#ffea00";
+        var hoverCategoryColor = "#49ace2";
 
         var selection = [
             {
                 from:50,
                 to:250,
-                color:"#71CFFF"
+                color:"#49ace2"
             }
         ];
 
@@ -141,7 +144,7 @@
             }
 
             valueToPosition = function(value){
-                return parseInt((value)/valueRatio);
+                return value/valueRatio-minMax.min;
             }
 
             var x = d3.scaleBand().range([0, width]);
@@ -149,43 +152,102 @@
             
             var g = render(width, height, margin);
             var bars = renderBars(g, data, x, y);
-            renderSelection(g, x);
+            updateSelection(g, x);
             var xAxis = renderXAxis(g, data, x);   
-            renderSelectionControls(g, x, data);
+            updateSelectionControls(g, x, data);
 
-            //handleHoverState(g, x);
+            handleHoverState(g, x);
+            //handleClick(g, x, data, minMax);
+        }
+
+        function toggleCategory(categoryIndex, g, x){
+            selection[categoryIndex].disabled ^= true;
+            updateSelection(g, x);
+        }
+
+        function handleClick(g, x, data, minMax){
+            g.on("click", (target)=>{
+                var target = d3.select(d3.event.target);
+                var categoryIndex = target.attr("data-category-index");
+                if (categoryIndex != null){
+                    toggleCategory(categoryIndex, g, x)
+                }
+
+                var handleIndex = target.attr("data-handle-index");
+                if (handleIndex != null){
+                    var promptResult = prompt("value", target.attr("data-handle-value"));
+                    if (promptResult == null){
+                        return;
+                    }
+
+                    promptResult = Math.min(minMax.max, promptResult);
+                    promptResult = Math.max(minMax.min, promptResult);
+                    
+                    var points = getSelectionPoints();
+                    points[handleIndex] = promptResult;
+                    var positions = points.map(valueToPosition);
+                    
+                    updateSelectionPositions(positions, g, x);
+                    destroySelectionControls(g);   
+                    updateSelectionControls(g, x, data);
+                }
+            })
         }
 
         function fireEvent(eventName, eventValue){
             console.log("Firing " + eventName + ": "+eventValue);
         }
 
-        function handleHoverState(g, x){
-            // we need to create cancellable task as in some cases, mouseover is not triggered if 
-            // quickly moving mouse outside of bars. In order to handle this, we need to handle 
-            // mouseout but only when it's outside of bars which only happens when subsequent 
-            // mouseover doesn't cancel this task
-            var mouseOutTask = _.debounce(onMouseOut, 10);
-            g.on("mouseout", mouseOutTask);
+        // we need to get nth element based on horizontal position
+        function getNthElement(s, i){
+            var nodes = s.nodes();
+            nodes.sort((n1,n2)=>{
+                return n1.getBoundingClientRect().left - n2.getBoundingClientRect().left
+            });
 
-            g.on("mouseover", ()=>{
-                mouseOutTask.cancel();
-                var categoryIndex = d3.select(d3.event.target).attr("data-category-index");
+            return d3.select(nodes[i]);
+        }
+
+        function updateSelectionControlsHoverState(g, categoryIndex){
+            g.selectAll(".custom-handle-circle").attr("r", 3.5).attr("stroke-width", "1");
+            g.selectAll(".drag-label").attr("fill-opacity", 0);
+            g.selectAll(".drag-mask").attr("visibility", "hidden");
+            g.selectAll(".custom-handle-line").attr("fill-opacity", 0);
+
+            if (categoryIndex != null){
+                getNthElement(g.selectAll(".custom-handle-circle"), categoryIndex).attr("r", 4.5).attr("stroke-width", 3);
+                getNthElement(g.selectAll(".custom-handle-circle"), categoryIndex+1).attr("r", 4.5).attr("stroke-width", 3);
+
+                getNthElement(g.selectAll(".drag-label"), categoryIndex).attr("fill-opacity", 1);
+                getNthElement(g.selectAll(".drag-label"), categoryIndex+1).attr("fill-opacity", 1);
+
+                getNthElement(g.selectAll(".drag-mask"), categoryIndex).attr("visibility", "visible");
+                getNthElement(g.selectAll(".drag-maks"), categoryIndex+1).attr("visibility", "visible");
+
+                getNthElement(g.selectAll(".custom-handle-line"), categoryIndex).attr("fill-opacity", 1);
+                getNthElement(g.selectAll(".custom-handle-line"), categoryIndex+1).attr("fill-opacity", 1);
+            }
+        }
+
+        function handleHoverState(g, x){
+            g.selectAll(".selectionbar").on("mouseout", onMouseOut);
+            g.selectAll(".selectionbar").on("mouseover", function(d, i, nodes){
+                d3.select(nodes[i]).attr("fill", "rgba(0,0,0,0.00)")
+                var categoryIndex = parseInt(d3.select(d3.event.target).attr("data-category-index"));
                 if (overCategoryIndex != categoryIndex){
                     overCategoryIndex = categoryIndex;
-                    renderSelection(g, x);
-                    
-                    if (!overCategoryIndex || overCategoryIndex == -1){
-                        fireEvent("selectionHoverChange", null);
-                    } else {
-                        fireEvent("selectionHoverChange", overCategoryIndex);
-                    }
+                    updateSelection(g, x);
+                    updateSelectionControlsHoverState(g, categoryIndex);
+                    fireEvent("selectionHoverChange", overCategoryIndex);
                 }
             })
 
-            function onMouseOut(){
+            function onMouseOut(d, i, nodes){
+                d3.select(nodes[i]).attr("fill", "rgba(0,0,0,0)")
                 overCategoryIndex = null;
-                renderSelection(g, x);
+                updateSelectionControlsHoverState(g, null);
+                updateSelection(g, x);
+                fireEvent("selectionHoverChange", overCategoryIndex);
             }
 
         }
@@ -201,7 +263,7 @@
                 if (within) return i;
             }
 
-            return -1;
+            return null;
         }
 
         /**
@@ -209,25 +271,34 @@
         * @param {d3.Selection} g
         * @param {d3.Axis} x
         */
-        function renderSelection(g, x){
-            // handle bar category
-            g.selectAll(".invisiblebar").attr("data-category-index", function (d) {
-                var barX = x(d.value);
-                return getBarCategoryIndex(barX);
-            });
-
+        function updateSelection(g, x){
             // handle bar colors
             g.selectAll(".bar").attr("fill", function (d) {
                 var barX = x(d.value);
                 var barCategoryIndex = getBarCategoryIndex(barX);
-                if (barCategoryIndex == -1){
+                if (barCategoryIndex == null){
                     return inactiveCategoryColor;
-                } else if (overCategoryIndex == barCategoryIndex){
+                } else if (selection[barCategoryIndex].disabled){
+                    return inactiveCategoryColor;
+                } if (overCategoryIndex == barCategoryIndex){
                     return hoverCategoryColor;
                 } else {
-                    return selection[barCategoryIndex].color;
+                    return selection[barCategoryIndex].color;                    
                 }
             });
+
+        // space filling rectangles
+            g.selectAll(".selectionbar")
+                .data(selection)
+                .attr("data-category-index", function(d,i){
+                    return i;
+                })
+                .attr("x", function (d) { 
+                    return valueToPosition(d.from);
+                })
+                .attr("width", function(d){
+                    return valueToPosition(d.to) - valueToPosition(d.from);
+                })
         }
 
         /**
@@ -236,7 +307,7 @@
         * @param {d3.Selection} g
         * @param {d3.Axis} x
         */
-        function updateSelection(positions, g, x){
+        function updateSelectionPositions(positions, g, x){
             positions.forEach((p, index)=>{
                 if (index>selection.length-1){
                     return;
@@ -245,7 +316,7 @@
                 selection[index].to = positionToValue(positions[index+1]);
             });
 
-            renderSelection(g, x);
+            updateSelection(g, x);
         }
 
         /**
@@ -253,11 +324,14 @@
         * @param {int} position  
         * Creates drag handle
         */
-        function createHandle(g, position, x){
+        function createHandle(g, value, x, handleIndex){
+            var position = valueToPosition(value);
             // handle
             var handle = g.append("rect")
             .attr("class", "custom-handle")
             .attr("fill-opacity", 0)
+            .attr("data-handle-index", handleIndex)
+            .attr("data-handle-value", value)
             .attr("cursor", "ew-resize")
             .attr("width",10)
             .attr("height", height+5)
@@ -316,8 +390,6 @@
                 }).attr("transform", function(){
                     return updateLabelPosition(this, position);
                 });          
-
-                      
             
             // handle hover state
             var isOver = false;
@@ -353,7 +425,7 @@
 
             function startdrag(){
                 g.classed("dragging", true);
-                g.selectAll(".custom-handle, .custom-handle-circle, .custom-handle-line, .bar, .invisiblebar").attr("pointer-events", "none");
+                g.selectAll(".custom-handle, .custom-handle-circle, .custom-handle-line, .bar, .selectionbar").attr("pointer-events", "none");
 
                 handle.attr("pointer-events", "all");
                 line.attr("pointer-events", "all");
@@ -362,7 +434,7 @@
 
             function enddrag(){
                 g.classed("dragging", false);
-                g.selectAll(".custom-handle, .custom-handle-circle, .custom-handle-line, .bar, .invisiblebar").attr("pointer-events", "all");
+                g.selectAll(".custom-handle, .custom-handle-circle, .custom-handle-line, .bar, .selectionbar").attr("pointer-events", "all");
 
                 if (!isOver){
                     unsetOverState();
@@ -396,20 +468,21 @@
             };
 
             function drag() {
-               var xpos = parseInt(Math.max(Math.min(d3.event.x, width), 0));
+               var xpos = Math.round(Math.max(Math.min(d3.event.x, width), 0));
                handle.attr("x", xpos-5);
                line.attr("x", xpos-2);
                circle.attr("transform", "translate(" + xpos + "," + height + ")");
+               handle.attr("data-handle-value", positionToValue(xpos))
 
                setOverState();
 
                var positions = g.selectAll(".custom-handle").nodes().map(handle=>{
-                   return parseInt(d3.select(handle).attr("x"))+5;
+                   return Math.round(d3.select(handle).attr("x"))+5;
                }).sort((p1, p2)=>{
                    return p1-p2;
                });
 
-               updateSelection(positions, g, x);
+               updateSelectionPositions(positions, g, x);
 
                dragLabel.text(function(){
                     return positionToValue(xpos);
@@ -420,20 +493,36 @@
             }
         }
 
+        function getSelectionPoints(){
+            var result = [];
+            selection.forEach((s, index)=>{
+                result.push(s.from);
+                if (index == selection.length-1){
+                    result.push(s.to);
+                }
+            });
+
+            return result;
+        }
+
         /**
         * Renders selection
         * @param {d3.Selection} g
         * @param {d3.Axis} x
         * @param {Array} data
         */
-        function renderSelectionControls(g, x, data){
-            selection.forEach((s, index)=>{
-                createHandle(g, valueToPosition(s.from), x);
-                if (index == selection.length-1){
-                    createHandle(g, valueToPosition(s.to), x);
-                }
-                
+        function updateSelectionControls(g, x, data){
+            getSelectionPoints().forEach((point, index)=>{
+                createHandle(g, point, x, index);
             });
+        }
+
+        /**
+        * Destroy controls
+        * @param {d3.Selection} g
+        */
+        function destroySelectionControls(g){
+            g.selectAll(".custom-handle, .custom-handle-circle, .custom-handle-line, .drag-label,.drag-label-mask").remove();
         }
 
         /**
@@ -524,15 +613,13 @@
                 .attr("y", function (d) { return Math.round(y(d.volume)); })
                 .attr("height", function (d) { return Math.round(height - y(d.volume)); });
 
-            // space filling rectangles
-            g.selectAll(".invisiblebar")
-                .data(data)
+            // hover selection bars
+            g.selectAll(".selectionbar")
+                .data(selection)
                 .enter().append("rect")
-                .attr("class", "invisiblebar")
-                .attr("x", function (d) { return x(d.value); })
-                .attr("width", x.bandwidth())
+                .attr("class", "selectionbar")
                 .attr("y", 0)
-                .attr("fill", "transparent")
+                .attr("fill", "rgba(0,0,0,0.00)")
                 .attr("height", height);                
 
             return bar;
