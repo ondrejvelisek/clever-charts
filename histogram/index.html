@@ -114,20 +114,24 @@
         var selection = [
             {
                 from:1,
-                to:50,
-                color:"#71CFFF"
+                to:84,
+                color:"#e6f3fb"
             }, {
-                from:50,
-                to:100,
-                color:"#66D842"
+                from:84,
+                to:168,
+                color:"#cbe7f6"
             }, {
-                from:100,
-                to:150,
-                color:"#FFC600"
+                from:168,
+                to:252,
+                color:"#b1dbf2"
             }, {
-                from:150,
-                to:200,
-                color:"#FF9271"
+                from:252,
+                to:336,
+                color:"#98cfee"
+            }, {
+                from:336,
+                to:420,
+                color:"#7ec4ea"
             }
         ];
 
@@ -157,7 +161,7 @@
             }
 
             valueToPosition = function(value){
-                return parseInt((value)/valueRatio);
+                return value/valueRatio-minMax.min;
             }
 
             var x = d3.scaleBand().range([0, width]);
@@ -189,21 +193,20 @@
                 var handleIndex = target.attr("data-handle-index");
                 if (handleIndex != null){
                     var promptResult = prompt("value", target.attr("data-handle-value"));
-                    var positions = g.selectAll(".custom-handle").nodes().map(handle=>{
-                        return parseInt(d3.select(handle).attr("x"))+5;
-                    });
+                    if (promptResult == null){
+                        return;
+                    }
 
                     promptResult = Math.min(minMax.max, promptResult);
                     promptResult = Math.max(minMax.min, promptResult);
-                    positions[handleIndex] = valueToPosition(promptResult);
-
-                    positions = positions.sort((p1, p2)=>{
-                        return p1-p2;
-                    });
+                    
+                    var points = getSelectionPoints();
+                    points[handleIndex] = promptResult;
+                    var positions = points.map(valueToPosition);
+                    
                     updateSelection(positions, g, x);
                     destroySelectionControls(g);   
                     renderSelectionControls(g, x, data);
-
                 }
             })
         }
@@ -301,19 +304,6 @@
 
             renderSelection(g, x);
         }
-
-
-        // /**
-        // * @param {d3.Selection} g
-        // * @param {int} position  
-        // * Creates drag handle
-        // */
-        // function updateHandle(g, value, x, handleIndex){
-        //     var position = valueToPosition(value);
-        //     d3.select(g.selectAll(".custom-handle").nodes()[handleIndex]).attr("x", position-5).attr("data-handle-value", value);
-        //     d3.select(g.selectAll(".custom-handle-circle").nodes()[handleIndex]).attr("transform", "translate(" + position + "," + height + ")");
-        //     d3.select(g.selectAll(".custom-handle-line").nodes()[handleIndex]).attr("x", position-2);
-        // }
 
         /**
         * @param {d3.Selection} g
@@ -466,7 +456,7 @@
             };
 
             function drag() {
-               var xpos = parseInt(Math.max(Math.min(d3.event.x, width), 0));
+               var xpos = Math.round(Math.max(Math.min(d3.event.x, width), 0));
                handle.attr("x", xpos-5);
                line.attr("x", xpos-2);
                circle.attr("transform", "translate(" + xpos + "," + height + ")");
@@ -475,7 +465,7 @@
                setOverState();
 
                var positions = g.selectAll(".custom-handle").nodes().map(handle=>{
-                   return parseInt(d3.select(handle).attr("x"))+5;
+                   return Math.round(d3.select(handle).attr("x"))+5;
                }).sort((p1, p2)=>{
                    return p1-p2;
                });
@@ -491,6 +481,18 @@
             }
         }
 
+        function getSelectionPoints(){
+            var result = [];
+            selection.forEach((s, index)=>{
+                result.push(s.from);
+                if (index == selection.length-1){
+                    result.push(s.to);
+                }
+            });
+
+            return result;
+        }
+
         /**
         * Renders selection
         * @param {d3.Selection} g
@@ -498,12 +500,8 @@
         * @param {Array} data
         */
         function renderSelectionControls(g, x, data){
-            selection.forEach((s, index)=>{
-                createHandle(g, s.from, x, index);
-                if (index == selection.length-1){
-                    createHandle(g, s.to, x, index);
-                }
-                
+            getSelectionPoints().forEach((point, index)=>{
+                createHandle(g, point, x, index);
             });
         }
 
