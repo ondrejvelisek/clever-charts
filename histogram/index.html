@@ -10,7 +10,7 @@
         border:1px solid #eeeeee;
     }
 
-    g .invisiblebar {
+    g .selectionbar {
         cursor:pointer;
     }
 
@@ -221,40 +221,38 @@
 
         function updateSelectionControlsHoverState(g, categoryIndex){
             g.selectAll(".custom-handle-circle").attr("r", 3.5).attr("stroke-width", "1");
+            g.selectAll(".drag-label").attr("fill-opacity", 0);
+            g.selectAll(".drag-mask").attr("visibility", "hidden");
 
             if (categoryIndex != null){
                 getNthElement(g.selectAll(".custom-handle-circle"), categoryIndex).attr("r", 4.5).attr("stroke-width", 3);
                 getNthElement(g.selectAll(".custom-handle-circle"), categoryIndex+1).attr("r", 4.5).attr("stroke-width", 3);
+
+                getNthElement(g.selectAll(".drag-label"), categoryIndex).attr("fill-opacity", 1);
+                getNthElement(g.selectAll(".drag-label"), categoryIndex+1).attr("fill-opacity", 1);
+
+                getNthElement(g.selectAll(".drag-mask"), categoryIndex).attr("visibility", "visible");
+                getNthElement(g.selectAll(".drag-maks"), categoryIndex+1).attr("visibility", "visible");
             }
         }
 
         function handleHoverState(g, x){
-            // we need to create cancellable task as in some cases, mouseover is not triggered if 
-            // quickly moving mouse outside of bars. In order to handle this, we need to handle 
-            // mouseout but only when it's outside of bars which only happens when subsequent 
-            // mouseover doesn't cancel this task
-            var mouseOutTask = _.debounce(onMouseOut, 10);
-            g.on("mouseout", mouseOutTask);
-
-            g.on("mouseover", ()=>{
-                mouseOutTask.cancel();
+            g.selectAll(".selectionbar").on("mouseout", onMouseOut);
+            g.selectAll(".selectionbar").on("mouseover", ()=>{
                 var categoryIndex = parseInt(d3.select(d3.event.target).attr("data-category-index"));
                 if (overCategoryIndex != categoryIndex){
                     overCategoryIndex = categoryIndex;
                     updateSelection(g, x);
                     updateSelectionControlsHoverState(g, categoryIndex);
-                    
-                    if (overCategoryIndex == null){
-                        fireEvent("selectionHoverChange", null);
-                    } else {
-                        fireEvent("selectionHoverChange", overCategoryIndex);
-                    }
+                    fireEvent("selectionHoverChange", overCategoryIndex);
                 }
             })
 
             function onMouseOut(){
                 overCategoryIndex = null;
+                updateSelectionControlsHoverState(g, null);
                 updateSelection(g, x);
+                fireEvent("selectionHoverChange", overCategoryIndex);
             }
 
         }
@@ -279,12 +277,6 @@
         * @param {d3.Axis} x
         */
         function updateSelection(g, x){
-            // handle bar category
-            g.selectAll(".invisiblebar").attr("data-category-index", function (d) {
-                var barX = x(d.value);
-                return getBarCategoryIndex(barX);
-            });
-
             // handle bar colors
             g.selectAll(".bar").attr("fill", function (d) {
                 var barX = x(d.value);
@@ -299,6 +291,19 @@
                     return selection[barCategoryIndex].color;                    
                 }
             });
+
+        // space filling rectangles
+            g.selectAll(".selectionbar")
+                .data(selection)
+                .attr("data-category-index", function(d,i){
+                    return i;
+                })
+                .attr("x", function (d) { 
+                    return valueToPosition(d.from);
+                })
+                .attr("width", function(d){
+                    return valueToPosition(d.to) - valueToPosition(d.from);
+                })
         }
 
         /**
@@ -425,7 +430,7 @@
 
             function startdrag(){
                 g.classed("dragging", true);
-                g.selectAll(".custom-handle, .custom-handle-circle, .custom-handle-line, .bar, .invisiblebar").attr("pointer-events", "none");
+                g.selectAll(".custom-handle, .custom-handle-circle, .custom-handle-line, .bar, .selectionbar").attr("pointer-events", "none");
 
                 handle.attr("pointer-events", "all");
                 line.attr("pointer-events", "all");
@@ -434,7 +439,7 @@
 
             function enddrag(){
                 g.classed("dragging", false);
-                g.selectAll(".custom-handle, .custom-handle-circle, .custom-handle-line, .bar, .invisiblebar").attr("pointer-events", "all");
+                g.selectAll(".custom-handle, .custom-handle-circle, .custom-handle-line, .bar, .selectionbar").attr("pointer-events", "all");
 
                 if (!isOver){
                     unsetOverState();
@@ -613,13 +618,11 @@
                 .attr("y", function (d) { return Math.round(y(d.volume)); })
                 .attr("height", function (d) { return Math.round(height - y(d.volume)); });
 
-            // space filling rectangles
-            g.selectAll(".invisiblebar")
-                .data(data)
+            // hover selection bars
+            g.selectAll(".selectionbar")
+                .data(selection)
                 .enter().append("rect")
-                .attr("class", "invisiblebar")
-                .attr("x", function (d) { return x(d.value); })
-                .attr("width", x.bandwidth())
+                .attr("class", "selectionbar")
                 .attr("y", 0)
                 .attr("fill", "transparent")
                 .attr("height", height);                
