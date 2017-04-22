@@ -1,0 +1,224 @@
+{
+  "content": [
+    {
+      "bucket": 1,
+      "min": 0.0000585257,
+      "max": 0.0020466816,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 2
+        }
+      ]
+    },
+    {
+      "bucket": 2,
+      "min": 0.0020466816,
+      "max": 0.0040348374,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 1
+        }
+      ]
+    },
+    {
+      "bucket": 3,
+      "min": 0.0040348374,
+      "max": 0.0060229932,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 1
+        }
+      ]
+    },
+    {
+      "bucket": 4,
+      "min": 0.0060229932,
+      "max": 0.008011149,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 5,
+      "min": 0.008011149,
+      "max": 0.0099993048,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 6,
+      "min": 0.0099993048,
+      "max": 0.0119874606,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 7,
+      "min": 0.0119874606,
+      "max": 0.0139756165,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 8,
+      "min": 0.0139756165,
+      "max": 0.0159637723,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 1
+        }
+      ]
+    },
+    {
+      "bucket": 9,
+      "min": 0.0159637723,
+      "max": 0.0179519281,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 10,
+      "min": 0.0179519281,
+      "max": 0.0199400839,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 11,
+      "min": 0.0199400839,
+      "max": 0.0219282397,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 1
+        }
+      ]
+    },
+    {
+      "bucket": 12,
+      "min": 0.0219282397,
+      "max": 0.0239163956,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 1
+        }
+      ]
+    },
+    {
+      "bucket": 13,
+      "min": 0.0239163956,
+      "max": 0.0259045514,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 14,
+      "min": 0.0259045514,
+      "max": 0.0278927072,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 15,
+      "min": 0.0278927072,
+      "max": 0.029880863,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 16,
+      "min": 0.029880863,
+      "max": 0.0318690188,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 17,
+      "min": 0.0318690188,
+      "max": 0.0338571747,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 18,
+      "min": 0.0338571747,
+      "max": 0.0358453305,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 19,
+      "min": 0.0358453305,
+      "max": 0.0378334863,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 20,
+      "min": 0.0378334863,
+      "max": 0.0398216421,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 1
+        }
+      ]
+    }
+  ]
+}

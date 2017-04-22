@@ -91,46 +91,39 @@
     }
 </style>
 
-<body>
+<head>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js"></script>
-    
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+
+<body>
+    <select id="files">
+        <option value="sample.json">sample.json</option>
+        <option value="trzni_podil_20.json">trzni_podil_20.json</option>
+        <option value="zpozdeni.json">zpozdeni.json</option>
+        <option value="pocet_objednavek.json">pocet_objednavek.json</option>
+        <option value="kupni_sila.json">kupni_sila.json</option>
+        <option value="trzni_podil.json">trzni_podil.json</option>
+    </select>
+    <div id="graphCt"></div>
     <script>
+
+        d3.select("#files").on("change", function(){
+            loadData(this.value);
+        })
 
         // =================================================== INIT, TODO: replace this by attributes object
 
         var width = 360;
         var height = 150;
         var margin = 25;
-        var format = d3.format(",.0f");
-        var container = document.body;
+        var format;
+        var container = document.getElementById("graphCt");
         var inactiveCategoryColor = "#f0f0f0";
         var hoverCategoryColor = "#ffea00";
         var maskPadding = 10;                 
 
-        var selection = [
-            {
-                from:100000,
-                to:8400000,
-                color:"#e6f3fb"
-            }, {
-                from:8400000,
-                to:16800000,
-                color:"#cbe7f6"
-            }, {
-                from:16800000,
-                to:25200000,
-                color:"#b1dbf2"
-            }, {
-                from:25200000,
-                to:33600000,
-                color:"#98cfee"
-            }, {
-                from:33600000,
-                to:41983333,
-                color:"#7ec4ea"
-            }
-        ];
+        var selection;
 
         var overCategoryIndex = null;
 
@@ -138,11 +131,46 @@
         var positionToData;
         var valueToPosition;
 
-        d3.json("sample.json", (json) => {
-            init(json.content);
-        });
+
+        function loadData (file){
+            destroy();
+            d3.json(file, (json) => {
+                init(json.content);
+            });
+        }
+
+        loadData("sample.json");
 
         // =================================================== FUNCTIONS
+
+        function getPrecision(num){
+            var numParts = num.toString().split(".");
+            if (numParts.length>1){
+                return numParts[1].length;
+            } else {
+                return 0;
+            }
+        }
+
+        function getDefaultSelection(minMax){
+            var colors = ["#e6f3fb", "#cbe7f6", "#b1dbf2", "#98cfee", "#7ec4ea"];
+            var start = minMax.min;
+            var step = (minMax.max - minMax.min) / colors.length;
+            return colors.map(color=>{
+                var from = start;
+                var to = start + step;
+                start += step;
+                return {
+                    from:from, 
+                    to:to,
+                    color:color
+                }
+            });
+        }
+
+        function destroy(){
+            container.innerHTML = "";
+        }
 
         /**
         * @param {Array} buckets
@@ -153,6 +181,8 @@
             var range = minMax.max - minMax.min;
             var valueRatio = range / width;
 
+            format = d3.format("."+getPrecision(minMax.min)+"f")
+            selection = getDefaultSelection(minMax);
             positionToValue = function(position){
                 return position*valueRatio+minMax.min;
             }
@@ -643,7 +673,7 @@
                 var step = (bucket.max - bucket.min) / numOfBarsPerBucket;
                 d3.range(bucket.min, bucket.max, step).forEach((value) => {
                     data.push({
-                        value: value*100000,
+                        value: value,
                         volume: bucket.content[0].frequency
                     });
                 });
