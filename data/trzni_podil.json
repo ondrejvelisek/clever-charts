@@ -1,0 +1,59 @@
+{
+  "content": [
+    {
+      "bucket": 1,
+      "min": 0.0000585257,
+      "max": 0.008011149,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 4
+        }
+      ]
+    },
+    {
+      "bucket": 2,
+      "min": 0.008011149,
+      "max": 0.0159637723,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 1
+        }
+      ]
+    },
+    {
+      "bucket": 3,
+      "min": 0.0159637723,
+      "max": 0.0239163956,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 2
+        }
+      ]
+    },
+    {
+      "bucket": 4,
+      "min": 0.0239163956,
+      "max": 0.0318690188,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 5,
+      "min": 0.0318690188,
+      "max": 0.0398216421,
+      "content": [
+        {
+          "propertyId": "trzni_podil",
+          "frequency": 1
+        }
+      ]
+    }
+  ]
+}

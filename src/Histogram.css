@@ -1,0 +1,90 @@
+text {
+    font-size: 10px;
+    font-family: Roboto;
+}
+
+.bar {
+
+}
+
+g {
+    border:1px solid #eeeeee;
+}
+
+g .selectionbar {
+    cursor:default;
+}
+
+.x-axis>path {
+    stroke: #F1F1F1;
+}
+
+g > text {
+    user-select: none;
+}
+
+.x-axis>.tick>text {
+    fill:#7d7d7d;
+}
+
+g.active .custom-handle-circle {
+    stroke:#4a4a4a;
+}
+
+g.inactive:not(.dragging) .custom-handle-circle {
+    stroke:#bababa;
+    r:2.5;
+}
+
+
+g.inactive.dragging .custom-handle-circle {
+    stroke:#4a4a4a;
+}    
+
+g.brush-drag .custom-handle-circle {
+    stroke:#4a4a4a;
+}    
+
+.custom-handle-circle {
+    transition: r 0.1s ease-out;
+    pointer-events: none;
+}
+
+.brush-axis-line {
+    stroke:#4a4a4a;
+    display: none;
+    stroke-width: 1px;
+}
+
+.custom-handle-line {
+    stroke-width:0;
+    fill:#4A4A4A;
+    pointer-events: none;
+}
+
+.handle {
+    transition: all 0.05s ease-out;
+}
+
+.brush>.selection {
+    fill: rgba(0, 0, 0, 0);
+    stroke: transparent;
+    cursor: grab;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+}
+
+.brush>.overlay.grabbing,
+.brush>.selection.grabbing {
+    cursor: grabbing ;
+    cursor: -webkit-grabbing ;
+    cursor: -moz-grabbing ;
+}
+
+.custom-handle {
+
+}
+
+.drag-label {
+    fill:#4A4A4A;
+}

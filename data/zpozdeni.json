@@ -1,0 +1,224 @@
+{
+  "content": [
+    {
+      "bucket": 1,
+      "min": -40.755859375,
+      "max": -38.5948660171,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 1
+        }
+      ]
+    },
+    {
+      "bucket": 2,
+      "min": -38.5948660171,
+      "max": -36.4338726593,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 1
+        }
+      ]
+    },
+    {
+      "bucket": 3,
+      "min": -36.4338726593,
+      "max": -34.2728793014,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 4,
+      "min": -34.2728793014,
+      "max": -32.1118859436,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 1
+        }
+      ]
+    },
+    {
+      "bucket": 5,
+      "min": -32.1118859436,
+      "max": -29.9508925857,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 6,
+      "min": -29.9508925857,
+      "max": -27.7898992279,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 1
+        }
+      ]
+    },
+    {
+      "bucket": 7,
+      "min": -27.7898992279,
+      "max": -25.62890587,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 8,
+      "min": -25.62890587,
+      "max": -23.4679125122,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 2
+        }
+      ]
+    },
+    {
+      "bucket": 9,
+      "min": -23.4679125122,
+      "max": -21.3069191543,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 1
+        }
+      ]
+    },
+    {
+      "bucket": 10,
+      "min": -21.3069191543,
+      "max": -19.1459257964,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 1
+        }
+      ]
+    },
+    {
+      "bucket": 11,
+      "min": -19.1459257964,
+      "max": -16.9849324386,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 1
+        }
+      ]
+    },
+    {
+      "bucket": 12,
+      "min": -16.9849324386,
+      "max": -14.8239390807,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 13,
+      "min": -14.8239390807,
+      "max": -12.6629457229,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 1
+        }
+      ]
+    },
+    {
+      "bucket": 14,
+      "min": -12.6629457229,
+      "max": -10.501952365,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 1
+        }
+      ]
+    },
+    {
+      "bucket": 15,
+      "min": -10.501952365,
+      "max": -8.3409590072,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 3
+        }
+      ]
+    },
+    {
+      "bucket": 16,
+      "min": -8.3409590072,
+      "max": -6.1799656493,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 17,
+      "min": -6.1799656493,
+      "max": -4.0189722915,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 18,
+      "min": -4.0189722915,
+      "max": -1.8579789336,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 19,
+      "min": -1.8579789336,
+      "max": 0.3030144242,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 1
+        }
+      ]
+    },
+    {
+      "bucket": 20,
+      "min": 0.3030144242,
+      "max": 2.4640077821,
+      "content": [
+        {
+          "propertyId": "avg_delay",
+          "frequency": 1
+        }
+      ]
+    }
+  ]
+}

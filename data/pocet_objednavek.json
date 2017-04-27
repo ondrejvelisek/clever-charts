@@ -1,0 +1,224 @@
+{
+  "content": [
+    {
+      "bucket": 1,
+      "min": 6,
+      "max": 3936,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 6
+        }
+      ]
+    },
+    {
+      "bucket": 2,
+      "min": 3936,
+      "max": 7866,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 3,
+      "min": 7866,
+      "max": 11796,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 4,
+      "min": 11796,
+      "max": 15726,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 1
+        }
+      ]
+    },
+    {
+      "bucket": 5,
+      "min": 15726,
+      "max": 19656,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 6,
+      "min": 19656,
+      "max": 23586,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 7,
+      "min": 23586,
+      "max": 27516,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 8,
+      "min": 27516,
+      "max": 31446,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 9,
+      "min": 31446,
+      "max": 35376,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 10,
+      "min": 35376,
+      "max": 39306,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 11,
+      "min": 39306,
+      "max": 43236,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 12,
+      "min": 43236,
+      "max": 47166,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 13,
+      "min": 47166,
+      "max": 51096,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 14,
+      "min": 51096,
+      "max": 55026,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 15,
+      "min": 55026,
+      "max": 58956,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 16,
+      "min": 58956,
+      "max": 62886,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 17,
+      "min": 62886,
+      "max": 66816,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 18,
+      "min": 66816,
+      "max": 70746,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 19,
+      "min": 70746,
+      "max": 74676,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 0
+        }
+      ]
+    },
+    {
+      "bucket": 20,
+      "min": 74676,
+      "max": 78606,
+      "content": [
+        {
+          "propertyId": "pocet_obj_filter",
+          "frequency": 1
+        }
+      ]
+    }
+  ]
+}
