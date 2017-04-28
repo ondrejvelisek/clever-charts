@@ -9,12 +9,12 @@
 
 <body>
     <script>
-        // histogram 1
+        // histogram 1 ===================================================================================
         var histogram = new Histogram({
             width:360,
             height:150,
-            inactiveCategoryColor:"#f0f0f0",
-            overCategoryColor:"#ffea00"
+            inactiveBarColor:"#f0f0f0",
+            overSelectionColor:"#ffea00"
         });
 
         histogram.render(document.body);
@@ -23,16 +23,20 @@
             histogram.setData(json.content);
         });
 
-        histogram.on("categoryOver", (categoryIndex)=>{
-            console.log(categoryIndex);
+        histogram.on("selectionOver", (selectionIndex)=>{
+            console.log("histogram 1: selectionOver:"+selectionIndex);
         });
 
-        // histogram 2
+        histogram.on("toggleSelection", (selectionIndex, enabled)=>{
+            console.log("histogram 1: toggleSelection:"+selectionIndex+", enabled:"+enabled);
+        });
+
+        // histogram 2 ===================================================================================
         var histogram2 = new Histogram({
             width:360,
             height:150,
-            inactiveCategoryColor:"#f0f0f0",
-            overCategoryColor:"#ffea00"
+            inactiveBarColor:"#f0f0f0",
+            overSelectionColor:"#ffea00"
         });
 
         histogram2.render(document.body);
@@ -41,8 +45,12 @@
             histogram2.setData(json.content);
         });
 
-        histogram2.on("categoryOver", (categoryIndex)=>{
-            console.log(categoryIndex);
+        histogram2.on("selectionOver", (selectionIndex)=>{
+            console.log("histogram 2: selectionOver:"+selectionIndex);
+        });
+
+        histogram2.on("toggleSelection", (selectionIndex, enabled)=>{
+            console.log("histogram 2: toggleSelection:"+selectionIndex+", enabled:"+enabled);
         });        
     </script>
 </body>

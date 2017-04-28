@@ -16,6 +16,7 @@ class Observable {
     }
 
 	/**
+	 * @public
 	 * Bind event
 	 * @param {String} event event name
 	 * @param {Function} handler event handler
@@ -27,16 +28,16 @@ class Observable {
     }
 
 	/**
-	 * @private
+	 * @public
 	 * Fire widget event
 	 * @param {String} event event name
-	 * @param {Function} handler event handler
+	 * @param {*} ...args event arguments
 	 */
-	fire(event, ctx) {
+	fire(event, ...args) {
 		if (!(event in this._handlers)) throw "No such event: " + event;
 		var handlers = this._handlers[event];
 		for (var i = 0; i < handlers.length; i++) {
-			handlers[i].call(this, ctx);
+			handlers[i].apply(this, args);
 		}
 		return this;
     }

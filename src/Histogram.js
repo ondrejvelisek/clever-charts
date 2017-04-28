@@ -1,10 +1,10 @@
 import * as d3 from "d3";
-import { Observable } from "./utils/Observable.js";
-import * as Defaults from "./HistogramDefaults.js";
-import * as SelectionUtils from "./utils/SelectionUtils.js";
-import { HistogramData } from "./HistogramData.js";
-import { HistogramSelection } from "./HistogramSelection.js";
-import { HistogramRenderer } from "./HistogramRenderer.js";
+import { Observable } from "./utils/Observable";
+import * as Defaults from "./HistogramDefaults";
+import * as SelectionUtils from "./utils/SelectionUtils";
+import { HistogramData } from "./HistogramData";
+import { HistogramSelection } from "./HistogramSelection";
+import { HistogramRenderer } from "./HistogramRenderer";
 
 /**
  * @private 
@@ -62,7 +62,7 @@ class Histogram {
 		 * @public
 		 * Over bar color 
 		 */
-		this._options.overBarColor = getOptionValue(options.overBarColor, Defaults.OVER_BAR_COLOR);
+		this._options.overSelectionColor = getOptionValue(options.overSelectionColor, Defaults.OVER_SELECTION_COLOR);
 
 		/**
 		 * @public
@@ -83,10 +83,18 @@ class Histogram {
 		this._observable = new Observable([
 			/**
 			 * @event 
-			 * Fires when mouse is over a category
-			 * @param {int} categoryIndex
+			 * Fires when mouse is over a selection
+			 * @param {int} selectionIndex
 			 */
-			"categoryOver"
+			"selectionOver",
+			,
+			/**
+			 * @event 
+			 * Fires when selection is toggled
+			 * @param {int} selectionIndex
+			 * @param {bool} enabled
+			 */
+			"toggleSelection"
 		]);
 
 		/**
@@ -94,6 +102,14 @@ class Histogram {
 		 * histogramRenderer
 		 */
 		this._histogramRenderer = new HistogramRenderer(this._options);
+
+		this._histogramRenderer.on("selectionOver", selectionIndex=>{
+			this._observable.fire("selectionOver", selectionIndex);
+		})
+
+		this._histogramRenderer.on("toggleSelection", (selectionIndex, enabled)=>{
+			this._observable.fire("toggleSelection", selectionIndex, enabled);
+		})
 	}
 
 	/**

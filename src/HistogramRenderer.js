@@ -1,5 +1,7 @@
 import style from "./Histogram.css";
-import {HistogramHandle} from "./HistogramHandle.js";
+import {HistogramHandle} from "./HistogramHandle";
+import { Observable } from "./utils/Observable";
+import * as PositionUtils from "./utils/PositionUtils"
 import * as d3 from "d3";
 
 /**
@@ -62,6 +64,32 @@ class HistogramRenderer {
 		 * true if histogram has been rendered
 		 */
 		this._rendered = false;
+
+		/**
+		 * @private
+		 * true if handle is dragged
+		 */
+		this._draggingHandle = false;		
+
+		/**
+		 * @private
+		 * observable handler
+		 */
+		this._observable = new Observable([
+			/**
+			 * @event 
+			 * Fires when mouse is over a category
+			 * @param {int} selectionIndex
+			 */
+			"selectionOver",
+			/**
+			 * @event 
+			 * Fires when selection is toggled
+			 * @param {int} selectionIndex
+			 * @param {bool} enabled
+			 */
+			"toggleSelection"
+		]);		
     }
 
 	/**
@@ -74,6 +102,19 @@ class HistogramRenderer {
 	}
 
 	/**
+	 * @public
+	 * Bind handle event
+	 * @param {String} event event name
+	 * @param {Function} handler event handler
+	 * @returns {HistogramHandle} returns this handle instance
+	 */
+	on(eventName, handler) {
+		this._observable.on(eventName, handler);
+		return this;
+	}	
+
+	/**
+	 * @public
 	 * Render logic of this widget
 	 * @param {String|DOMElement} selector selector or DOM element 
 	 * @returns {Histogram} returns this widget instance
@@ -114,6 +155,83 @@ class HistogramRenderer {
 
 	/**
 	 * @private
+	 * Destroys selection controls 
+	 */
+	_destroyHandles(){
+		this._handles.forEach(handle=>handle.destroy());
+		this._handles = [];
+	}
+
+	/**
+	 * @private
+	 * Handles click on handle
+	 * @param {Number} handleIndex
+	 * @param {Number} handleValue 
+	 */
+	_onHandleClick(handleIndex, handleValue){
+		// TODO: replace this by CAN API or options 
+		var promptResult = prompt("value", this._options.format(handleValue));
+		if (promptResult == null){
+			return;
+		}
+
+		// must be within min max range
+		var minMax = this._histogramData.getMinMax();
+		promptResult = Math.min(minMax.max, promptResult);
+		promptResult = Math.max(minMax.min, promptResult);
+
+		var points = this._histogramSelection.getSelectionPoints();
+		points[handleIndex] = promptResult;
+		var positions = points
+			.map(value=>this._histogramData.valueToPosition(value))
+			.sort((p1,p2)=>p1-p2);
+		
+		this._updateSelectionPositions(positions);
+		this._updateSelection();
+
+		// TODO: update handles without destroying them
+		this._destroyHandles();
+		this._renderHandles();
+	}
+
+	/**
+	 * @private
+	 * Toggles selection
+	 * @param {Number} selectionIndex 
+	 */
+	_toggleSelection(selectionIndex){
+		var selection = this._options.selection[selectionIndex];
+		selection.disabled ^= true;
+		this._updateSelection();
+		this._observable.fire("toggleSelection", selectionIndex, !selection.disabled);
+	}	
+
+	/**
+	 * @private
+	 * Handles click on chart
+	 * @param {HTMLElement} target 
+	 */
+	_onClick(target){
+		var target = d3.select(d3.event.target);
+		var selectionIndex = target.attr("data-selection-index");
+		var handleIndex = target.attr("data-handle-index");
+
+		if (selectionIndex != null){
+			this._toggleSelection(selectionIndex)
+		} else if (handleIndex != null){
+			this._onHandleClick(handleIndex, target.attr("data-handle-value"));
+		}
+	}
+	/**
+	 * @private
+	 * Handles handle click 
+	 */
+	_handleClick(){
+		this._groupEl.on("click", this._onClick.bind(this));
+	}
+
+	/**
+	 * @private
 	 * Refreshes histogram data 
 	 * @param {HistogramData}
 	 * @param {HistogramSelection}
@@ -130,22 +248,101 @@ class HistogramRenderer {
 		this._renderXAxis();		
 		this._renderDataBars();
 		this._renderSelection();
-
 		this._updateSelection();
-
-		
-
-		// handleHoverState(g, x);
-		// handleClick(g, x, data, minMax);
+		this._handleHoverState();
+		this._handleClick();
 
 		return this;
 	}
 
+	/**
+	 * @private
+	 * Updates selection controls on hover
+	 * @param {Number} selectionIndex 
+	 */
+	_updateSelectionControlsHoverState(selectionIndex){
+		// get all handles sorted by X position
+		var handles = this._handles.slice().sort((h1,h2)=>{
+			return h1.getXPosition() - h2.getXPosition();
+		});
+
+		// unset hover state on all handles
+		handles.forEach(handle=>handle.unsetHoverState());
+
+		// selection is active, active both handles for active selection
+		if (selectionIndex != null){
+			var handle1 = handles[selectionIndex];
+			var handle2 = handles[selectionIndex+1];
+
+			handle1.setHoverState();
+			handle2.setHoverState();
+
+			var labelOffsets = PositionUtils.getHandlePositionOffsets(handle1, handle2, this._options.maskPadding, this._options.width);
+			handle1.setLabelOffset(labelOffsets[0]);
+			handle2.setLabelOffset(labelOffsets[1]);
+		}
+	}	
+
+	/**
+	 * 
+	 * @private 
+	 * Handles what happens when mouse is over selection
+	 * @param {String} type 
+	 * @param {Number} i 
+	 * @param {HTMLElement[]} array 
+	 */
+	_onSelectionMouseOver(d, i, nodes){
+		// prevent selection when dragging handles
+		if (this._draggingHandle){
+			return;
+		}
+
+		d3.select(nodes[i]).attr("fill", "rgba(0,0,0,0.00)")
+		var selectionIndex = parseInt(d3.select(d3.event.target).attr("data-selection-index"));
+		if (this._overSelectionIndex != selectionIndex){
+			this._overSelectionIndex = selectionIndex;
+			this._updateSelection();
+			this._updateSelectionControlsHoverState(selectionIndex);
+			this._observable.fire("selectionOver", this._overSelectionIndex);
+		}
+	}
+
+	/**
+	 * 
+	 * @private 
+	 * Handles what happens when mouse is out of selection
+	 * @param {String} type 
+	 * @param {Number} i 
+	 * @param {HTMLElement[]} array 
+	 */
+	_onSelectionMouseOut(d, i, nodes){
+		// prevent selection when dragging handles
+		if (this._draggingHandle){
+			return;
+		}
+		d3.select(nodes[i]).attr("fill", "rgba(0,0,0,0)")
+		this._overSelectionIndex = null;
+		this._updateSelectionControlsHoverState(null);
+		this._updateSelection();
+		this._observable.fire("selectionOver", this._overSelectionIndex);
+	}
+
+	/**
+	 * @private 
+	 * Handles hover state
+	 */
+	_handleHoverState(){
+		var g = this._groupEl;
+		g.selectAll("."+style.selectionbar).on("mouseout", this._onSelectionMouseOut.bind(this));
+		g.selectAll("."+style.selectionbar).on("mouseover", this._onSelectionMouseOver.bind(this));
+	}	
+
+	/**
+	 * @private 
+	 * Handles when handle is dragged
+	 */
 	_onHandleDrag(){
-		// TODO: replace this by getting position from each handle
-		var positions = this._groupEl.selectAll("."+style["custom-handle"]).nodes().map(handle=>{
-			return Math.round(d3.select(handle).attr("x"))+5;
-		}).sort((p1, p2)=>{
+		var positions = this._handles.map(handle=>handle.getXPosition()).sort((p1, p2)=>{
 			return p1-p2;
 		});
 
@@ -153,6 +350,7 @@ class HistogramRenderer {
 	}
 
 	/**
+	* @private
 	* Updates selection with new positions
 	* @param {Array} positions
 	*/
@@ -170,7 +368,8 @@ class HistogramRenderer {
 	}	
 
 	/**
-	 * Renders selection bars
+	* @private
+	* Renders selection bars
 	*/
 	_renderSelection() {
 		var height = this._options.height;
@@ -183,19 +382,42 @@ class HistogramRenderer {
 			.attr("class", style.selectionbar)
 			.attr("y", 0)
 			.attr("fill", "rgba(0,0,0,0.00)")
-			.attr("height", height);          
+			.attr("height", height);      
 
+
+		this._renderHandles();
+	}
+
+	/**
+	* @private
+	* Renders selection controls
+	*/
+	_renderHandles(){
 		// render selection controls
 		this._handles = this._histogramSelection.getSelectionPoints().map((value, index)=>{
 			var handle = new HistogramHandle(this._groupEl, value, index, this._histogramData, this._options);
 			handle.on("drag", ()=>{
 				this._onHandleDrag();
 			}, this);
+
+			// disable other handles when draggin starts
+			handle.on("startDrag", ()=>{
+				this._draggingHandle = true;
+				this._handles.forEach(handle=>handle.disable());
+				handle.enable();
+			}, this);
+
+			// enable all handles when draggin starts
+			handle.on("endDrag", ()=>{
+				this._draggingHandle = false;
+				this._handles.forEach(handle=>handle.enable());
+			}, this);
 			return handle;
-		});			      
+		});
 	}
 
 	/**
+	 * @private
 	 * Renders data bars
 	*/
 	_renderDataBars() {
@@ -217,13 +439,14 @@ class HistogramRenderer {
 	}
 
 	/**
+	* @private
 	* Returns bar color based on X position
 
 	* @param {Number} barX
 	* @param {Array} selection
 	* @returns {Number} bar category index
 	*/
-	_getBarCategoryIndex(barX, selection){
+	_getBarSelectionIndex(barX, selection){
 		for (var i=0;i<selection.length;i++){
 			var s = selection[i];
 			var within = barX >= this._histogramData.valueToPosition(s.from) && barX < this._histogramData.valueToPosition(s.to);
@@ -239,27 +462,28 @@ class HistogramRenderer {
 	*/
 	_updateSelection(){
 		var selection = this._histogramSelection.getSelection();
-		var inactiveCategoryColor = this._options.inactiveCategoryColor;
-		var overCategoryColor = this._options.overCategoryColor;
+		var inactiveBarColor = this._options.inactiveBarColor;
+		var overSelectionColor = this._options.overSelectionColor;
+
 		// handle bar colors
 		this._groupEl.selectAll("."+style.bar).attr("fill", (d)=> {
 			var barX = this._histogramData.valueToPosition(d.value);
-			var barCategoryIndex = this._getBarCategoryIndex(barX, selection);
-			if (barCategoryIndex == null){
-				return inactiveCategoryColor;
-			} else if (selection[barCategoryIndex].disabled){
-				return inactiveCategoryColor;
-			} if (this._overSelectionIndex == barCategoryIndex){
-				return overCategoryColor;
+			var barSelectionIndex = this._getBarSelectionIndex(barX, selection);
+			if (barSelectionIndex == null){
+				return inactiveBarColor;
+			} else if (selection[barSelectionIndex].disabled){
+				return inactiveBarColor;
+			} if (this._overSelectionIndex == barSelectionIndex){
+				return overSelectionColor;
 			} else {
-				return selection[barCategoryIndex].color;                    
+				return selection[barSelectionIndex].color;                    
 			}
 		});
 
 		// space filling rectangles
 		this._groupEl.selectAll("."+style.selectionbar)
 			.data(selection)
-			.attr("data-category-index", function(d,i){
+			.attr("data-selection-index", function(d,i){
 				return i;
 			})
 			.attr("x", (d) => { 
@@ -271,7 +495,8 @@ class HistogramRenderer {
 	}
 
 	/**
-	 * Renders X axis 
+	* @private
+	* Renders X axis 
 	*/        
 	_renderXAxis(){
 		var minMax = this._histogramData.getMinMax();
@@ -294,11 +519,14 @@ class HistogramRenderer {
 		axisGroup.selectAll(".tick").attr("transform", function(d, i){
 			var textLength = d3.select(this).select("text").node().getComputedTextLength();
 			if (i == 0){
-				return "translate("+textLength/2+",0)"
+				return "translate("+(textLength/2)+",0)"
 			}
 
+			// need to consdier offset 0.5px otherwise label would shift, TODO: investigate why
+			var offset = 0.5;
+
 			if (i == 1){
-				return "translate("+(width-textLength/2)+",0)"
+				return "translate("+(width-textLength/2+offset)+",0)"
 			}
 		})
 	}	

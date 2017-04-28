@@ -27,6 +27,7 @@ class HistogramData {
 	}
 
 	/**
+	 * @public
 	 * Returns histogram data
 	 * @returns {Array} histogram data
 	 */
@@ -52,6 +53,7 @@ class HistogramData {
 	}
 
 	/**
+	 * @public
 	* Returns value ratio between bars and data
 	* @return {Number} value ratio 
 	*/
@@ -61,6 +63,7 @@ class HistogramData {
 	}
 
 	/**
+	 * @public
 	 * Returns precision (number of floating digits) for given number
 	 */
 	getPrecision() {
@@ -74,6 +77,7 @@ class HistogramData {
 	}
 
 	/**
+	 * @public
 	 * Returns data value from given position 
 	 * @param {Number} position
 	 */
@@ -84,6 +88,7 @@ class HistogramData {
 	}
 
 	/**
+	 * @public
 	 * Returns position from given data value 
 	 * @param {Number} value
 	 */

@@ -1,7 +1,7 @@
-import * as Defaults from "../HistogramDefaults.js";
+import * as Defaults from "../HistogramDefaults";
 
 /**
- * 
+ * @public
  * @param {HistogramData} histogramData 
  */
 export function getDefaultSelection(histogramData){

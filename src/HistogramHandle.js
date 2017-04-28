@@ -1,6 +1,11 @@
 import * as d3 from "d3";
 import style from "./Histogram.css";
-import { Observable } from "./utils/Observable.js";
+import { Observable } from "./utils/Observable";
+
+/**
+ * Gradient index shared for all instances
+ */
+var gradientIndex = 0;
 
 /**
  * @class
@@ -22,19 +27,135 @@ class HistogramHandle {
 		this._observable = new Observable([
 			/**
 			 * @event 
-			 * Fires when mouse is over a category
-			 * @param {int} categoryIndex
+			 * Fires when mouse is over a selection
+			 * @param {int} selectionIndex
 			 */
-			"drag"
+			"drag",
+			/**
+			 * @event 
+			 * Fires when drag on handle starts
+			 * @param {HistogramHandle} handle
+			 */
+			"startDrag",
+			/**
+			 * @event 
+			 * Fires when drag on handle ends
+			 * @param {HistogramHandle} handle
+			 */
+			"endDrag"
 		]);
 
+		/**
+		 * @private
+		 * handle element
+		 */
+		this._handleEl = null;
+		
+		/**
+		 * @private
+		 * handle line element
+		 */
+		this._handleLineEl = null;
+
+		/**
+		 * @private
+		 * handle circle element
+		 */
+		this._handleCircleEl = null;
+
+		/**
+		 * @private
+		 * handle mask element
+		 */
+		this._handleMaskEl = null;
+
+		/**
+		 * @private
+		 * handle mask gradient element
+		 */
+		this._handleMaskGradientEl = null;		
+
+		/**
+		 * @private
+		 * handle label element
+		 */
+		this._handleLabelEl = null;		
+
+		/**
+		 * @private 
+		 * True if handle is over
+		 */
+		this._isOver = false;
+		
+		/**
+		 * @private 
+		 * Main group element
+		 */		
 		this._groupEl = groupEl;
+		/**
+		 * @private 
+		 * handle index
+		 */		
+		this._index = index;
+		/**
+		 * @private 
+		 * handle value
+		 */		
+		this._value = value;
+		/**
+		 * @private 
+		 * handle position
+		 */		
+		this._position = histogramData.valueToPosition(value);
+		/**
+		 * @private 
+		 * bar options
+		 */		
 		this._options = options;
+		/**
+		 * @private 
+		 * histogram data
+		 */		
 		this._histogramData = histogramData;
-		this._renderHandle(value, index);
+
+		/**
+		 * @private 
+		 * elements
+		 */		
+		this._elements = [];		
+		
+		this._renderHandle();
 	}
 
 	/**
+	 * @public
+	 * Destroys this handle
+	 */
+	destroy(){
+		this._elements.forEach(element=>element.remove());
+		this._elements = [];
+	}
+
+	/**
+	 * @private
+	   * Renders drag handle
+	   */
+	_renderHandle() {
+		this._elements = [
+			this._createHandleElement(),
+			this._createHandleLineElement(),
+			this._createHandleCircleElement(),
+			this._createDragMaskElement(),
+			this._createMaskGradientElement(),
+			this._createDragLabelElement()
+		];
+
+		this._handleHoverState();
+		this._handleDrag();
+	}	
+
+	/**
+	 * @public
 	 * Bind handle event
 	 * @param {String} event event name
 	 * @param {Function} handler event handler
@@ -46,44 +167,255 @@ class HistogramHandle {
 	}
 
 	/**
-	   * Renders drag handle
-	   * @param {Number} value
-	   * @param {Number} index
-	   * TODO: break down this method 
-	   */
-	_renderHandle(value, handleIndex) {
-		var data = this._histogramData;
-		var position = data.valueToPosition(value);
-		var height = this._options.height;
-		var width = this._options.width;
-		var g = this._groupEl;
-		var format = this._options.format;
-		var maskPadding = this._options.maskPadding;
-		var observable = this._observable;
+	 * @public
+	 * Returns X position of this handle
+	 * @returns {Number} X position handle
+	 */
+	getXPosition() {
+		return parseInt(this._handleEl.attr("x"))+5;
+	}
 
-		// handle
-		var handle = g.append("rect")
+	/**
+	 * @public
+	 * Sets hover state
+	 */
+	setHoverState(){
+		this._handleLineEl.attr("fill-opacity", 1);
+		this._handleLabelEl.attr("fill-opacity", 1);
+		this._handleMaskEl.attr("visibility", "visible");
+		this._handleCircleEl.attr("stroke-width", 3);
+	}
+	
+	/**
+	 * @public 
+	 * @returns {SVGRect} 
+	 * Returns drag label box for this handle
+	 */
+	getLabelBox(){
+		return this._handleLabelEl.node().getBBox();
+	}
+
+	/**
+	 * @public 
+	 * Shifts handle label by given offset so it can handle label position conflicts
+	 */
+	setLabelOffset(offset){
+		this._handleLabelEl.attr("transform", "translate("+offset+", 0)")
+		this._handleMaskEl.attr("transform", "translate("+offset+", 0)")
+	}
+
+	/**
+	 * @public
+	 * Unsets hover state
+	 */
+	unsetHoverState(){
+		this._handleLineEl.attr("fill-opacity", 0);
+		this._handleLabelEl.attr("fill-opacity", 0);
+		this._handleMaskEl.attr("visibility", "hidden");
+		this._handleCircleEl.attr("stroke-width", 1);
+		this._handleLabelEl.attr("transform", "translate(0, 0)")
+		this._handleMaskEl.attr("transform", "translate(0, 0)")
+	}
+
+	/**
+	 * @public
+	 * Enables this handle 
+	 */
+	enable(){
+		this._elements.forEach(element => element.attr("pointer-events", "all"));
+	}
+
+	/**
+	 * @public
+	 * Disables this handle 
+	 */
+	disable(){
+		this._elements.forEach(element => element.attr("pointer-events", "none"));
+	}
+
+	/**
+	 * @private
+	 * Handle hover state
+	 */
+	_handleHoverState(){
+		// line hover effect
+		this._handleEl.on("mouseover", () => {
+			this._isOver = true;
+			this.setHoverState();
+		})
+		this._handleEl.on("mouseout", () => {
+			this._isOver = false;
+			this.unsetHoverState();
+		})
+	}
+
+	/**
+	 * @private
+	 * handles what happens when drag starts
+	 */
+	_onStartDrag(){
+		this._groupEl.classed(style["dragging"], true);
+		this._observable.fire("startDrag", this);
+	}
+
+	/**
+	 * @private
+	 * handles what happens on drag
+	 */
+	_onDrag(){
+		var width = this._options.width;
+		var height = this._options.height;
+		var xpos = Math.round(Math.max(Math.min(d3.event.x, width), 0));
+		var format = this._options.format;
+
+		this._handleEl.attr("x", xpos - 5);
+		this._handleLineEl.attr("x", xpos - 2);
+		this._handleCircleEl.attr("transform", "translate(" + xpos + "," + height + ")");
+		this._handleEl.attr("data-handle-value", this._histogramData.positionToValue(xpos))
+
+		this.setHoverState();
+
+		this._handleLabelEl.text(() => {
+			return format(this._histogramData.positionToValue(xpos));
+		}).attr("x", () => {
+			return this._updateLabelPosition(xpos);
+		});
+
+		this._observable.fire("drag");		
+	}	
+
+	/**
+	 * @private
+	 * handles what happens when drag ends
+	 */
+	_onEndDrag(){
+		this._groupEl.classed(style["dragging"], false);
+		if (!this._isOver) {
+			this.unsetHoverState();
+		}
+
+		this._observable.fire("endDrag", this);		
+	}
+
+	/**
+	 * @private
+	 * Handles handle drag 
+	 */
+	_handleDrag(){
+		this._handleEl.call(d3.drag()
+			.on("drag", this._onDrag.bind(this))
+			.on("start", this._onStartDrag.bind(this))
+			.on("end", this._onEndDrag.bind(this)));
+	}
+
+	/**
+	 * @private
+	 * Updates label position
+	 * @param {Number} position 
+	 */
+	_updateLabelPosition(position) {
+		var label = this._handleLabelEl.node();
+		var maskPadding = this._options.maskPadding;
+
+		// we need to calculate text length so we can create mask and center text
+		var textLength = label.getComputedTextLength();
+		var maskWidth = textLength + maskPadding * 2;
+		var xPosition = position - textLength / 2;
+
+		// handle when dragging towards left side
+		if (xPosition < 0) {
+			xPosition = 0;
+		}
+
+		// handle when dragging towards right side
+		if (xPosition + textLength > this._options.width) {
+			xPosition = this._options.width - textLength;
+		}
+
+		// position mask
+		this._handleMaskEl.attr("x", () => {
+			return parseInt(xPosition) - maskPadding;
+		});
+
+		this._handleMaskGradientEl.attr("x1", xPosition - maskPadding);
+		this._handleMaskGradientEl.attr("x2", xPosition + maskWidth - maskPadding);
+
+		this._handleMaskEl.attr("width", maskWidth);
+		this._handleMaskEl.attr("height", 20);
+
+		// position text
+		return xPosition;
+	}
+		
+	/**
+	 * Creates mask gradient element
+	 * @param {Number} handleIndex 
+	 */
+	_createMaskGradientElement(){
+		this._handleMaskGradientEl = this._groupEl.append("linearGradient")
+			.attr("id", "brush-mask-gradient-" + gradientIndex++)
+			.attr("gradientUnits", "userSpaceOnUse")
+			.attr("y1", 0).attr("x1", 50)
+			.attr("y2", 0).attr("x2", 0);
+
+		this._handleMaskGradientEl.selectAll("stop")
+			.data([
+				{ offset: "0%", color: "rgba(255,255,255,0)" },
+				{ offset: "20%", color: "rgba(255,255,255,1)" },
+				{ offset: "80%", color: "rgba(255,255,255,1)" },
+				{ offset: "100%", color: "rgba(255,255,255,0)" }
+			])
+			.enter().append("stop")
+			.attr("offset", function (d) { return d.offset; })
+			.attr("stop-color", function (d) { return d.color; });
+
+		return this._handleMaskGradientEl;
+	}
+
+	/**
+	 * @private 
+	 * Renders main handle element 
+	 * @returns {SVGElement}
+	 */
+	_createHandleElement(){
+		this._handleEl = this._groupEl.append("rect")
 			.attr("class", style["custom-handle"])
 			.attr("fill-opacity", 0)
-			.attr("data-handle-index", handleIndex)
-			.attr("data-handle-value", value)
+			.attr("data-handle-index", this._index)
+			.attr("data-handle-value", this._value)
 			.attr("cursor", "ew-resize")
 			.attr("width", 10)
-			.attr("height", height + 5)
-			.attr("x", position - 5);
+			.attr("height", this._options.height + 5)
+			.attr("x", this._position - 5);
 
-		// handle line decorator
-		var line = g.append("rect")
+		return this._handleEl;
+	}
+
+	/**
+	 * @private 
+	 * Renders handle line element 
+	 * @returns {SVGElement} 
+	 */
+	_createHandleLineElement(){
+		this._handleLineEl = this._groupEl.append("rect")
 			.attr("class", style["custom-handle-line"])
 			.attr("width", 4)
-			.attr("height", height)
+			.attr("height", this._options.height)
 			.attr("fill-opacity", 0)
-			.attr("x", position - 2);
+			.attr("x", this._position - 2);
 
-		// circle decorator
-		var circle = g.append("circle")
+		return this._handleLineEl;
+	}	
+
+	/**
+	 * @private 
+	 * Renders handle circle element 
+	 * @returns {SVGElement} 
+	 */
+	_createHandleCircleElement(){
+		this._handleCircleEl = this._groupEl.append("circle")
 			.attr("class", style["custom-handle-circle"])
-			.attr("transform", "translate(" + position + "," + height + ")")
+			.attr("transform", "translate(" + this._position + "," + this._options.height + ")")
 			.attr("fill", "#ffffff")
 			.attr("fill-opacity", 1)
 			.attr("stroke", "#000")
@@ -91,141 +423,45 @@ class HistogramHandle {
 			.attr("cursor", "ew-resize")
 			.attr("r", 3.5);
 
+		return this._handleCircleEl;
+	}		
 
-		// drag mask, we need this in order to mask min/max values when drag label is over min/max labels
-		var dragMask = g.append("rect")
+	/**
+	 * @private 
+	 * Renders drag mask element 
+	 * @returns {SVGElement} 
+	 */
+	_createDragMaskElement(){
+		this._handleMaskEl = this._groupEl.append("rect")
 			.attr("class", style["drag-label-mask"])
-			.attr("fill", "url(#brush-mask-gradient-" + handleIndex + ")")
-			.attr("y", height + 12)
-			.attr("visibility", "hidden");
+			.attr("fill", "url(#brush-mask-gradient-" + gradientIndex+")")
+			.attr("y", this._options.height + 12)
+			.attr("visibility", "hidden");			
 
-		var maskGradient = g.append("linearGradient")
-			.attr("id", "brush-mask-gradient-" + handleIndex)
-			.attr("gradientUnits", "userSpaceOnUse")
-			.attr("y1", 0).attr("x1", 50)
-			.attr("y2", 0).attr("x2", 0);
-
-		maskGradient.selectAll("stop")
-			.data([
-				{ offset: "0%", color: "rgba(255,255,255,0)" },
-				{ offset: "10%", color: "rgba(255,255,255,1)" },
-				{ offset: "90%", color: "rgba(255,255,255,1)" },
-				{ offset: "100%", color: "rgba(255,255,255,0)" }
-			])
-			.enter().append("stop")
-			.attr("offset", function (d) { return d.offset; })
-			.attr("stop-color", function (d) { return d.color; });
-
-		// drag label
-		var dragLabel = g.append("text")
+		return this._handleMaskEl;
+	}
+	
+	/**
+	 * @private 
+	 * Renders handle label element 
+	 * @returns {SVGElement}  
+	 */
+	_createDragLabelElement(){
+		var format = this._options.format;
+		var data = this._histogramData;
+		var height = this._options.height;
+		this._handleLabelEl = this._groupEl.append("text")
 			.attr("class", style["drag-label"])
 			.attr("fill-opacity", 0)
 			.text(() => {
-				return format(data.positionToValue(position));
-			}).attr("x", function () {
-				return updateLabelPosition(this, position);
+				return format(data.positionToValue(this._position));
 			}).attr("y", height + 22);
 
-		// handle hover state
-		var isOver = false;
-		function setOverState() {
-			line.attr("fill-opacity", 1);
-			dragLabel.attr("fill-opacity", 1);
-			dragMask.attr("visibility", "visible");
-			circle.attr("r", 4.5).attr("stroke-width", 3);
-		}
-
-		function unsetOverState() {
-			line.attr("fill-opacity", 0);
-			dragLabel.attr("fill-opacity", 0);
-			dragMask.attr("visibility", "hidden");
-			circle.attr("r", 3.5).attr("stroke-width", 1);
-		}
-
-		// line hover effect
-		handle.on("mouseover", () => {
-			isOver = true;
-			setOverState();
-		})
-		handle.on("mouseout", () => {
-			isOver = false;
-			unsetOverState();
+		this._handleLabelEl.attr("x", () => {
+			return this._updateLabelPosition(this._position);
 		})
 
-		// handle drag
-		handle.call(d3.drag()
-			.on("drag", drag)
-			.on("start", startdrag)
-			.on("end", enddrag));
-
-		function startdrag() {
-			g.classed(style["dragging"], true);
-			var s = "." + ["custom-handle", "custom-handle-circle", "custom-handle-line", "bar", "selectionbar"].map(cls => style[cls]).join(", .");
-			g.selectAll(s).attr("pointer-events", "none");
-
-			handle.attr("pointer-events", "all");
-			line.attr("pointer-events", "all");
-			circle.attr("pointer-events", "all");
-		}
-
-		function enddrag() {
-			g.classed(style["dragging"], false);
-			var s = "." + ["custom-handle", "custom-handle-circle", "custom-handle-line", "bar", "selectionbar"].map(cls => style[cls]).join(", .");
-			g.selectAll(s).attr("pointer-events", "all");
-
-			if (!isOver) {
-				unsetOverState();
-			}
-		}
-
-		function updateLabelPosition(label, position) {
-			// we need to calculate text length so we can create mask and center text
-			var textLength = label.getComputedTextLength();
-			var maskWidth = textLength + maskPadding * 2;
-			var xPosition = position - textLength / 2;
-
-			// handle when dragging towards left side
-			if (xPosition < 0) {
-				xPosition = 0.5;
-			}
-
-			// handle when dragging towards right side
-			if (xPosition + textLength > 360) {
-				xPosition = 360 - textLength + 0.5;
-			}
-
-			// position mask
-			dragMask.attr("x", () => {
-				return parseInt(xPosition) - maskPadding;
-			});
-
-			maskGradient.attr("x1", xPosition - maskPadding);
-			maskGradient.attr("x2", xPosition + maskWidth - maskPadding);
-
-			dragMask.attr("width", maskWidth);
-			dragMask.attr("height", 20);
-
-			// position text
-			return xPosition;
-		}
-
-		function drag() {
-			var xpos = Math.round(Math.max(Math.min(d3.event.x, width), 0));
-			handle.attr("x", xpos - 5);
-			line.attr("x", xpos - 2);
-			circle.attr("transform", "translate(" + xpos + "," + height + ")");
-			handle.attr("data-handle-value", data.positionToValue(xpos))
-
-			setOverState();
-
-			observable.fire("drag");
-
-			dragLabel.text(() => {
-				return format(data.positionToValue(xpos));
-			}).attr("x", function () {
-				return updateLabelPosition(this, xpos);
-			});
-		}
+		return this._handleLabelEl;
 	}
 }
 
