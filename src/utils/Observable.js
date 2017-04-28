@@ -32,7 +32,7 @@ class Observable {
 	 * @param {String} event event name
 	 * @param {Function} handler event handler
 	 */
-	fire(event, ctx, scope) {
+	fire(event, ctx) {
 		if (!(event in this._handlers)) throw "No such event: " + event;
 		var handlers = this._handlers[event];
 		for (var i = 0; i < handlers.length; i++) {

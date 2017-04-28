@@ -9,11 +9,11 @@ class HistogramData {
 	 * @param {data} data
 	 * @param {Object} options
 	 */
-    constructor(data, options) {
+	constructor(data, options) {
 		this._histogramData = this._loadHistogramData(data, options.width);
 		this._minMax = this._calculateMinMax(this._histogramData);
 		this._options = options;
-    }
+	}
 
 	/**
 	 * @public
@@ -22,7 +22,7 @@ class HistogramData {
 	 * @returns {Number} minMax.min
 	 * @returns {Number} minMax.max
 	 */
-	getMinMax(){
+	getMinMax() {
 		return this._minMax;
 	}
 
@@ -30,7 +30,7 @@ class HistogramData {
 	 * Returns histogram data
 	 * @returns {Array} histogram data
 	 */
-	getData(){
+	getData() {
 		return this._histogramData;
 	}
 
@@ -41,59 +41,57 @@ class HistogramData {
 	* @returns {Object} minMax.min
 	* @returns {Object} minMax.max
 	*/
-	_calculateMinMax(histogramData){
+	_calculateMinMax(histogramData) {
 		var min = d3.min(histogramData, function (d) { return d.value; });
 		var max = d3.max(histogramData, function (d) { return d.value; });
 
 		return {
-			min:min,
-			max:max
+			min: min,
+			max: max
 		}
-	} 
+	}
 
 	/**
 	* Returns value ratio between bars and data
-	* @param {Object} minMax
-	* @param {Number} width
 	* @return {Number} value ratio 
 	*/
-	getValueRatio(minMax, width){
+	getValueRatio() {
 		var range = this._minMax.max - this._minMax.min;
 		return range / this._options.width;
-	}	
-	
+	}
+
 	/**
 	 * Returns precision (number of floating digits) for given number
 	 */
-	getPrecision(){
+	getPrecision() {
 		var num = this._minMax.min;
 		var numParts = num.toString().split(".");
-		if (numParts.length>1){
+		if (numParts.length > 1) {
 			return numParts[1].length;
 		} else {
 			return 0;
 		}
-	}	
+	}
 
 	/**
 	 * Returns data value from given position 
 	 * @param {Number} position
 	 */
-	 positionToValue (position){
+	positionToValue(position) {
 		var valueRatio = this.getValueRatio();
 		var minMax = this.getMinMax();
-	 	return position*valueRatio+minMax.min;
-	 }
+		return position * valueRatio + minMax.min;
+	}
 
 	/**
 	 * Returns position from given data value 
 	 * @param {Number} value
 	 */
-	 valueToPosition (value){
-		 var valueRatio = this.getValueRatio();
-		 var minMax = this.getMinMax();
-	 	return value/valueRatio-minMax.min/valueRatio;
-	 }		
+	valueToPosition(value) {
+		var valueRatio = this.getValueRatio();
+		var minMax = this.getMinMax();
+		return value / valueRatio - minMax.min / valueRatio;
+	}
 
 	/** 
 	* @private
@@ -101,7 +99,7 @@ class HistogramData {
 	* @param {int} numOfBarsPerBucket - number of bars per column\
 	* @returns {Array} data from given buckets 
 	*/
-	_loadHistogramData(data, width){
+	_loadHistogramData(data, width) {
 		var histogramData = [];
 		var numOfBarsPerBucket = width / data.length;
 		data.forEach((bucket) => {
@@ -114,7 +112,7 @@ class HistogramData {
 			});
 		});
 		return histogramData;
-	}    	
+	}
 }
 
-export {HistogramData};
+export { HistogramData };

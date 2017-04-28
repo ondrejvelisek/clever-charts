@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import style from "./Histogram.css";
-import {Observable} from "./utils/Observable.js";
+import { Observable } from "./utils/Observable.js";
 
 /**
  * @class
@@ -14,7 +14,7 @@ class HistogramHandle {
 	 * @param {HistoryData} histogramData
 	 * @param {Object} options
 	 */
-    constructor(groupEl, value, index, histogramData, options) {
+	constructor(groupEl, value, index, histogramData, options) {
 		/**
 		 * @private
 		 * observable handler
@@ -32,7 +32,7 @@ class HistogramHandle {
 		this._options = options;
 		this._histogramData = histogramData;
 		this._renderHandle(value, index);
-    }
+	}
 
 	/**
 	 * Bind handle event
@@ -40,27 +40,27 @@ class HistogramHandle {
 	 * @param {Function} handler event handler
 	 * @returns {HistogramHandle} returns this handle instance
 	 */
-	on(eventName, handler){
+	on(eventName, handler) {
 		this._observable.on(eventName, handler);
 		return this;
-	}	
+	}
 
-	 /**
-        * Renders drag handle
-		* @param {Number} value
-		* @param {Number} index
-		* TODO: break down this method 
-        */
-	 _renderHandle(value, handleIndex){
+	/**
+	   * Renders drag handle
+	   * @param {Number} value
+	   * @param {Number} index
+	   * TODO: break down this method 
+	   */
+	_renderHandle(value, handleIndex) {
 		var data = this._histogramData;
-		var position = data.valueToPosition(value); 
+		var position = data.valueToPosition(value);
 		var height = this._options.height;
 		var width = this._options.width;
 		var g = this._groupEl;
 		var format = this._options.format;
 		var maskPadding = this._options.maskPadding;
 		var observable = this._observable;
-		
+
 		// handle
 		var handle = g.append("rect")
 			.attr("class", style["custom-handle"])
@@ -68,17 +68,17 @@ class HistogramHandle {
 			.attr("data-handle-index", handleIndex)
 			.attr("data-handle-value", value)
 			.attr("cursor", "ew-resize")
-			.attr("width",10)
-			.attr("height", height+5)
-			.attr("x", position-5);
+			.attr("width", 10)
+			.attr("height", height + 5)
+			.attr("x", position - 5);
 
 		// handle line decorator
 		var line = g.append("rect")
-		.attr("class", style["custom-handle-line"])
-		.attr("width",4)
-		.attr("height", height)
-		.attr("fill-opacity", 0)
-		.attr("x", position-2);
+			.attr("class", style["custom-handle-line"])
+			.attr("width", 4)
+			.attr("height", height)
+			.attr("fill-opacity", 0)
+			.attr("x", position - 2);
 
 		// circle decorator
 		var circle = g.append("circle")
@@ -89,53 +89,53 @@ class HistogramHandle {
 			.attr("stroke", "#000")
 			.attr("stroke-width", 1)
 			.attr("cursor", "ew-resize")
-			.attr("r",3.5); 
+			.attr("r", 3.5);
 
-		
+
 		// drag mask, we need this in order to mask min/max values when drag label is over min/max labels
 		var dragMask = g.append("rect")
 			.attr("class", style["drag-label-mask"])
-			.attr("fill", "url(#brush-mask-gradient-"+handleIndex+")")
-			.attr("y", height+12)
-			.attr("visibility", "hidden");          
+			.attr("fill", "url(#brush-mask-gradient-" + handleIndex + ")")
+			.attr("y", height + 12)
+			.attr("visibility", "hidden");
 
 		var maskGradient = g.append("linearGradient")
-			.attr("id", "brush-mask-gradient-"+handleIndex)
+			.attr("id", "brush-mask-gradient-" + handleIndex)
 			.attr("gradientUnits", "userSpaceOnUse")
 			.attr("y1", 0).attr("x1", 50)
 			.attr("y2", 0).attr("x2", 0);
 
-			maskGradient.selectAll("stop")
+		maskGradient.selectAll("stop")
 			.data([
-				{offset: "0%", color: "rgba(255,255,255,0)"},
-				{offset: "10%", color: "rgba(255,255,255,1)"},
-				{offset: "90%", color: "rgba(255,255,255,1)"},
-				{offset: "100%", color: "rgba(255,255,255,0)"}
+				{ offset: "0%", color: "rgba(255,255,255,0)" },
+				{ offset: "10%", color: "rgba(255,255,255,1)" },
+				{ offset: "90%", color: "rgba(255,255,255,1)" },
+				{ offset: "100%", color: "rgba(255,255,255,0)" }
 			])
 			.enter().append("stop")
-			.attr("offset", function(d) { return d.offset; })
-			.attr("stop-color", function(d) { return d.color; });  
+			.attr("offset", function (d) { return d.offset; })
+			.attr("stop-color", function (d) { return d.color; });
 
 		// drag label
 		var dragLabel = g.append("text")
 			.attr("class", style["drag-label"])
 			.attr("fill-opacity", 0)
-			.text((d, i)=>{
+			.text(() => {
 				return format(data.positionToValue(position));
-			}).attr("x", function(){
+			}).attr("x", function () {
 				return updateLabelPosition(this, position);
-			}).attr("y", height+22);          
-		
+			}).attr("y", height + 22);
+
 		// handle hover state
 		var isOver = false;
-		function setOverState(){
+		function setOverState() {
 			line.attr("fill-opacity", 1);
 			dragLabel.attr("fill-opacity", 1);
 			dragMask.attr("visibility", "visible");
 			circle.attr("r", 4.5).attr("stroke-width", 3);
 		}
 
-		function unsetOverState(){
+		function unsetOverState() {
 			line.attr("fill-opacity", 0);
 			dragLabel.attr("fill-opacity", 0);
 			dragMask.attr("visibility", "hidden");
@@ -143,14 +143,14 @@ class HistogramHandle {
 		}
 
 		// line hover effect
-		handle.on("mouseover", ()=>{
+		handle.on("mouseover", () => {
 			isOver = true;
 			setOverState();
 		})
-		handle.on("mouseout", ()=>{
+		handle.on("mouseout", () => {
 			isOver = false;
 			unsetOverState();
-		})                
+		})
 
 		// handle drag
 		handle.call(d3.drag()
@@ -158,9 +158,9 @@ class HistogramHandle {
 			.on("start", startdrag)
 			.on("end", enddrag));
 
-		function startdrag(){
+		function startdrag() {
 			g.classed(style["dragging"], true);
-			var s = "."+["custom-handle", "custom-handle-circle", "custom-handle-line", "bar", "selectionbar"].map(cls=>style[cls]).join(", .");
+			var s = "." + ["custom-handle", "custom-handle-circle", "custom-handle-line", "bar", "selectionbar"].map(cls => style[cls]).join(", .");
 			g.selectAll(s).attr("pointer-events", "none");
 
 			handle.attr("pointer-events", "all");
@@ -168,51 +168,51 @@ class HistogramHandle {
 			circle.attr("pointer-events", "all");
 		}
 
-		function enddrag(){
+		function enddrag() {
 			g.classed(style["dragging"], false);
-			var s = "."+["custom-handle", "custom-handle-circle", "custom-handle-line", "bar", "selectionbar"].map(cls=>style[cls]).join(", .");
+			var s = "." + ["custom-handle", "custom-handle-circle", "custom-handle-line", "bar", "selectionbar"].map(cls => style[cls]).join(", .");
 			g.selectAll(s).attr("pointer-events", "all");
 
-			if (!isOver){
+			if (!isOver) {
 				unsetOverState();
 			}
 		}
 
-		function updateLabelPosition (label, position) {
+		function updateLabelPosition(label, position) {
 			// we need to calculate text length so we can create mask and center text
 			var textLength = label.getComputedTextLength();
-			var maskWidth = textLength + maskPadding*2;
-			var xPosition = position-textLength/2;
+			var maskWidth = textLength + maskPadding * 2;
+			var xPosition = position - textLength / 2;
 
 			// handle when dragging towards left side
-			if(xPosition <0){
+			if (xPosition < 0) {
 				xPosition = 0.5;
 			}
 
 			// handle when dragging towards right side
-			if(xPosition+textLength >360){
-				xPosition = 360-textLength+0.5;
+			if (xPosition + textLength > 360) {
+				xPosition = 360 - textLength + 0.5;
 			}
 
 			// position mask
-			dragMask.attr("x", (d, i)=>{
-				return parseInt(xPosition) - maskPadding; 
+			dragMask.attr("x", () => {
+				return parseInt(xPosition) - maskPadding;
 			});
-			
-			maskGradient.attr("x1", xPosition-maskPadding);
-			maskGradient.attr("x2", xPosition+maskWidth-maskPadding);
+
+			maskGradient.attr("x1", xPosition - maskPadding);
+			maskGradient.attr("x2", xPosition + maskWidth - maskPadding);
 
 			dragMask.attr("width", maskWidth);
-			dragMask.attr("height", 20);         
+			dragMask.attr("height", 20);
 
 			// position text
-			return xPosition; 
-		};
+			return xPosition;
+		}
 
 		function drag() {
 			var xpos = Math.round(Math.max(Math.min(d3.event.x, width), 0));
-			handle.attr("x", xpos-5);
-			line.attr("x", xpos-2);
+			handle.attr("x", xpos - 5);
+			line.attr("x", xpos - 2);
 			circle.attr("transform", "translate(" + xpos + "," + height + ")");
 			handle.attr("data-handle-value", data.positionToValue(xpos))
 
@@ -220,13 +220,13 @@ class HistogramHandle {
 
 			observable.fire("drag");
 
-			dragLabel.text(()=>{
+			dragLabel.text(() => {
 				return format(data.positionToValue(xpos));
-			}).attr("x", function(){
+			}).attr("x", function () {
 				return updateLabelPosition(this, xpos);
-			});  
+			});
 		}
 	}
 }
 
-export {HistogramHandle};
+export { HistogramHandle };

@@ -193,7 +193,7 @@ class HistogramRenderer {
 			}, this);
 			return handle;
 		});			      
-	};  	
+	}
 
 	/**
 	 * Renders data bars
@@ -206,7 +206,7 @@ class HistogramRenderer {
 		var y = this._yAxis;
 
 		// append the rectangles for the bar chart
-		var bar = this._groupEl.selectAll("."+style.bar)
+		this._groupEl.selectAll("."+style.bar)
 			.data(data)
 			.enter().append("rect")
 			.attr("class", style.bar)
@@ -214,7 +214,7 @@ class HistogramRenderer {
 			.attr("width", x.bandwidth())
 			.attr("y", function (d) { return Math.round(y(d.volume)); })
 			.attr("height", function (d) { return Math.round(height - y(d.volume)); });          
-	};
+	}
 
 	/**
 	* Returns bar color based on X position
@@ -240,6 +240,7 @@ class HistogramRenderer {
 	_updateSelection(){
 		var selection = this._histogramSelection.getSelection();
 		var inactiveCategoryColor = this._options.inactiveCategoryColor;
+		var overCategoryColor = this._options.overCategoryColor;
 		// handle bar colors
 		this._groupEl.selectAll("."+style.bar).attr("fill", (d)=> {
 			var barX = this._histogramData.valueToPosition(d.value);
@@ -249,7 +250,7 @@ class HistogramRenderer {
 			} else if (selection[barCategoryIndex].disabled){
 				return inactiveCategoryColor;
 			} if (this._overSelectionIndex == barCategoryIndex){
-				return hoverCategoryColor;
+				return overCategoryColor;
 			} else {
 				return selection[barCategoryIndex].color;                    
 			}

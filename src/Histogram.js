@@ -1,10 +1,10 @@
 import * as d3 from "d3";
-import {Observable} from "./utils/Observable.js";
+import { Observable } from "./utils/Observable.js";
 import * as Defaults from "./HistogramDefaults.js";
 import * as SelectionUtils from "./utils/SelectionUtils.js";
-import {HistogramData} from "./HistogramData.js";
-import {HistogramSelection} from "./HistogramSelection.js";
-import {HistogramRenderer} from "./HistogramRenderer.js";
+import { HistogramData } from "./HistogramData.js";
+import { HistogramSelection } from "./HistogramSelection.js";
+import { HistogramRenderer } from "./HistogramRenderer.js";
 
 /**
  * @private 
@@ -12,9 +12,9 @@ import {HistogramRenderer} from "./HistogramRenderer.js";
  * @param {*} defaultOptionValue default option value 
  * @returns option or default option value 
  */
-function getOptionValue(optionValue, defaultOptionValue){
-	return typeof optionValue == "undefined"?defaultOptionValue:optionValue;
-} 
+function getOptionValue(optionValue, defaultOptionValue) {
+	return typeof optionValue == "undefined" ? defaultOptionValue : optionValue;
+}
 
 /**
  * @class
@@ -22,7 +22,7 @@ function getOptionValue(optionValue, defaultOptionValue){
  * @param {Object} options
  */
 class Histogram {
-    constructor(options) {
+	constructor(options) {
 		/**
 		 * @private
 		 * Options property exposing widget's options
@@ -38,7 +38,7 @@ class Histogram {
 		 * @public
 		 * Height of the widget
 		 */
-		this._options.height = getOptionValue(options.height,Defaults.HEIGHT);
+		this._options.height = getOptionValue(options.height, Defaults.HEIGHT);
 
 		/**
 		 * @public
@@ -94,7 +94,7 @@ class Histogram {
 		 * histogramRenderer
 		 */
 		this._histogramRenderer = new HistogramRenderer(this._options);
-    }
+	}
 
 	/**
 	 * Bind widget event
@@ -102,7 +102,7 @@ class Histogram {
 	 * @param {Function} handler event handler
 	 * @returns {Histogram} returns this widget instance
 	 */
-	on(eventName, handler){
+	on(eventName, handler) {
 		this._observable.on(eventName, handler);
 		return this;
 	}
@@ -112,10 +112,10 @@ class Histogram {
 	 * @param {String|DOMElement} selector selector or DOM element 
 	 * @returns {Histogram} returns this widget instance
 	 */
-	render(selector){
+	render(selector) {
 		this._histogramRenderer.render(selector);
 		return this;
-	}	
+	}
 
 	/**
 	 * Sets widget data
@@ -129,12 +129,12 @@ class Histogram {
 
 		var histogramData = new HistogramData(data, this._options);
 
-		if (!this._options.selection){
-		    this._options.selection = SelectionUtils.getDefaultSelection(histogramData);
+		if (!this._options.selection) {
+			this._options.selection = SelectionUtils.getDefaultSelection(histogramData);
 		}
 
-		if (!this._options.format){
-			this._options.format = d3.format("."+histogramData.getPrecision()+"f")
+		if (!this._options.format) {
+			this._options.format = d3.format("." + histogramData.getPrecision() + "f")
 		}
 
 		var histogramSelection = new HistogramSelection(this._options.selection);
@@ -143,7 +143,7 @@ class Histogram {
 
 		return this;
 	}
-        	
+
 }
 
 export default Histogram;
