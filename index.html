@@ -7,7 +7,14 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
 </head>
 
+<style>
+    .zoom-btn {
+        margin-left:730px;
+    }
+</style>
+
 <body>
+    <button class="zoom-btn">Zoom</button>
     <div class="graphs-ct"></div>
     <script>
         // docs: https://github.com/d3/d3-format
@@ -33,7 +40,7 @@
 
         histogram.render(".graphs-ct");
 
-        d3.json("data/pocet_objednavek.json", (json) => {
+        d3.json("data/sample.json", (json) => {
             histogram.setData(json.content);  
         });
 
@@ -77,13 +84,28 @@
             console.log("histogram 2: toggleSelection:"+selectionIndex+", enabled:"+enabled);
         });        
 
+        histogram2.on("selectionChanged", (selection)=>{
+            console.log("histogram 2: selectionChanged:"+JSON.stringify(selection, null, 4));
+        });        
+
+        // simulate zoom
+        d3.select(".zoom-btn").on("click", ()=>{
+            d3.json("data/sample-zoomed.json", (json) => {
+                histogram2.setData(json.content, [{
+                    from:1,
+                    to:420
+                }]);
+            });
+        });
+
         // histogram 3 (inverted filter) ===================================================================================
         var histogram3 = new Histogram({
             width:360,
             enableSelectionToggle:false,
             height:150,
-            inactiveBarColor:"#f0f0f0",
-            overSelectionColor:"#ffea00"
+            overSelectionColor:"#49ace2",
+            selectionColor:"#49ace2"            
+
         });
 
         histogram3.render(".graphs-ct");
@@ -112,6 +134,10 @@
 
         histogram3.on("toggleSelection", (selectionIndex, enabled)=>{
             console.log("histogram 3: toggleSelection:"+selectionIndex+", enabled:"+enabled);
+        });        
+
+        histogram3.on("selectionChanged", (selection)=>{
+            console.log("histogram 3: selectionChanged:"+JSON.stringify(selection, null, 4));
         });          
     </script>
 </body>

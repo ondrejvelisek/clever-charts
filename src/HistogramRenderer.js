@@ -73,6 +73,20 @@ class HistogramRenderer {
 
 		/**
 		 * @private
+		 * stores previous data for animation
+		 */
+		this._prevData = null;
+
+		/**
+		 * @private
+		 * stores previous selection for animation
+		 */
+		this._prevSelection = null;
+
+
+
+		/**
+		 * @private
 		 * observable handler
 		 */
 		this._observable = new Observable([
@@ -255,11 +269,10 @@ class HistogramRenderer {
 		this._histogramData = histogramData;
 		this._histogramSelection = histogramSelection;
 		
-		// Scale the range of the data in the domains
+		this._clear();
+
 		this._xAxis.domain(histogramData.getData().map(function (d) {return d.value; }));
 		this._yAxis.domain([0, d3.max(histogramData.getData(), function (d) { return d.volume; })]);
-
-		this._clear();
 
 		this._renderXAxis();		
 		this._renderDataBars();
@@ -447,22 +460,50 @@ class HistogramRenderer {
 	 * @private
 	 * Renders data bars
 	*/
-	_renderDataBars() {
+	_renderDataBars() { 
 		var data = this._histogramData.getData();
+		var prevData = this._prevData;
 		var height = this._options.height;
 
 		var x = this._xAxis;
 		var y = this._yAxis;
 
-		// append the rectangles for the bar chart
-		this._groupEl.selectAll("."+style.bar)
-			.data(data)
-			.enter().append("rect")
-			.attr("class", style.bar)
-			.attr("x", function (d) { return x(d.value); })
-			.attr("width", x.bandwidth())
-			.attr("y", function (d) { return Math.round(y(d.volume)); })
-			.attr("height", function (d) { return Math.round(height - y(d.volume)); });          
+		// animate from previous data if available
+		if (prevData){
+			x.domain(prevData.map(function (d) {return d.value; }));
+			y.domain([0, d3.max(prevData, function (d) { return d.volume; })]);
+
+			this._groupEl.selectAll("."+style.bar)
+				.data(prevData)
+				.enter().append("rect")
+				.attr("class", style.bar)
+				.attr("x", function (d) { return x(d.value); })
+				.attr("width", x.bandwidth())
+				.attr("y", function (d) { return Math.round(y(d.volume)); })
+				.attr("height", function (d) { return Math.round(height - y(d.volume)); })
+
+			x.domain(data.map(function (d) {return d.value; }));
+			y.domain([0, d3.max(data, function (d) { return d.volume; })]);				
+
+			this._groupEl.selectAll("."+style.bar)
+				.data(data)
+				.transition()
+				.duration(500)
+				.attr("y", function (d) { return Math.round(y(d.volume)); })
+				.attr("height", function (d) { return Math.round(height - y(d.volume)); })
+		} else {
+			// append the rectangles for the bar chart
+			this._groupEl.selectAll("."+style.bar)
+				.data(data)
+				.enter().append("rect")
+				.attr("class", style.bar)
+				.attr("x", function (d) { return x(d.value); })
+				.attr("width", x.bandwidth())
+				.attr("y", function (d) { return Math.round(y(d.volume)); })
+				.attr("height", function (d) { return Math.round(height - y(d.volume)); })
+		}
+
+		this._prevData = data.slice();
 	}
 
 	/**
@@ -519,6 +560,8 @@ class HistogramRenderer {
 			.attr("width", (d) => {
 				return this._histogramData.valueToPosition(d.to) - this._histogramData.valueToPosition(d.from);
 			})
+
+		this._prevSelection = selection;
 	}
 
 	/**
