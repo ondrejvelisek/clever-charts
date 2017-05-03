@@ -95,7 +95,7 @@ class HistogramData {
 	valueToPosition(value) {
 		var valueRatio = this.getValueRatio();
 		var minMax = this.getMinMax();
-		return value / valueRatio - minMax.min / valueRatio;
+		return Math.round(value / valueRatio - minMax.min / valueRatio);
 	}
 
 	/** 

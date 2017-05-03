@@ -88,7 +88,14 @@ class HistogramRenderer {
 			 * @param {int} selectionIndex
 			 * @param {bool} enabled
 			 */
-			"toggleSelection"
+			"toggleSelection",
+			/**
+			 * @event 
+			 * Fires when selection is changed
+			 * @param {int} selectionIndex
+			 * @param {bool} enabled
+			 */
+			"selectionChanged"
 		]);		
     }
 
@@ -152,6 +159,14 @@ class HistogramRenderer {
 
 		return this;
 	} 
+
+	/**
+	 * @private
+	 * Clears selection controls and data 
+	 */
+	_clear(){
+		this._groupEl.node().innerHTML = "";
+	}
 
 	/**
 	 * @private
@@ -241,17 +256,21 @@ class HistogramRenderer {
 		this._histogramSelection = histogramSelection;
 		
 		// Scale the range of the data in the domains
-
 		this._xAxis.domain(histogramData.getData().map(function (d) {return d.value; }));
-		this._yAxis.domain([0, d3.max(histogramData.getData(), function (d) { return d.volume; })]);		
+		this._yAxis.domain([0, d3.max(histogramData.getData(), function (d) { return d.volume; })]);
+
+		this._clear();
 
 		this._renderXAxis();		
 		this._renderDataBars();
 		this._renderSelection();
 		this._updateSelection();
-		this._handleHoverState();
-		this._handleClick();
 
+		this._handleHoverState();
+		if (this._options.enableSelectionToggle){
+			this._handleClick();
+		}
+		
 		return this;
 	}
 
@@ -400,8 +419,12 @@ class HistogramRenderer {
 				this._onHandleDrag();
 			}, this);
 
+			var startSelectionSnapshot;
+
 			// disable other handles when draggin starts
 			handle.on("startDrag", ()=>{
+				startSelectionSnapshot = JSON.stringify(this._options.selection);
+				
 				this._draggingHandle = true;
 				this._handles.forEach(handle=>handle.disable());
 				handle.enable();
@@ -411,6 +434,10 @@ class HistogramRenderer {
 			handle.on("endDrag", ()=>{
 				this._draggingHandle = false;
 				this._handles.forEach(handle=>handle.enable());
+
+				if (JSON.stringify(this._options.selection) != startSelectionSnapshot){
+					this._observable.fire("selectionChanged", this._options.selection);
+				}
 			}, this);
 			return handle;
 		});
@@ -476,7 +503,7 @@ class HistogramRenderer {
 			} if (this._overSelectionIndex == barSelectionIndex){
 				return overSelectionColor;
 			} else {
-				return selection[barSelectionIndex].color;                    
+				return selection[barSelectionIndex].color || this._options.selectionColor;                    
 			}
 		});
 
@@ -516,18 +543,15 @@ class HistogramRenderer {
 			.classed(style["x-axis"], true)
 			.call(axis);
 
+		//need to offset axis labels by half a pixel, not sure why, needs more investigation
+		var offset = 0.5;	
+
 		axisGroup.selectAll(".tick").attr("transform", function(d, i){
-			var textLength = d3.select(this).select("text").node().getComputedTextLength();
-			if (i == 0){
-				return "translate("+(textLength/2)+",0)"
-			}
+			return ["translate("+-offset+",0)", "translate("+width+offset+",0)"][i];
+		})
 
-			// need to consdier offset 0.5px otherwise label would shift, TODO: investigate why
-			var offset = 0.5;
-
-			if (i == 1){
-				return "translate("+(width-textLength/2+offset)+",0)"
-			}
+		axisGroup.selectAll(".tick").attr("text-anchor", function(d, i){
+			return ["start", "end"][i];
 		})
 	}	
 	

@@ -9,10 +9,11 @@ export function getDefaultSelection(histogramData){
     var colors = Defaults.DEFAULT_COLORS;
     var start = minMax.min;
     var step = (minMax.max - minMax.min) / colors.length;
-    return colors.map(color=>{
+    return colors.map((color, i)=>{
         var from = start;
         var to = start + step;
         start += step;
+
         return {
             from:from, 
             to:to,

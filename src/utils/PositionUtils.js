@@ -33,7 +33,6 @@ export function getHandlePositionOffsets(handle1, handle2, maskPadding, width){
             posDiff2 += xMax-width-offset; 
             posDiff1 = posDiff1*2
         }
-
         return [posDiff1, -posDiff2];                  
     }
 

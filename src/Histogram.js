@@ -66,6 +66,19 @@ class Histogram {
 
 		/**
 		 * @public
+		 * Selection color 
+		 */
+		this._options.selectionColor = getOptionValue(options.selectionColor, Defaults.SELECTION_COLOR);
+		
+		/**
+		 * @public
+		 * Enable selection toggle 
+		 */
+		this._options.enableSelectionToggle = getOptionValue(options.enableSelectionToggle, Defaults.ENABLE_SELECTION_TOGGLE);
+		
+
+		/**
+		 * @public
 		 * Mask padding
 		 */
 		this._options.maskPadding = getOptionValue(options.maskPadding, Defaults.MASK_PADDING);
@@ -94,7 +107,14 @@ class Histogram {
 			 * @param {int} selectionIndex
 			 * @param {bool} enabled
 			 */
-			"toggleSelection"
+			"toggleSelection",
+			/**
+			 * @event 
+			 * Fires when selection is toggled
+			 * @param {int} selectionIndex
+			 * @param {bool} enabled
+			 */
+			"selectionChanged"
 		]);
 
 		/**
@@ -109,6 +129,10 @@ class Histogram {
 
 		this._histogramRenderer.on("toggleSelection", (selectionIndex, enabled)=>{
 			this._observable.fire("toggleSelection", selectionIndex, enabled);
+		})
+
+		this._histogramRenderer.on("selectionChanged", (selection)=>{
+			this._observable.fire("selectionChanged", selection);
 		})
 	}
 
@@ -138,19 +162,23 @@ class Histogram {
 	 * @param {Array} data
 	 * @returns {Histogram} returns this widget instance 
 	 */
-	setData(data) {
+	setData(data, selection) {
 		if (!this._histogramRenderer.isRendered()) {
 			throw "Can't call setData() when widget is not rendered, please call .render() first."
 		}
 
 		var histogramData = new HistogramData(data, this._options);
 
-		if (!this._options.selection) {
+		if (!selection) {
 			this._options.selection = SelectionUtils.getDefaultSelection(histogramData);
+		} else {
+			this._options.selection = selection;
 		}
 
 		if (!this._options.format) {
-			this._options.format = d3.format("." + histogramData.getPrecision() + "f")
+			this._options.format = d3.format(",." + histogramData.getPrecision() + "f")
+		} else if (typeof this._options.format == "string"){
+			this._options.format = d3.format(this._options.format);
 		}
 
 		var histogramSelection = new HistogramSelection(this._options.selection);

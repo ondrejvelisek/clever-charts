@@ -30,6 +30,18 @@ export const OVER_SELECTION_COLOR = "#ffea00";
 
 /**
  * @public
+ * Default over bar color
+ */
+export const SELECTION_COLOR = "#49ace2";
+
+/**
+ * @public
+ * Enable selection toggle
+ */
+export const ENABLE_SELECTION_TOGGLE = true;
+
+/**
+ * @public
  * Default padding of label mask
  */
 export const MASK_PADDING = 10;

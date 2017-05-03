@@ -277,10 +277,9 @@ class HistogramHandle {
 
 		this._handleLabelEl.text(() => {
 			return format(this._histogramData.positionToValue(xpos));
-		}).attr("x", () => {
-			return this._updateLabelPosition(xpos);
-		});
+		})
 
+		this._updateLabelPosition(xpos);
 		this._observable.fire("drag");		
 	}	
 
@@ -315,7 +314,7 @@ class HistogramHandle {
 	 */
 	_updateLabelPosition(position) {
 		var label = this._handleLabelEl.node();
-		var maskPadding = this._options.maskPadding;
+		var maskPadding = this._options.maskPadding;		
 
 		// we need to calculate text length so we can create mask and center text
 		var textLength = label.getComputedTextLength();
@@ -329,7 +328,12 @@ class HistogramHandle {
 
 		// handle when dragging towards right side
 		if (xPosition + textLength > this._options.width) {
-			xPosition = this._options.width - textLength;
+			xPosition = this._options.width  - textLength;
+			this._handleLabelEl.attr("x", this._options.width);
+			this._handleLabelEl.attr("text-anchor", "end");
+		} else {
+			this._handleLabelEl.attr("x", xPosition);
+			this._handleLabelEl.attr("text-anchor", "start");
 		}
 
 		// position mask
@@ -342,9 +346,6 @@ class HistogramHandle {
 
 		this._handleMaskEl.attr("width", maskWidth);
 		this._handleMaskEl.attr("height", 20);
-
-		// position text
-		return xPosition;
 	}
 		
 	/**
@@ -457,10 +458,8 @@ class HistogramHandle {
 				return format(data.positionToValue(this._position));
 			}).attr("y", height + 22);
 
-		this._handleLabelEl.attr("x", () => {
-			return this._updateLabelPosition(this._position);
-		})
-
+		
+		this._updateLabelPosition(this._position);
 		return this._handleLabelEl;
 	}
 }

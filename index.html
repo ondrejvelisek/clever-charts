@@ -8,8 +8,24 @@
 </head>
 
 <body>
+    <div class="graphs-ct"></div>
     <script>
-        // histogram 1 ===================================================================================
+        // docs: https://github.com/d3/d3-format
+        // all locales: https://unpkg.com/d3-format@1.2.0/locale/
+        // set cs-CZ locale by default
+        d3.formatDefaultLocale({
+            "decimal": ",",
+            "thousands": " ",
+            "grouping": [
+                3
+            ],
+            "currency": [
+                "",
+                " Kč"
+            ]
+        });
+
+        // histogram 1 (default selection) ================================================================
         var histogram = new Histogram({
             width:360,
             height:150,
@@ -17,10 +33,10 @@
             overSelectionColor:"#ffea00"
         });
 
-        histogram.render(document.body);
+        histogram.render(".graphs-ct");
 
-        d3.json("data/sample.json", (json) => {
-            histogram.setData(json.content);
+        d3.json("data/pocet_objednavek.json", (json) => {
+            histogram.setData(json.content);  
         });
 
         histogram.on("selectionOver", (selectionIndex)=>{
@@ -31,18 +47,26 @@
             console.log("histogram 1: toggleSelection:"+selectionIndex+", enabled:"+enabled);
         });
 
-        // histogram 2 ===================================================================================
+        histogram.on("selectionChanged", (selection)=>{
+            console.log("histogram 1: selectionChanged:"+JSON.stringify(selection, null, 4));
+        });
+
+        // histogram 2 (filter) ==================================================================================
         var histogram2 = new Histogram({
             width:360,
+            enableSelectionToggle:false,
             height:150,
             inactiveBarColor:"#f0f0f0",
             overSelectionColor:"#ffea00"
         });
 
-        histogram2.render(document.body);
+        histogram2.render(".graphs-ct");
 
-        d3.json("data/pocet_objednavek.json", (json) => {
-            histogram2.setData(json.content);
+        d3.json("data/sample.json", (json) => {
+            histogram2.setData(json.content, [{
+                from:100,
+                to:300
+            }]);
         });
 
         histogram2.on("selectionOver", (selectionIndex)=>{
@@ -52,5 +76,34 @@
         histogram2.on("toggleSelection", (selectionIndex, enabled)=>{
             console.log("histogram 2: toggleSelection:"+selectionIndex+", enabled:"+enabled);
         });        
+
+        // histogram 3 (inverted filter) ===================================================================================
+        var histogram3 = new Histogram({
+            width:360,
+            enableSelectionToggle:false,
+            height:150,
+            inactiveBarColor:"#f0f0f0",
+            overSelectionColor:"#ffea00"
+        });
+
+        histogram3.render(".graphs-ct");
+
+        d3.json("data/sample.json", (json) => {
+            histogram3.setData(json.content, [
+                {
+                    from:100,
+                    invert:true,
+                    to:300
+                }
+            ]);
+        });
+
+        histogram3.on("selectionOver", (selectionIndex)=>{
+            console.log("histogram 3: selectionOver:"+selectionIndex);
+        });
+
+        histogram3.on("toggleSelection", (selectionIndex, enabled)=>{
+            console.log("histogram 3: toggleSelection:"+selectionIndex+", enabled:"+enabled);
+        });          
     </script>
 </body>
