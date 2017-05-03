@@ -2,6 +2,7 @@ import babel from 'rollup-plugin-babel';
 import babelrc from 'babelrc-rollup';
 import postcss from 'rollup-plugin-postcss';
 import postcssModules from 'postcss-modules';
+import uglify from 'rollup-plugin-uglify';
 
 let pkg = require('./package.json');
 let external = Object.keys(pkg.dependencies);
@@ -23,7 +24,8 @@ export default {
         return cssExportMap[id];
       }
     }),
-    babel(babelrc())
+    babel(babelrc()),
+    uglify()
   ],
   globals:{
     "d3":"d3"
@@ -34,11 +36,6 @@ export default {
       dest: pkg.main,
       format: 'umd',
       moduleName: 'Histogram',
-      sourceMap: true
-    },
-    {
-      dest: pkg.module,
-      format: 'es',
       sourceMap: true
     }
   ]

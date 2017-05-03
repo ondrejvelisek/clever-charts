@@ -216,9 +216,10 @@ class HistogramRenderer {
 	 */
 	_toggleSelection(selectionIndex){
 		var selection = this._options.selection[selectionIndex];
-		selection.disabled ^= true;
+		selection.disabled = !selection.disabled;
+		var enabled = !selection.disabled;
 		this._updateSelection();
-		this._observable.fire("toggleSelection", selectionIndex, !selection.disabled);
+		this._observable.fire("toggleSelection", selectionIndex, enabled);
 	}	
 
 	/**
