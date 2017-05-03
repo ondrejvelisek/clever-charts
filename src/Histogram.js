@@ -100,7 +100,6 @@ class Histogram {
 			 * @param {int} selectionIndex
 			 */
 			"selectionOver",
-			,
 			/**
 			 * @event 
 			 * Fires when selection is toggled

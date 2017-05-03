@@ -185,7 +185,7 @@ class HistogramRenderer {
 	 */
 	_onHandleClick(handleIndex, handleValue){
 		// TODO: replace this by CAN API or options 
-		var promptResult = prompt("value", this._options.format(handleValue));
+		var promptResult = window.prompt("value", this._options.format(handleValue));
 		if (promptResult == null){
 			return;
 		}
@@ -224,9 +224,8 @@ class HistogramRenderer {
 	/**
 	 * @private
 	 * Handles click on chart
-	 * @param {HTMLElement} target 
 	 */
-	_onClick(target){
+	_onClick(){
 		var target = d3.select(d3.event.target);
 		var selectionIndex = target.attr("data-selection-index");
 		var handleIndex = target.attr("data-handle-index");
