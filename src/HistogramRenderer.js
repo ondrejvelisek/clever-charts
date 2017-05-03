@@ -542,12 +542,11 @@ class HistogramRenderer {
 			.classed(style["x-axis"], true)
 			.call(axis);
 
-		//need to offset axis labels by half a pixel, not sure why, needs more investigation
-		var offset = 0.5;	
-
 		axisGroup.selectAll(".tick").attr("transform", function(d, i){
-			return ["translate("+-offset+",0)", "translate("+(width+offset)+",0)"][i];
+			return ["translate(0,0)", "translate("+width+",0)"][i];
 		})
+
+		axisGroup.selectAll(".tick>text").attr("x", 0);
 
 		axisGroup.selectAll(".tick").attr("text-anchor", function(d, i){
 			return ["start", "end"][i];
