@@ -547,7 +547,7 @@ class HistogramRenderer {
 		var offset = 0.5;	
 
 		axisGroup.selectAll(".tick").attr("transform", function(d, i){
-			return ["translate("+-offset+",0)", "translate("+width+offset+",0)"][i];
+			return ["translate("+-offset+",0)", "translate("+(width+offset)+",0)"][i];
 		})
 
 		axisGroup.selectAll(".tick").attr("text-anchor", function(d, i){
