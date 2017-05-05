@@ -1,8 +1,8 @@
 {
   "name": "histogram",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Histogram widget.",
-  "main": "dist/histogram-1.0.0.js",
+  "main": "dist/histogram.min.js",
   "scripts": {
     "prebuild": "eslint src test",
     "build": "rollup -c",
