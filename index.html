@@ -8,13 +8,13 @@
 </head>
 
 <style>
-    .zoom-btn {
+    .zoom-control {
         margin-left:730px;
     }
 </style>
 
 <body>
-    <button class="zoom-btn">Zoom</button>
+    <input type="checkbox" class="zoom-control">Zoom</button>
     <div class="graphs-ct"></div>
     <script>
         // docs: https://github.com/d3/d3-format
@@ -89,13 +89,23 @@
         });        
 
         // simulate zoom
-        d3.select(".zoom-btn").on("click", ()=>{
-            d3.json("data/sample-zoomed.json", (json) => {
-                histogram2.setData(json.content, [{
-                    from:1,
-                    to:420
-                }]);
-            });
+        d3.select(".zoom-control").on("click", function(){
+            if (this.checked){
+                d3.json("data/sample-zoomed.json", (json) => {
+                    histogram2.setData(json.content, [{
+                        from:1,
+                        to:420
+                    }]);
+                });
+            }else {
+                d3.json("data/sample.json", (json) => {
+                    histogram2.setData(json.content, [{
+                        from:100,
+                        to:300
+                    }]);
+                });
+            }
+            
         });
 
         // histogram 3 (inverted filter) ===================================================================================

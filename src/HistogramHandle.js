@@ -205,6 +205,14 @@ class HistogramHandle {
 	}
 
 	/**
+	 * @public 
+	 * Sets handle position
+	 */
+	setHandleXPosition(position){
+		this._handleCircleEl.attr("transform", "translate("+position+", "+this._options.height+")")
+	}
+
+	/**
 	 * @public
 	 * Unsets hover state
 	 */

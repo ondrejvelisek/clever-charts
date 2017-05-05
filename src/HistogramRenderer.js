@@ -283,6 +283,9 @@ class HistogramRenderer {
 		if (this._options.enableSelectionToggle){
 			this._handleClick();
 		}
+
+		this._prevSelection = histogramSelection.getSelection();
+		this._prevData = histogramData.getData().slice();		
 		
 		return this;
 	}
@@ -428,6 +431,7 @@ class HistogramRenderer {
 		// render selection controls
 		this._handles = this._histogramSelection.getSelectionPoints().map((value, index)=>{
 			var handle = new HistogramHandle(this._groupEl, value, index, this._histogramData, this._options);
+			
 			handle.on("drag", ()=>{
 				this._onHandleDrag();
 			}, this);
@@ -502,8 +506,6 @@ class HistogramRenderer {
 				.attr("y", function (d) { return Math.round(y(d.volume)); })
 				.attr("height", function (d) { return Math.round(height - y(d.volume)); })
 		}
-
-		this._prevData = data.slice();
 	}
 
 	/**
@@ -525,29 +527,101 @@ class HistogramRenderer {
 	}	
 
 	/**
+	 * @private
+	 * Returns bar color for given bar position with given selection
+	 * @param {Number} barX 
+	 * @param {Array} selection 
+	 */
+	_getBarColor (barX, s){
+		var inactiveBarColor = this._options.inactiveBarColor;
+		var overSelectionColor = this._options.overSelectionColor;
+		
+		var barSelectionIndex = this._getBarSelectionIndex(barX, s);
+		if (barSelectionIndex == null){
+			return inactiveBarColor;
+		} else if (s[barSelectionIndex].disabled){
+			return inactiveBarColor;
+		} if (this._overSelectionIndex == barSelectionIndex){
+			return overSelectionColor;
+		} else {
+			return s[barSelectionIndex].color || this._options.selectionColor;                    
+		}
+	}
+
+	/**
+	 * Runs onTransition as a transition between two selections
+	 * @param {Array} selection1 
+	 * @param {Array} selection2 
+	 * @param {Function} onTransition handler
+	 */
+	_onSelectionTransition(selection1, selection2, onTransition){
+		var histogramData = this._histogramData;
+
+		selection1.forEach((s1,selectionIndex)=>{
+			var s2 = selection2[selectionIndex];
+			if (selection1[selectionIndex]){
+				var transitions = [];
+				transitions.push([histogramData.valueToPosition(s1.from), histogramData.valueToPosition(s2.from)]);
+				transitions.push([histogramData.valueToPosition(s1.to), histogramData.valueToPosition(s2.to)]);
+
+				transitions.forEach((t, handleIndex)=>{
+					var duration = 0;
+					while(t[0] !== t[1]){
+						if (!duration){
+							onTransition.call(this, t[0], selectionIndex, handleIndex)
+						} else {
+							setTimeout(onTransition.bind(this, t[0], selectionIndex, handleIndex), duration);
+						}
+						
+						duration = duration+3;
+						t[0] = t[0]>t[1]?t[0]-1:t[0]+1;
+					}
+				});
+			}
+		});
+	}
+
+	/**
 	* @private
 	* Updates selection
 	*/
 	_updateSelection(){
 		var selection = this._histogramSelection.getSelection();
-		var inactiveBarColor = this._options.inactiveBarColor;
-		var overSelectionColor = this._options.overSelectionColor;
+		var bars = this._groupEl.selectAll("."+style.bar);
 
-		// handle bar colors
-		this._groupEl.selectAll("."+style.bar).attr("fill", (d)=> {
-			var barX = this._histogramData.valueToPosition(d.value);
-			var barSelectionIndex = this._getBarSelectionIndex(barX, selection);
-			if (barSelectionIndex == null){
-				return inactiveBarColor;
-			} else if (selection[barSelectionIndex].disabled){
-				return inactiveBarColor;
-			} if (this._overSelectionIndex == barSelectionIndex){
-				return overSelectionColor;
-			} else {
-				return selection[barSelectionIndex].color || this._options.selectionColor;                    
-			}
-		});
+		// fills bars with given selection
+		var fillBars = (s) => {
+			// handle bar colors
+			bars.attr("fill", (d)=> {
+				var barX = this._histogramData.valueToPosition(d.value);
+				return this._getBarColor(barX, s);
+			})
+		}
 
+		// handle animation if previous selection is set
+		if (this._prevSelection){
+			// set prev selection
+			fillBars(this._prevSelection);
+
+			// set handle positions to prev selection
+			this._prevSelection.forEach((s, i)=>{
+				this._handles[i].setHandleXPosition(this._histogramData.valueToPosition(s.from))
+				this._handles[i+1].setHandleXPosition(this._histogramData.valueToPosition(s.to))
+			});
+
+			// fill bars on selection transition and move handles
+			this._onSelectionTransition(this._prevSelection, selection, (p, selectionIndex, handleIndex)=>{
+				var bar = d3.select(bars.nodes()[p-1]);
+				bar.attr("fill", this._getBarColor(p, selection));
+
+				// move handles
+				[this._handles[selectionIndex], this._handles[selectionIndex+1]][handleIndex].setHandleXPosition(p);
+			});
+		
+		} else {
+			fillBars(selection)
+		}
+		
 		// space filling rectangles
 		this._groupEl.selectAll("."+style.selectionbar)
 			.data(selection)
@@ -561,7 +635,6 @@ class HistogramRenderer {
 				return this._histogramData.valueToPosition(d.to) - this._histogramData.valueToPosition(d.from);
 			})
 
-		this._prevSelection = selection;
 	}
 
 	/**
