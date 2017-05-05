@@ -266,6 +266,10 @@ class HistogramRenderer {
 	 * @param {HistogramSelection}
 	 */
 	refresh(histogramData, histogramSelection){
+		if (this._histogramSelection){
+			this._prevSelection = this._histogramSelection.getSelection();
+		}
+
 		this._histogramData = histogramData;
 		this._histogramSelection = histogramSelection;
 		
@@ -284,9 +288,8 @@ class HistogramRenderer {
 			this._handleClick();
 		}
 
-		this._prevSelection = histogramSelection.getSelection();
-		this._prevData = histogramData.getData().slice();		
-		
+		this._prevData = histogramData.getData();				
+
 		return this;
 	}
 
@@ -559,21 +562,23 @@ class HistogramRenderer {
 
 		selection1.forEach((s1,selectionIndex)=>{
 			var s2 = selection2[selectionIndex];
+			var width = this._options.width;
 			if (selection1[selectionIndex]){
 				var transitions = [];
+				var frames = [];
+
 				transitions.push([histogramData.valueToPosition(s1.from), histogramData.valueToPosition(s2.from)]);
 				transitions.push([histogramData.valueToPosition(s1.to), histogramData.valueToPosition(s2.to)]);
+
+				// make sure duration is calculated based on transitino length
+				frames = [Math.abs((transitions[0][0] - transitions[0][1])/width), Math.abs((transitions[1][0] - transitions[1][1])/width)];
 
 				transitions.forEach((t, handleIndex)=>{
 					var duration = 0;
 					while(t[0] !== t[1]){
-						if (!duration){
-							onTransition.call(this, t[0], selectionIndex, handleIndex)
-						} else {
-							setTimeout(onTransition.bind(this, t[0], selectionIndex, handleIndex), duration);
-						}
+						setTimeout(onTransition.bind(this, t[0], selectionIndex, handleIndex), duration);
 						
-						duration = duration+3;
+						duration = duration+1/frames[handleIndex];
 						t[0] = t[0]>t[1]?t[0]-1:t[0]+1;
 					}
 				});
@@ -617,6 +622,8 @@ class HistogramRenderer {
 				// move handles
 				[this._handles[selectionIndex], this._handles[selectionIndex+1]][handleIndex].setHandleXPosition(p);
 			});
+
+			this._prevSelection = null;
 		
 		} else {
 			fillBars(selection)
