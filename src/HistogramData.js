@@ -106,16 +106,27 @@ class HistogramData {
 	*/
 	_loadHistogramData(data, width) {
 		var histogramData = [];
-		var numOfBarsPerBucket = width / data.length;
-		data.forEach((bucket) => {
+		// calculate number of bars per bucket excluding last pixel for max value
+		var numOfBarsPerBucket = (width-1) / data.length;
+
+		data.forEach((bucket, i) => {
 			var step = (bucket.max - bucket.min) / numOfBarsPerBucket;
-			d3.range(bucket.min, bucket.max, step).forEach((value) => {
+			d3.range(bucket.min, bucket.max, step).forEach((value, i) => {
 				histogramData.push({
 					value: value,
 					volume: bucket.content[0].frequency
 				});
 			});
+
+			// adding max value pixel as each non-last bucket ends one pixel before next bucket starts
+			if (i == data.length-1){
+				histogramData.push({
+					value: bucket.max,
+					volume: bucket.content[0].frequency
+				});
+			}
 		});
+
 		return histogramData;
 	}
 }
