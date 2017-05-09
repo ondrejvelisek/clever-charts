@@ -42,12 +42,6 @@ class Histogram {
 
 		/**
 		 * @public
-		 * Margin of the widget
-		 */
-		this._options.margin = getOptionValue(options.margin, Defaults.MARGIN);
-
-		/**
-		 * @public
 		 * Format for widget labels 
 		 */
 		this._options.format = getOptionValue(options.format, null);

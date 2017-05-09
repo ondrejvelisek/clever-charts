@@ -12,9 +12,14 @@ export const HEIGHT = 150;
 
 /**
  * @public
- * Default widget height
+ * Default widget margin
  */
-export const MARGIN = 25;
+export const MARGIN = {
+    top:0,
+    left:5,
+    right:5,
+    bottom:25
+};
 
 /**
  * @public

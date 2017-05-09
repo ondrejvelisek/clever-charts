@@ -1,5 +1,6 @@
 import style from "./Histogram.css";
 import {HistogramHandle} from "./HistogramHandle";
+import * as Defaults from "./HistogramDefaults";
 import { Observable } from "./utils/Observable";
 import * as PositionUtils from "./utils/PositionUtils"
 import * as d3 from "d3";
@@ -145,18 +146,18 @@ class HistogramRenderer {
 		var ct = this._containerEl = d3.select(selector);
 		var width = this._options.width;
 		var height = this._options.height;
-		var margin = this._options.margin;
+		var margin = Defaults.MARGIN;
 
 		// render SVG
 		var svg = this._svgEl = ct.append("svg")
-			.attr("width", width + margin * 2)
-			.attr("height", height + margin * 2);
+			.attr("width", width + margin.left + margin.right)
+			.attr("height", height + margin.top + margin.bottom);
 
 		// render group element
 		var g = this._groupEl = this._svgEl.append("g")
 			.classed(style.inactive, true)
 			.attr("transform",
-			"translate(" + margin + "," + margin + ")");
+			"translate(" + margin.left + "," + margin.top + ")");
 
 		// handle hover over svg element
 		svg.on("mouseover.hover", ()=>{
