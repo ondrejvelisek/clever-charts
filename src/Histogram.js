@@ -176,6 +176,7 @@ class Histogram {
 	/**
 	 * Sets widget data
 	 * @param {Array} data
+	 * @param {Array} selection
 	 * @returns {Histogram} returns this widget instance 
 	 */
 	setData(data, selection) {
@@ -183,23 +184,46 @@ class Histogram {
 			throw "Can't call setData() when widget is not rendered, please call .render() first."
 		}
 
-		var histogramData = new HistogramData(data, this._options);
+		this._histogramData = new HistogramData(data, this._options);
 
 		if (!selection) {
-			this._options.selection = SelectionUtils.getDefaultSelection(histogramData);
+			this._options.selection = SelectionUtils.getDefaultSelection(this._histogramData);
 		} else {
 			this._options.selection = selection;
 		}
 
 		if (!this._options.format) {
-			this._options.format = d3.format(",." + histogramData.getPrecision() + "f")
+			this._options.format = d3.format(",." + this._histogramData.getPrecision() + "f")
 		} else if (typeof this._options.format == "string"){
 			this._options.format = d3.format(this._options.format);
 		}
 
 		var histogramSelection = new HistogramSelection(this._options.selection);
 
-		this._histogramRenderer.refresh(histogramData, histogramSelection);
+		this._histogramRenderer.refresh(this._histogramData, histogramSelection);
+
+		return this;
+	}
+
+	/**
+	 * Sets selection
+	 * @param {Array} selection
+	 * @returns {Histogram} returns this widget instance 
+	 */
+	setSelection(selection) {
+		if (!this._histogramRenderer.isRendered()) {
+			throw "Can't call setData() when widget is not rendered, please call .render() first."
+		}
+
+		if (!this._histogramData) {
+			throw "Can't call setSelection() when no data is available."
+		}
+
+		this._options.selection = selection;
+
+		var histogramSelection = new HistogramSelection(this._options.selection);
+
+		this._histogramRenderer.refresh(this._histogramData, histogramSelection);
 
 		return this;
 	}
