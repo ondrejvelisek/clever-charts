@@ -111,7 +111,7 @@ class HistogramData {
 
 		data.forEach((bucket, i) => {
 			var step = (bucket.max - bucket.min) / numOfBarsPerBucket;
-			d3.range(bucket.min, bucket.max, step).forEach((value, i) => {
+			d3.range(bucket.min, bucket.max, step).forEach((value) => {
 				histogramData.push({
 					value: value,
 					volume: bucket.content[0].frequency
