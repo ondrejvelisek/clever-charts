@@ -582,6 +582,8 @@ class HistogramRenderer {
 						duration = duration+1/frames[handleIndex];
 						t[0] = t[0]>t[1]?t[0]-1:t[0]+1;
 					}
+
+					setTimeout(onTransition.bind(this, t[1], selectionIndex, handleIndex), ++duration);
 				});
 			}
 		});
