@@ -1,7 +1,7 @@
 import style from "./Histogram.css";
-import {HistogramSelectionRenderer} from "./HistogramSelectionRenderer";
+import HistogramSelectionRenderer from "./selection/HistogramSelectionRenderer";
 import * as Defaults from "./HistogramDefaults";
-import { Observable } from "./utils/Observable";
+import Observable from "./utils/Observable";
 import * as d3 from "d3";
 
 /**
@@ -9,7 +9,7 @@ import * as d3 from "d3";
  * Histogram renderer class
  * @param {Object} options
  */
-class HistogramRenderer {
+export default class HistogramRenderer {
     constructor(options) {
 		/**
 		 * @private 
@@ -94,7 +94,14 @@ class HistogramRenderer {
 			 * Fires when selection is changed
 			 * @param {Array} selection
 			 */
-			"selectionChanged"
+			"selectionChanged",
+			/**
+			 * @event 
+			 * Fires when user clicks on a handle
+			 * @param {int} handleIndex
+			 * @param {Number} handleValue
+			 */
+			"handleClick"
 		]);		
 
 		// relay selection events
@@ -109,6 +116,10 @@ class HistogramRenderer {
 		this._selectionRenderer.on("selectionChanged", (selection)=>{
 			this._observable.fire("selectionChanged", selection);
 		});
+
+		this._selectionRenderer.on("handleClick", (handleIndex, handleValue)=>{
+			this._observable.fire("handleClick", handleIndex, handleValue);
+		});		
     }
 
 	/**
@@ -302,5 +313,3 @@ class HistogramRenderer {
     }	
 	
 }
-
-export {HistogramRenderer};

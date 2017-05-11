@@ -1,10 +1,11 @@
 import * as d3 from "d3";
-import { Observable } from "./utils/Observable";
+import Observable from "./utils/Observable";
 import * as Defaults from "./HistogramDefaults";
-import * as SelectionUtils from "./utils/SelectionUtils";
-import { HistogramData } from "./HistogramData";
-import { HistogramSelection } from "./HistogramSelection";
-import { HistogramRenderer } from "./HistogramRenderer";
+import HistogramData from "./HistogramData";
+import DefaultHistogramSelectionImpl from "./selection/DefaultHistogramSelectionImpl";
+import HistogramRenderer from "./HistogramRenderer";
+import HistogramSelectionFactory from "./selection/HistogramSelectionFactory"
+import {SelectionTypes} from "./selection/HistogramSelection";
 
 /**
  * @private 
@@ -29,6 +30,11 @@ class Histogram {
 		 */
 		this._options = {};
 
+		/**
+		 * @public
+		 * prompt handler
+		 */
+		this._options.promptHandler = options.promptHandler || null;
 		/**
 		 * @public
 		 * Width of the widget
@@ -79,9 +85,9 @@ class Histogram {
 
 		/**
 		 * @public
-		 * selection array
+		 * selection type
 		 */
-		this._options.selection = getOptionValue(options.selection, null);
+		this._options.selectionType = getOptionValue(options.selectionType, null);
 
 		/**
 		 * @private
@@ -107,7 +113,14 @@ class Histogram {
 			 * @param {int} selectionIndex
 			 * @param {bool} enabled
 			 */
-			"selectionChanged"
+			"selectionChanged",
+			/**
+			 * @event 
+			 * Fires when user clicks on a handle
+			 * @param {int} handleIndex
+			 * @param {Number} handleValue
+			 */
+			"handleClick"
 		]);
 
 		/**
@@ -127,6 +140,12 @@ class Histogram {
 		this._histogramRenderer.on("selectionChanged", (selection)=>{
 			this._observable.fire("selectionChanged", selection);
 		})
+
+		this._histogramRenderer.on("handleClick", (handleIndex, handleValue)=>{
+			this._observable.fire("handleClick", handleIndex, handleValue);
+		});
+		
+		this._selectionFactory = new HistogramSelectionFactory(this._options);
 	}
 
 	/**
@@ -184,13 +203,11 @@ class Histogram {
 			throw "Can't call setData() when widget is not rendered, please call .render() first."
 		}
 
-		this._histogramData = new HistogramData(data, this._options);
+		var histogramData = this._histogramData = new HistogramData(data, this._options);
+		var histogramSelection = this._histogramSelection = this._selectionFactory.getHistogramSelection(selection, histogramData);
 
-		if (!selection) {
-			this._options.selection = SelectionUtils.getDefaultSelection(this._histogramData);
-		} else {
-			this._options.selection = selection;
-		}
+		this._options.selection = histogramSelection.getSelection();
+		this._selection = selection;
 
 		if (!this._options.format) {
 			this._options.format = d3.format(",." + this._histogramData.getPrecision() + "f")
@@ -198,14 +215,25 @@ class Histogram {
 			this._options.format = d3.format(this._options.format);
 		}
 
-		var histogramSelection = new HistogramSelection(this._options.selection);
+		this._histogramRenderer.refresh(histogramData, histogramSelection);
 
-		this._histogramRenderer.refresh(this._histogramData, histogramSelection);
-
+		return this;
+	}
+	
+	/**
+	 * @public
+	 * Sets selection type
+	 * @param {String} selectionType
+	 * @returns {Histogram} returns this widget instance 
+	 */
+	setSelectionType(selectionType){
+		this._options.selectionType = selectionType;
+		this.setSelection(this._selection);
 		return this;
 	}
 
 	/**
+	 * @public
 	 * Sets selection
 	 * @param {Array} selection
 	 * @returns {Histogram} returns this widget instance 
@@ -219,14 +247,15 @@ class Histogram {
 			throw "Can't call setSelection() when no data is available."
 		}
 
-		this._options.selection = selection;
-
-		var histogramSelection = new HistogramSelection(this._options.selection);
-
-		this._histogramRenderer.refresh(this._histogramData, histogramSelection);
+		var histogramSelection = this._histogramSelection = this._selectionFactory.getHistogramSelection(selection, this._histogramData);
+		this._options.selection = histogramSelection.getSelection();
+		this._selection = selection;
+		this._histogramRenderer.refresh(this._histogramData, this._histogramSelection);
 
 		return this;
 	}
 
 }
+
+Histogram.SelectionTypes = SelectionTypes;
 export default Histogram;

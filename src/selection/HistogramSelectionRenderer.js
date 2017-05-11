@@ -1,16 +1,17 @@
-import style from "./Histogram.css";
-import {HistogramHandle} from "./HistogramHandle";
-import * as Defaults from "./HistogramDefaults";
-import { Observable } from "./utils/Observable";
-import * as PositionUtils from "./utils/PositionUtils"
+import style from "../Histogram.css";
+import HistogramHandle from "./HistogramHandle";
+import * as Defaults from "../HistogramDefaults";
+import Observable from "../utils/Observable";
+import * as PositionUtils from "../utils/PositionUtils"
 import * as d3 from "d3";
+import {SelectionTypes} from "./HistogramSelection";
 
 /**
  * @class
  * Histogram renderer class
  * @param {Object} options
  */
-class HistogramSelectionRenderer {
+export default class HistogramSelectionRenderer {
     constructor(options) {
 		/**
 		 * @private 
@@ -28,7 +29,13 @@ class HistogramSelectionRenderer {
 		 * @private
 		 * Bar data 
 		 */
-		this._historyData = null;
+		this._histogramData = null;
+
+		/**
+		 * @private
+		 * history selection
+		 */
+		this._histogramSelection = null;
 
 		/**
 		 * @private
@@ -91,7 +98,14 @@ class HistogramSelectionRenderer {
 			 * @param {int} selectionIndex
 			 * @param {bool} enabled
 			 */
-			"selectionChanged"
+			"selectionChanged",
+			/**
+			 * @event 
+			 * Fires when user clicks on a handle
+			 * @param {int} handleIndex
+			 * @param {Number} handleValue
+			 */
+			"handleClick"
 		]);		
     }
 
@@ -155,29 +169,34 @@ class HistogramSelectionRenderer {
 	 * @param {Number} handleValue 
 	 */
 	_onHandleClick(handleIndex, handleValue){
-		// TODO: replace this by CAN API or options 
-		var promptResult = window.prompt("value", this._options.format(handleValue));
-		if (promptResult == null){
-			return;
+		// call prompt handler if available
+		if (this._options.promptHandler){
+			var promptResult = this._options.promptHandler(this._options.format(handleValue)).then((promptResult)=>{
+				promptResult = parseFloat(promptResult);
+				// must be within min max range
+				var minMax = this._histogramData.getMinMax();
+				promptResult = Math.min(minMax.max, promptResult);
+				promptResult = Math.max(minMax.min, promptResult);
+
+				var points = this._histogramSelection.getSelectionPoints();
+				points[handleIndex] = {
+					value:promptResult
+				};
+				
+				var positions = points
+					.map(point=>this._histogramData.valueToPosition(point.value))
+					.sort((p1,p2)=>p1-p2);
+				
+				this._updateSelectionPositions(positions);
+				this._updateSelection();
+
+				// TODO: update handles without destroying them
+				this._destroyHandles();
+				this._renderHandles();
+			})
 		}
 
-		// must be within min max range
-		var minMax = this._histogramData.getMinMax();
-		promptResult = Math.min(minMax.max, promptResult);
-		promptResult = Math.max(minMax.min, promptResult);
-
-		var points = this._histogramSelection.getSelectionPoints();
-		points[handleIndex] = promptResult;
-		var positions = points
-			.map(value=>this._histogramData.valueToPosition(value))
-			.sort((p1,p2)=>p1-p2);
-		
-		this._updateSelectionPositions(positions);
-		this._updateSelection();
-
-		// TODO: update handles without destroying them
-		this._destroyHandles();
-		this._renderHandles();
+		this._observable.fire("handleClick", handleIndex, handleValue);
 	}
 
 	/**
@@ -202,7 +221,7 @@ class HistogramSelectionRenderer {
 		var selectionIndex = target.attr("data-selection-index");
 		var handleIndex = target.attr("data-handle-index");
 
-		if (selectionIndex != null){
+		if (selectionIndex != null && this._histogramSelection.allowsToggle()){
 			this._toggleSelection(selectionIndex)
 		} else if (handleIndex != null){
 			this._onHandleClick(handleIndex, target.attr("data-handle-value"));
@@ -223,7 +242,7 @@ class HistogramSelectionRenderer {
 	 * @param {HistogramSelection}
 	 */
 	refresh(histogramData, histogramSelection){
-		if (this._histogramSelection){
+		if (this._histogramSelection && this._histogramSelection.getSelection().length == histogramSelection.getSelection().length){
 			this._prevSelection = this._histogramSelection.getSelection();
 		}
 
@@ -235,9 +254,7 @@ class HistogramSelectionRenderer {
 		this._updateSelection();
 
 		this._handleHoverState();
-		if (this._options.enableSelectionToggle){
-			this._handleClick();
-		}
+		this._handleClick();
 
 		return this;
 	}
@@ -308,10 +325,12 @@ class HistogramSelectionRenderer {
 			return;
 		}
 		d3.select(nodes[i]).attr("fill", "rgba(0,0,0,0)")
+
 		this._overSelectionIndex = null;
 		this._updateSelectionControlsHoverState(null);
 		this._updateSelection();
 		this._observable.fire("selectionOver", this._overSelectionIndex);
+		
 	}
 
 	/**
@@ -381,9 +400,15 @@ class HistogramSelectionRenderer {
 	*/
 	_renderHandles(){
 		// render selection controls
-		this._handles = this._histogramSelection.getSelectionPoints().map((value, index)=>{
+		this._handles = this._histogramSelection.getSelectionPoints().map((point, index)=>{
+			var value = point.value;
+
 			var handle = new HistogramHandle(this._groupEl, value, index, this._histogramData, this._options);
-			
+
+			if(point.hidden){
+				handle.hide();
+			}
+
 			handle.on("drag", ()=>{
 				this._onHandleDrag();
 			}, this);
@@ -405,9 +430,11 @@ class HistogramSelectionRenderer {
 				this._handles.forEach(handle=>handle.enable());
 
 				if (JSON.stringify(this._options.selection) != startSelectionSnapshot){
-					this._observable.fire("selectionChanged", this._options.selection);
+					this._observable.fire("selectionChanged", this._histogramSelection.getOutputSelection());
 				}
 			}, this);
+		
+		
 			return handle;
 		});
 	}
@@ -445,7 +472,7 @@ class HistogramSelectionRenderer {
 			return inactiveBarColor;
 		} else if (s[barSelectionIndex].disabled){
 			return inactiveBarColor;
-		} if (this._overSelectionIndex == barSelectionIndex){
+		} if (this._histogramSelection.allowsToggle() && this._overSelectionIndex == barSelectionIndex){
 			return overSelectionColor;
 		} else {
 			return s[barSelectionIndex].color || this._options.selectionColor;                    
@@ -557,8 +584,5 @@ class HistogramSelectionRenderer {
 		this._clear();
 
 		return this;
-    }	
-	
+    }		
 }
-
-export {HistogramSelectionRenderer};

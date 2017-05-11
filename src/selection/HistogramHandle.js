@@ -1,6 +1,6 @@
 import * as d3 from "d3";
-import style from "./Histogram.css";
-import { Observable } from "./utils/Observable";
+import style from "../Histogram.css";
+import Observable from "../utils/Observable";
 
 /**
  * Gradient index shared for all instances
@@ -11,7 +11,7 @@ var gradientIndex = 0;
  * @class
  * HistogramHandle representing control handle for histogram
  */
-class HistogramHandle {
+export default class HistogramHandle {
 	/**
 	 * @param {D3Selection} groupEl
 	 * @param {Number} value
@@ -154,6 +154,10 @@ class HistogramHandle {
 		this._handleDrag();
 	}	
 
+	hide(){
+		this._elements.forEach(element=>element.attr("visibility", "hidden"));
+	}
+
 	/**
 	 * @public
 	 * Bind handle event
@@ -182,7 +186,7 @@ class HistogramHandle {
 	setHoverState(){
 		this._handleLineEl.attr("fill-opacity", 1);
 		this._handleLabelEl.attr("fill-opacity", 1);
-		this._handleMaskEl.attr("visibility", "visible");
+		this._handleMaskEl.attr("display", "block");
 		this._handleCircleEl.attr("stroke-width", 3);
 	}
 	
@@ -219,7 +223,7 @@ class HistogramHandle {
 	unsetHoverState(){
 		this._handleLineEl.attr("fill-opacity", 0);
 		this._handleLabelEl.attr("fill-opacity", 0);
-		this._handleMaskEl.attr("visibility", "hidden");
+		this._handleMaskEl.attr("display", "none");
 		this._handleCircleEl.attr("stroke-width", 1);
 		this._handleLabelEl.attr("transform", "translate(0, 0)")
 		this._handleMaskEl.attr("transform", "translate(0, 0)")
@@ -445,7 +449,7 @@ class HistogramHandle {
 			.attr("class", style["drag-label-mask"])
 			.attr("fill", "url(#brush-mask-gradient-" + gradientIndex+")")
 			.attr("y", this._options.height + 12)
-			.attr("visibility", "hidden");			
+			.attr("display", "none");			
 
 		return this._handleMaskEl;
 	}
@@ -471,5 +475,3 @@ class HistogramHandle {
 		return this._handleLabelEl;
 	}
 }
-
-export { HistogramHandle };

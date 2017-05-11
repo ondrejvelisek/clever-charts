@@ -3,7 +3,7 @@
  * Observable class, handles binding and firing events
  * @param {Array} events list of events for this observable
  */
-class Observable {
+export default class Observable {
     /**
      * @param {Array} events
      */
@@ -72,4 +72,3 @@ class Observable {
     }
 	
 }
-export {Observable}

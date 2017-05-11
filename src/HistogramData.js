@@ -4,7 +4,7 @@ import * as d3 from "d3";
  * @class
  * HistogramData representing data for the histogram view
  */
-class HistogramData {
+export default class HistogramData {
 	/**
 	 * @param {data} data
 	 * @param {Object} options
@@ -130,5 +130,3 @@ class HistogramData {
 		return histogramData;
 	}
 }
-
-export { HistogramData };

@@ -11,10 +11,16 @@
     .zoom-control {
         margin-left:650px;
     }
+
+    .invert-control {
+        margin-left:10px;
+    }    
 </style>
 
 <body>
     <input type="checkbox" class="zoom-control">Zoom</button>
+    <input type="checkbox" class="invert-control">Invert</button>
+    <br>
     <div class="graphs-ct"></div>
     <script>
         // docs: https://github.com/d3/d3-format
@@ -35,6 +41,14 @@
         // histogram 1 (default selection) ================================================================
         var histogram = new Histogram({
             width:360,
+            promptHandler:(value)=>{
+                return new Promise((success)=>{
+                    var result = prompt("Sample prompt handler", value);
+                    if (result !== null) {
+                        success(result);
+                    }
+                })
+            },
             height:150
         });
 
@@ -55,17 +69,16 @@
         histogram.on("selectionChanged", (selection)=>{
             console.log("histogram 1: selectionChanged:"+JSON.stringify(selection, null, 4));
         });
-        
+
+        histogram.on("handleClick", (handleIndex, handleValue)=>{
+            console.log("histogram 1: handleClick: index: "+handleIndex+", value: "+handleValue);
+        });
 
         // histogram 2 (filter) ==================================================================================
         var histogram2 = new Histogram({
             width:360,
             height:150,
-            // filter specific settings, need to disable selection toggle and set different colors on hover and selection
-            enableSelectionToggle:false,
-            overSelectionColor:"#49ace2",
-            selectionColor:"#49ace2"
-            
+            selectionType:Histogram.SelectionTypes.FILTER
         });
 
         histogram2.render(".graphs-ct");
@@ -89,6 +102,10 @@
             console.log("histogram 2: selectionChanged:"+JSON.stringify(selection, null, 4));
         });        
 
+        histogram2.on("handleClick", (handleIndex, handleValue)=>{
+            console.log("histogram 2: handleClick:"+handleIndex+", value: "+handleValue);
+        });        
+
         // simulate zoom
         d3.select(".zoom-control").on("click", function(){
             if (this.checked){
@@ -98,7 +115,7 @@
                         to:421
                     }]);
                 });
-            }else {
+            } else {
                 d3.json("data/sample.json", (json) => {
                     histogram2.setData(json.content, [{
                         from:100,
@@ -106,49 +123,16 @@
                     }]);
                 });
             }
-            
-        });
+        }); 
 
-        // histogram 3 (inverted filter) ===================================================================================
-        var histogram3 = new Histogram({
-            width:360,
-            enableSelectionToggle:false,
-            height:150,
-            overSelectionColor:"#49ace2",
-            selectionColor:"#49ace2"            
-
-        });
-
-        histogram3.render(".graphs-ct");
-
-        d3.json("data/sample.json", (json) => {
-            histogram3.setData(json.content, [
-                {
-                    from:1,
-                    to:200
-                },
-                {
-                    from:200,
-                    disabled:true,
-                    to:300
-                },
-                {
-                    from:300,
-                    to:421
-                }
-            ]);
-        });
-
-        histogram3.on("selectionOver", (selectionIndex)=>{
-            console.log("histogram 3: selectionOver:"+selectionIndex);
-        });
-
-        histogram3.on("toggleSelection", (selectionIndex, enabled)=>{
-            console.log("histogram 3: toggleSelection:"+selectionIndex+", enabled:"+enabled);
+        // simulate invert
+        d3.select(".invert-control").on("click", function(){
+            if (this.checked){
+                histogram2.setSelectionType(Histogram.SelectionTypes.INVERTED_FILTER);
+                
+            } else {
+                histogram2.setSelectionType(Histogram.SelectionTypes.FILTER);
+            }
         });        
-
-        histogram3.on("selectionChanged", (selection)=>{
-            console.log("histogram 3: selectionChanged:"+JSON.stringify(selection, null, 4));
-        });          
     </script>
 </body>
