@@ -29,6 +29,26 @@ class Observable {
 
 	/**
 	 * @public
+	 * Unbind event
+	 * @param {String} event event name
+	 * @param {Function} [handler] event handler, optional
+	 */
+    off(event, handler) {
+        if (!(event in this._handlers)) throw "No such event: " + event;
+		if (!handler) {
+			this._handlers[event] = [];
+		} else {
+			var handlers = this._handlers[event];
+			var index = handlers.indexOf(handler);
+			if (index != -1){
+				handlers.splice(index, 1);
+			}
+		}
+		return this;
+    }
+
+	/**
+	 * @public
 	 * Fire widget event
 	 * @param {String} event event name
 	 * @param {*} ...args event arguments
@@ -41,5 +61,15 @@ class Observable {
 		}
 		return this;
     }
+
+	/**
+	 * @public
+	 * Destorys this observable, removes events and so on 
+	 */
+	destroy() {
+		this._handlers = null;
+		return this;
+    }
+	
 }
 export {Observable}

@@ -141,6 +141,29 @@ class Histogram {
 	}
 
 	/**
+	 * Unbind widget event
+	 * @param {String} event event name
+	 * @param {Function} [handler] event handler
+	 * @returns {Histogram} returns this widget instance
+	 */
+	off(eventName, handler) {
+		this._observable.off(eventName, handler);
+		return this;
+	}	
+
+	/**
+	 * Destroys widget
+	 * @returns {Histogram} returns this widget instance
+	 */
+	destroy() {
+		this._observable.destroy();
+		this._histogramRenderer.destroy();
+		this._options = null;
+
+		return this;
+	}	
+
+	/**
 	 * Render logic of this widget
 	 * @param {String|DOMElement} selector selector or DOM element 
 	 * @returns {Histogram} returns this widget instance

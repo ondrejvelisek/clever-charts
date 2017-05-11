@@ -676,7 +676,21 @@ class HistogramRenderer {
 		axisGroup.selectAll(".tick").attr("text-anchor", function(d, i){
 			return ["start", "end"][i];
 		})
-	}	
+	}
+
+	/**
+	 * @public
+	 * Destorys histogram UI  
+	 */
+	destroy() {
+		if (this._rendered){
+			this._containerEl.node().removeChild(this._svgEl.node());
+		}
+
+		this._observable.destroy();
+
+		return this;
+    }	
 	
 }
 
