@@ -487,8 +487,8 @@ class HistogramRenderer {
 				.attr("class", style.bar)
 				.attr("x", function (d) { return x(d.value); })
 				.attr("width", x.bandwidth())
-				.attr("y", function (d) { return Math.round(y(d.volume)); })
-				.attr("height", function (d) { return Math.round(height - y(d.volume)); })
+				.attr("y", function (d) { return Math.floor(y(d.volume)); })
+				.attr("height", function (d) {return Math.ceil(height - y(d.volume)); })
 
 			x.domain(data.map(function (d) {return d.value; }));
 			y.domain([0, d3.max(data, function (d) { return d.volume; })]);				
@@ -497,8 +497,8 @@ class HistogramRenderer {
 				.data(data)
 				.transition()
 				.duration(500)
-				.attr("y", function (d) { return Math.round(y(d.volume)); })
-				.attr("height", function (d) { return Math.round(height - y(d.volume)); })
+				.attr("y", function (d) { return Math.floor(y(d.volume)); })
+				.attr("height", function (d) { return Math.ceil(height - y(d.volume)); })
 		} else {
 			// append the rectangles for the bar chart
 			this._groupEl.selectAll("."+style.bar)
@@ -507,8 +507,8 @@ class HistogramRenderer {
 				.attr("class", style.bar)
 				.attr("x", function (d) { return x(d.value); })
 				.attr("width", x.bandwidth())
-				.attr("y", function (d) { return Math.round(y(d.volume)); })
-				.attr("height", function (d) { return Math.round(height - y(d.volume)); })
+				.attr("y", function (d) { return Math.floor(y(d.volume)); })
+				.attr("height", function (d) { return Math.ceil(height - y(d.volume)); })
 		}
 	}
 
