@@ -1,10 +1,8 @@
 import style from "../Histogram.css";
 import HistogramHandle from "./HistogramHandle";
-import * as Defaults from "../HistogramDefaults";
 import Observable from "../utils/Observable";
 import * as PositionUtils from "../utils/PositionUtils"
 import * as d3 from "d3";
-import {SelectionTypes} from "./HistogramSelection";
 
 /**
  * @class
@@ -171,7 +169,7 @@ export default class HistogramSelectionRenderer {
 	_onHandleClick(handleIndex, handleValue){
 		// call prompt handler if available
 		if (this._options.promptHandler){
-			var promptResult = this._options.promptHandler(this._options.format(handleValue)).then((promptResult)=>{
+			this._options.promptHandler(this._options.format(handleValue)).then((promptResult)=>{
 				promptResult = parseFloat(promptResult);
 				// must be within min max range
 				var minMax = this._histogramData.getMinMax();
@@ -182,7 +180,7 @@ export default class HistogramSelectionRenderer {
 				points[handleIndex] = {
 					value:promptResult
 				};
-				
+
 				var positions = points
 					.map(point=>this._histogramData.valueToPosition(point.value))
 					.sort((p1,p2)=>p1-p2);

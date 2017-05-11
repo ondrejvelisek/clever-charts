@@ -1,4 +1,3 @@
-import HistogramSelection from "./HistogramSelection";
 import MultipleHistogramSelectionImpl from "./MultipleHistogramSelectionImpl";
 import * as Defaults from "../HistogramDefaults";
 

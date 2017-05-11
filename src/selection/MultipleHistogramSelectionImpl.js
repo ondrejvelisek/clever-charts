@@ -1,6 +1,5 @@
 import HistogramSelection from "./HistogramSelection";
 import {SelectionTypes} from "./HistogramSelection";
-import * as Defaults from "../HistogramDefaults";
 
 /**
  * @class

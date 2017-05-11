@@ -2,7 +2,6 @@ import * as d3 from "d3";
 import Observable from "./utils/Observable";
 import * as Defaults from "./HistogramDefaults";
 import HistogramData from "./HistogramData";
-import DefaultHistogramSelectionImpl from "./selection/DefaultHistogramSelectionImpl";
 import HistogramRenderer from "./HistogramRenderer";
 import HistogramSelectionFactory from "./selection/HistogramSelectionFactory"
 import {SelectionTypes} from "./selection/HistogramSelection";
