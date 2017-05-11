@@ -568,14 +568,15 @@ class HistogramRenderer {
 				var transitions = [];
 				var frames = [];
 
-				transitions.push([histogramData.valueToPosition(s1.from), histogramData.valueToPosition(s2.from)]);
-				transitions.push([histogramData.valueToPosition(s1.to), histogramData.valueToPosition(s2.to)]);
+				transitions.push([Math.round(histogramData.valueToPosition(s1.from)), Math.round(histogramData.valueToPosition(s2.from))]);
+				transitions.push([Math.round(histogramData.valueToPosition(s1.to)), Math.round(histogramData.valueToPosition(s2.to))]);
 
 				// make sure duration is calculated based on transitino length
 				frames = [Math.abs((transitions[0][0] - transitions[0][1])/width), Math.abs((transitions[1][0] - transitions[1][1])/width)];
 
 				transitions.forEach((t, handleIndex)=>{
 					var duration = 0;
+
 					while(t[0] !== t[1]){
 						setTimeout(onTransition.bind(this, t[0], selectionIndex, handleIndex), duration);
 						
