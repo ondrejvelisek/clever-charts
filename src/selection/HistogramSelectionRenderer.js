@@ -242,6 +242,11 @@ export default class HistogramSelectionRenderer {
 	refresh(histogramData, histogramSelection){
 		if (this._histogramSelection && this._histogramSelection.getSelection().length == histogramSelection.getSelection().length){
 			this._prevSelection = this._histogramSelection.getSelection();
+			this._prevHistogramData = this._histogramSelection.getSelection();
+		}
+
+		if (this._histogramData){
+			this._prevHistogramData = this._histogramData;
 		}
 
 		this._histogramData = histogramData;
@@ -444,11 +449,12 @@ export default class HistogramSelectionRenderer {
 	* @param {Number} barX
 	* @param {Array} selection
 	* @returns {Number} bar category index
+	* @param {HistogramData} histogram data 
 	*/
-	_getBarSelectionIndex(barX, selection){
+	_getBarSelectionIndex(barX, selection, data){
 		for (var i=0;i<selection.length;i++){
 			var s = selection[i];
-			var within = barX >= this._histogramData.valueToPosition(s.from) && barX < this._histogramData.valueToPosition(s.to);
+			var within = barX >= data.valueToPosition(s.from) && barX < data.valueToPosition(s.to);
 			if (within) return i;
 		}
 
@@ -460,20 +466,21 @@ export default class HistogramSelectionRenderer {
 	 * Returns bar color for given bar position with given selection
 	 * @param {Number} barX 
 	 * @param {Array} selection 
+	 * @param {HistogramData} histogram data 
 	 */
-	_getBarColor (barX, s){
+	_getBarColor (barX, selection, data){
 		var inactiveBarColor = this._options.inactiveBarColor;
 		var overSelectionColor = this._options.overSelectionColor;
 		
-		var barSelectionIndex = this._getBarSelectionIndex(barX, s);
+		var barSelectionIndex = this._getBarSelectionIndex(barX, selection, data);
 		if (barSelectionIndex == null){
 			return inactiveBarColor;
-		} else if (s[barSelectionIndex].disabled){
+		} else if (selection[barSelectionIndex].disabled){
 			return inactiveBarColor;
 		} if (this._histogramSelection.allowsToggle() && this._overSelectionIndex == barSelectionIndex){
 			return overSelectionColor;
 		} else {
-			return s[barSelectionIndex].color || this._options.selectionColor;                    
+			return selection[barSelectionIndex].color || this._options.selectionColor;                    
 		}
 	}
 
@@ -483,9 +490,7 @@ export default class HistogramSelectionRenderer {
 	 * @param {Array} selection2 
 	 * @param {Function} onTransition handler
 	 */
-	_onSelectionTransition(selection1, selection2, onTransition){
-		var histogramData = this._histogramData;
-
+	_onSelectionTransition(selection1, selection2, data1, data2, onTransition, onComplete){
 		selection1.forEach((s1,selectionIndex)=>{
 			var s2 = selection2[selectionIndex];
 			var width = this._options.width;
@@ -493,8 +498,8 @@ export default class HistogramSelectionRenderer {
 				var transitions = [];
 				var frames = [];
 
-				transitions.push([Math.round(histogramData.valueToPosition(s1.from)), Math.round(histogramData.valueToPosition(s2.from))]);
-				transitions.push([Math.round(histogramData.valueToPosition(s1.to)), Math.round(histogramData.valueToPosition(s2.to))]);
+				transitions.push([Math.round(data1.valueToPosition(s1.from)), Math.round(data2.valueToPosition(s2.from))]);
+				transitions.push([Math.round(data1.valueToPosition(s1.to)), Math.round(data2.valueToPosition(s2.to))]);
 
 				// make sure duration is calculated based on transitino length
 				frames = [Math.abs((transitions[0][0] - transitions[0][1])/width), Math.abs((transitions[1][0] - transitions[1][1])/width)];
@@ -509,7 +514,10 @@ export default class HistogramSelectionRenderer {
 						t[0] = t[0]>t[1]?t[0]-1:t[0]+1;
 					}
 
-					setTimeout(onTransition.bind(this, t[1], selectionIndex, handleIndex), ++duration);
+					setTimeout(function(p, si, hi){
+						onTransition(p, si, hi)
+						onComplete(p, si, hi);
+					}.bind(this, t[1], selectionIndex, handleIndex), ++duration);
 				});
 			}
 		});
@@ -524,38 +532,53 @@ export default class HistogramSelectionRenderer {
 		var bars = this._groupEl.selectAll("."+style.bar);
 
 		// fills bars with given selection
-		var fillBars = (s) => {
+		var fillBars = (s, data) => {
 			// handle bar colors
 			bars.attr("fill", (d)=> {
 				var barX = this._histogramData.valueToPosition(d.value);
-				return this._getBarColor(barX, s);
+				return this._getBarColor(barX, s, data);
 			})
 		}
 
 		// handle animation if previous selection is set
 		if (this._prevSelection){
+			var prevSelection = this._prevSelection;
+			var prevData = this._prevHistogramData;
 			// set prev selection
-			fillBars(this._prevSelection);
+			fillBars(prevSelection, this._prevHistogramData);
 
 			// set handle positions to prev selection
-			this._prevSelection.forEach((s, i)=>{
-				this._handles[i].setHandleXPosition(this._histogramData.valueToPosition(s.from))
-				this._handles[i+1].setHandleXPosition(this._histogramData.valueToPosition(s.to))
+			prevSelection.forEach((s, i)=>{
+				var p1 = this._histogramData.valueToPosition(s.from);
+				var p2 = this._histogramData.valueToPosition(s.to);
+
+				this._handles[i].setHandleXPosition(p1).setLabelPosition(p1);
+				this._handles[i+1].setHandleXPosition(p2).setLabelPosition(p2)
 			});
 
-			// fill bars on selection transition and move handles
-			this._onSelectionTransition(this._prevSelection, selection, (p, selectionIndex, handleIndex)=>{
-				var bar = d3.select(bars.nodes()[p-1]);
-				bar.attr("fill", this._getBarColor(p, selection));
+			//fill bars on selection transition and move handles
+			this._onSelectionTransition(prevSelection, selection, prevData, this._histogramData, 
+				// on transition callback
+				(p, selectionIndex, handleIndex)=>{
+					var bar = d3.select(bars.nodes()[p-1]);
+					bar.attr("fill", this._getBarColor(p, selection, this._histogramData));
 
-				// move handles
-				[this._handles[selectionIndex], this._handles[selectionIndex+1]][handleIndex].setHandleXPosition(p);
-			});
+					//var handleText = this._options.format(this._histogramData.positionToValue(p));
+					// move handles
+					[this._handles[selectionIndex], this._handles[selectionIndex+1]][handleIndex].setHandleXPosition(p).setLabelPosition(p)
+
+				// on complete callback		
+			},(p, selectionIndex, handleIndex)=>{
+					// hide handles
+					//[this._handles[selectionIndex], this._handles[selectionIndex+1]][handleIndex].hideLabel();
+				}
+			);
 
 			this._prevSelection = null;
+			this._prevHistogramData = null;
 		
 		} else {
-			fillBars(selection)
+			fillBars(selection, this._histogramData)
 		}
 		
 		// space filling rectangles
@@ -572,6 +595,29 @@ export default class HistogramSelectionRenderer {
 			})
 
 	}
+
+	/**
+	 * Shows selection labels
+	 */
+	showSelectionLabels(){
+		this._histogramSelection.getSelection().forEach((s,i)=>{
+			var handle1 = this._handles[i];
+			var handle2 = this._handles[i+1];
+
+			var labelOffsets = PositionUtils.getHandlePositionOffsets(handle1, handle2, this._options.maskPadding, this._options.width);
+			handle1.setLabelOffset(labelOffsets[0]);
+			handle2.setLabelOffset(labelOffsets[1]);
+		});
+		
+		this._handles.forEach(handle=>handle.showLabel());
+	}
+
+	/**
+	 * Hides selection labels
+	 */
+	hideSelectionLabels(){
+		this._handles.forEach(handle=>handle.hideLabel());
+	}		
 
 	/**
 	 * @public

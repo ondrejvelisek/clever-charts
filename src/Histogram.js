@@ -232,6 +232,20 @@ class Histogram {
 	}
 
 	/**
+	 * Shows selection labels
+	 */
+	showSelectionLabels(){
+		this._histogramRenderer.showSelectionLabels();
+	}
+
+	/**
+	 * Hides selection labels
+	 */
+	hideSelectionLabels(){
+		this._histogramRenderer.hideSelectionLabels();
+	}
+	
+	/**
 	 * @public
 	 * Sets selection
 	 * @param {Array} selection

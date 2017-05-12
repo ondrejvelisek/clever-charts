@@ -73,6 +73,12 @@ export default class HistogramRenderer {
 
 		/**
 		 * @private
+		 * True if labels are visible
+		 */
+		this._labelsVisible = false;
+
+		/**
+		 * @private
 		 * observable handler
 		 */
 		this._observable = new Observable([
@@ -213,8 +219,32 @@ export default class HistogramRenderer {
 
 		this._selectionRenderer.refresh(histogramData, histogramSelection);	
 
+		if (this._labelsVisible){
+			this.showSelectionLabels()
+		}
+
 		return this;
 	}
+
+	/**
+	 * Shows selection labels
+	 */
+	showSelectionLabels(){
+		this._selectionRenderer.showSelectionLabels();
+		// hide axis labels when selection labels are visible
+		this._axisGroup.selectAll(".tick>text").attr("display", "none");
+		this._labelsVisible = true;
+	}
+
+	/**
+	 * Hides selection labels
+	 */
+	hideSelectionLabels(){
+		this._selectionRenderer.hideSelectionLabels();
+		// show axis labels when selection labels are not visible
+		this._axisGroup.selectAll(".tick>text").attr("display", "block");		
+		this._labelsVisible = false;
+	}	
 
 	/**
 	 * @private
@@ -281,7 +311,7 @@ export default class HistogramRenderer {
 			.tickFormat(format)
 			.tickPadding(15);
 
-		var axisGroup = this._groupEl.append("g")
+		var axisGroup = this._axisGroup = this._groupEl.append("g")
 			.attr("transform", "translate(0," + height + ")")
 			.classed(style["x-axis"], true)
 			.call(axis);

@@ -214,6 +214,30 @@ export default class HistogramHandle {
 	 */
 	setHandleXPosition(position){
 		this._handleCircleEl.attr("transform", "translate("+position+", "+this._options.height+")")
+		return this;
+	}
+
+	setLabelText(text){
+		this._handleLabelEl.text(text);
+		return this;
+	}
+
+	showLabel(){
+		this._handleLabelEl.attr("fill-opacity", 1);
+		this._handleMaskEl.attr("display", "block");
+		return this;
+	}
+
+
+	hideLabel(){
+		this._handleLabelEl.attr("fill-opacity", 0);
+		this._handleMaskEl.attr("display", "none");
+		return this;
+	}	
+
+	setLabelPosition(position){
+		this._updateLabelPosition(position);
+		return this;
 	}
 
 	/**

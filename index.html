@@ -126,10 +126,10 @@
 
         histogram2.render(".graphs-ct");
 
-        d3.json("data/sample.json", (json) => {
+        d3.json("data/buckets_full.json", (json) => {
             histogram2.setData(json.content, [{
-                from:100,
-                to:300
+                from:789,
+                to:2027
             }]);
         });
 
@@ -152,21 +152,26 @@
         // simulate zoom
         d3.select(".zoom-control").on("click", function(){
             if (this.checked){
-                d3.json("data/sample-zoomed.json", (json) => {
+                d3.json("data/buckets_zoom.json", (json) => {
                     histogram2.setData(json.content, [{
-                        from:1,
-                        to:421
+                        from:789,
+                        to:2027
                     }]);
                 });
             } else {
-                d3.json("data/sample.json", (json) => {
+                d3.json("data/buckets_full.json", (json) => {
                     histogram2.setData(json.content, [{
-                        from:100,
-                        to:300
+                        from:789,
+                        to:2027
                     }]);
                 });
             }
+        }).on("mouseover", function(){
+            histogram2.showSelectionLabels();
+        }).on("mouseout", function(){
+            histogram2.hideSelectionLabels();
         }); 
+        
 
         // simulate invert
         d3.select(".invert-control").on("click", function(){

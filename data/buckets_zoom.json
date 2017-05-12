@@ -1,0 +1,224 @@
+{
+  "content": [
+    {
+      "bucket": 1,
+      "min": 789.0,
+      "max": 850.9,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 7200
+        }
+      ]
+    },
+    {
+      "bucket": 2,
+      "min": 850.9,
+      "max": 912.8,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 6083
+        }
+      ]
+    },
+    {
+      "bucket": 3,
+      "min": 912.8,
+      "max": 974.7,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 5446
+        }
+      ]
+    },
+    {
+      "bucket": 4,
+      "min": 974.7,
+      "max": 1036.6,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 5509
+        }
+      ]
+    },
+    {
+      "bucket": 5,
+      "min": 1036.6,
+      "max": 1098.5,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 4794
+        }
+      ]
+    },
+    {
+      "bucket": 6,
+      "min": 1098.5,
+      "max": 1160.4,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 4010
+        }
+      ]
+    },
+    {
+      "bucket": 7,
+      "min": 1160.4,
+      "max": 1222.3,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 7056
+        }
+      ]
+    },
+    {
+      "bucket": 8,
+      "min": 1222.3,
+      "max": 1284.2,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 5552
+        }
+      ]
+    },
+    {
+      "bucket": 9,
+      "min": 1284.2,
+      "max": 1346.1,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 4467
+        }
+      ]
+    },
+    {
+      "bucket": 10,
+      "min": 1346.1,
+      "max": 1408.0,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 3922
+        }
+      ]
+    },
+    {
+      "bucket": 11,
+      "min": 1408.0,
+      "max": 1469.9,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 3678
+        }
+      ]
+    },
+    {
+      "bucket": 12,
+      "min": 1469.9,
+      "max": 1531.8,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 3274
+        }
+      ]
+    },
+    {
+      "bucket": 13,
+      "min": 1531.8,
+      "max": 1593.7,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 2960
+        }
+      ]
+    },
+    {
+      "bucket": 14,
+      "min": 1593.7,
+      "max": 1655.6,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 2758
+        }
+      ]
+    },
+    {
+      "bucket": 15,
+      "min": 1655.6,
+      "max": 1717.5,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 2416
+        }
+      ]
+    },
+    {
+      "bucket": 16,
+      "min": 1717.5,
+      "max": 1779.4,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 2124
+        }
+      ]
+    },
+    {
+      "bucket": 17,
+      "min": 1779.4,
+      "max": 1841.3,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 1968
+        }
+      ]
+    },
+    {
+      "bucket": 18,
+      "min": 1841.3,
+      "max": 1903.2,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 1875
+        }
+      ]
+    },
+    {
+      "bucket": 19,
+      "min": 1903.2,
+      "max": 1965.1,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 1999
+        }
+      ]
+    },
+    {
+      "bucket": 20,
+      "min": 1965.1,
+      "max": 2027.0,
+      "content": [
+        {
+          "propertyId": "price",
+          "frequency": 31
+        }
+      ]
+    }
+  ]
+}
