@@ -169,7 +169,7 @@ export default class HistogramSelectionRenderer {
 	_onHandleClick(handleIndex, handleValue){
 		// call prompt handler if available
 		if (this._options.promptHandler){
-			this._options.promptHandler(this._options.format(handleValue)).then((promptResult)=>{
+			this._options.promptHandler(handleValue).then((promptResult)=>{
 				promptResult = parseFloat(promptResult);
 				// must be within min max range
 				var minMax = this._histogramData.getMinMax();
