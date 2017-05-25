@@ -204,8 +204,11 @@ export default class HistogramRenderer {
 	 * Refreshes histogram data 
 	 * @param {HistogramData}
 	 * @param {HistogramSelection}
+	 * @param {Object} options
 	 */
-	refresh(histogramData, histogramSelection){
+	refresh(histogramData, histogramSelection, options){
+		this._animate = options && options.animate;
+
 		this._histogramData = histogramData;		
 		this._clear();
 
@@ -217,7 +220,7 @@ export default class HistogramRenderer {
 
 		this._prevData = histogramData.getData();			
 
-		this._selectionRenderer.refresh(histogramData, histogramSelection);	
+		this._selectionRenderer.refresh(histogramData, histogramSelection, options);	
 
 		if (this._labelsVisible){
 			this.showSelectionLabels()
@@ -259,7 +262,7 @@ export default class HistogramRenderer {
 		var y = this._yAxis;
 
 		// animate from previous data if available
-		if (prevData){
+		if (this._animate && prevData){
 			x.domain(prevData.map(function (d) {return d.value; }));
 			y.domain([0, d3.max(prevData, function (d) { return d.volume; })]);
 

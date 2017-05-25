@@ -28,8 +28,8 @@ export function getHandlePositionOffsets(handle1, handle2, maskPadding, width){
         // same with max value
         var xMax = label2Box.x+label2Box.width-posDiff2;
         if (xMax > width){
-            // needs to consider 2px offset otherwise label woudl shift, TODO: investigate why
-            var offset = 2;
+            // needs to consider 0.5px offset otherwise label woudl shift, TODO: investigate why
+            var offset = 0.5;
             posDiff2 += xMax-width-offset; 
             posDiff1 = posDiff1*2
         }

@@ -195,9 +195,10 @@ class Histogram {
 	 * Sets widget data
 	 * @param {Array} data
 	 * @param {Array} selection
+	 * @param {Object} set data options
 	 * @returns {Histogram} returns this widget instance 
 	 */
-	setData(data, selection) {
+	setData(data, selection, options) {
 		if (!this._histogramRenderer.isRendered()) {
 			throw "Can't call setData() when widget is not rendered, please call .render() first."
 		}
@@ -214,7 +215,7 @@ class Histogram {
 			this._options.format = d3.format(this._options.format);
 		}
 
-		this._histogramRenderer.refresh(histogramData, histogramSelection);
+		this._histogramRenderer.refresh(histogramData, histogramSelection, options);
 
 		return this;
 	}
@@ -249,9 +250,10 @@ class Histogram {
 	 * @public
 	 * Sets selection
 	 * @param {Array} selection
+	 * @param {Object} options
 	 * @returns {Histogram} returns this widget instance 
 	 */
-	setSelection(selection) {
+	setSelection(selection, options) {
 		if (!this._histogramRenderer.isRendered()) {
 			throw "Can't call setData() when widget is not rendered, please call .render() first."
 		}
@@ -263,7 +265,7 @@ class Histogram {
 		var histogramSelection = this._histogramSelection = this._selectionFactory.getHistogramSelection(selection, this._histogramData);
 		this._options.selection = histogramSelection.getSelection();
 		this._selection = selection;
-		this._histogramRenderer.refresh(this._histogramData, this._histogramSelection);
+		this._histogramRenderer.refresh(this._histogramData, this._histogramSelection, options);
 
 		return this;
 	}

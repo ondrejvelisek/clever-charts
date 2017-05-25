@@ -228,7 +228,6 @@ export default class HistogramHandle {
 		return this;
 	}
 
-
 	hideLabel(){
 		this._handleLabelEl.attr("fill-opacity", 0);
 		this._handleMaskEl.attr("display", "none");
@@ -236,6 +235,7 @@ export default class HistogramHandle {
 	}	
 
 	setLabelPosition(position){
+		this.setLabelOffset(0);
 		this._updateLabelPosition(position);
 		return this;
 	}
