@@ -74,13 +74,12 @@ class Histogram {
 		 * Enable selection toggle 
 		 */
 		this._options.enableSelectionToggle = getOptionValue(options.enableSelectionToggle, Defaults.ENABLE_SELECTION_TOGGLE);
-		
 
 		/**
 		 * @public
-		 * Mask padding
+		 * Font size
 		 */
-		this._options.maskPadding = getOptionValue(options.maskPadding, Defaults.MASK_PADDING);
+		this._options.fontSize = getOptionValue(options.fontSize, Defaults.FONT_SIZE);
 
 		/**
 		 * @public

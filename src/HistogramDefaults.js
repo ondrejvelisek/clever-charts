@@ -18,7 +18,7 @@ export const MARGIN = {
     top:0,
     left:5,
     right:5,
-    bottom:25
+    bottom:10
 };
 
 /**
@@ -47,9 +47,9 @@ export const ENABLE_SELECTION_TOGGLE = true;
 
 /**
  * @public
- * Default padding of label mask
+ * Default font size
  */
-export const MASK_PADDING = 10;
+export const FONT_SIZE = 11;
 
 /**
  * @public

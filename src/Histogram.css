@@ -1,5 +1,4 @@
 text {
-    font-size: 10px;
     font-family: Roboto;
 }
 
@@ -39,7 +38,6 @@ g.inactive:not(.dragging) .custom-handle-circle {
     stroke:#bababa;
     r:2.5;
 }
-
 
 g.inactive.dragging .custom-handle-circle {
     stroke:#4a4a4a;

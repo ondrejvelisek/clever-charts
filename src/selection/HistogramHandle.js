@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import style from "../Histogram.css";
+import * as Defaults from "../HistogramDefaults";
 import Observable from "../utils/Observable";
 
 /**
@@ -350,7 +351,7 @@ export default class HistogramHandle {
 	 */
 	_updateLabelPosition(position) {
 		var label = this._handleLabelEl.node();
-		var maskPadding = this._options.maskPadding;		
+		var maskPadding = this._options.fontSize;		
 
 		// we need to calculate text length so we can create mask and center text
 		var textLength = label.getComputedTextLength();
@@ -381,7 +382,7 @@ export default class HistogramHandle {
 		this._handleMaskGradientEl.attr("x2", xPosition + maskWidth - maskPadding);
 
 		this._handleMaskEl.attr("width", maskWidth);
-		this._handleMaskEl.attr("height", 20);
+		this._handleMaskEl.attr("height", this._options.fontSize);
 	}
 		
 	/**
@@ -472,7 +473,7 @@ export default class HistogramHandle {
 		this._handleMaskEl = this._groupEl.append("rect")
 			.attr("class", style["drag-label-mask"])
 			.attr("fill", "url(#brush-mask-gradient-" + gradientIndex+")")
-			.attr("y", this._options.height + 12)
+			.attr("y", this._options.height + Defaults.MARGIN.bottom)
 			.attr("display", "none");			
 
 		return this._handleMaskEl;
@@ -490,9 +491,11 @@ export default class HistogramHandle {
 		this._handleLabelEl = this._groupEl.append("text")
 			.attr("class", style["drag-label"])
 			.attr("fill-opacity", 0)
+			.attr("font-size", this._options.fontSize)
 			.text(() => {
 				return format(data.positionToValue(this._position));
-			}).attr("y", height + 22);
+			})
+			.attr("y", height + this._options.fontSize + Defaults.MARGIN.bottom);
 
 		
 		this._updateLabelPosition(this._position);

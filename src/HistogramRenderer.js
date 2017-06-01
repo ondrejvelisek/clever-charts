@@ -165,7 +165,7 @@ export default class HistogramRenderer {
 		// render SVG
 		var svg = this._svgEl = ct.append("svg")
 			.attr("width", width + margin.left + margin.right)
-			.attr("height", height + margin.top + margin.bottom);
+			.attr("height", height + margin.top + this._options.fontSize + margin.bottom);
 
 		// render group element
 		var g = this._groupEl = this._svgEl.append("g")
@@ -235,7 +235,7 @@ export default class HistogramRenderer {
 	showSelectionLabels(){
 		this._selectionRenderer.showSelectionLabels();
 		// hide axis labels when selection labels are visible
-		this._axisGroup.selectAll(".tick>text").attr("display", "none");
+		this._groupEl.selectAll("."+style["x-axis"]).attr("display", "none");
 		this._labelsVisible = true;
 	}
 
@@ -245,7 +245,7 @@ export default class HistogramRenderer {
 	hideSelectionLabels(){
 		this._selectionRenderer.hideSelectionLabels();
 		// show axis labels when selection labels are not visible
-		this._axisGroup.selectAll(".tick>text").attr("display", "block");		
+		this._groupEl.selectAll("."+style["x-axis"]).attr("display", "block");		
 		this._labelsVisible = false;
 	}	
 
@@ -305,29 +305,24 @@ export default class HistogramRenderer {
 		var minMax = this._histogramData.getMinMax();
 		var format = this._options.format;
 		var width = this._options.width;
-		var height = this._options.height;
+		var height = this._options.height + this._options.fontSize + Defaults.MARGIN.bottom;
 
-		// create bottom axis
-		var axis = d3.axisBottom(this._xAxis)
-			.tickValues([minMax.min, minMax.max])
-			.tickSize(0)
-			.tickFormat(format)
-			.tickPadding(15);
-
-		var axisGroup = this._axisGroup = this._groupEl.append("g")
-			.attr("transform", "translate(0," + height + ")")
+		this._groupEl.selectAll("."+style["x-axis"])
+			.data([minMax.min, minMax.max])
+			.enter()
+			.append("text")
+			.text((d)=>format(d))
+			.attr("font-size", this._options.fontSize)
+			.attr("transform", (d, i)=>{
+				return [
+					"translate("+0+"," + height + ")",
+					"translate("+this._options.width+"," + height + ")"
+				][i]
+			})
+			.attr("text-anchor", function(d, i){
+				return ["start", "end"][i];
+			})
 			.classed(style["x-axis"], true)
-			.call(axis);
-
-		axisGroup.selectAll(".tick").attr("transform", function(d, i){
-			return ["translate(0,0)", "translate("+width+",0)"][i];
-		})
-
-		axisGroup.selectAll(".tick>text").attr("x", 0);
-
-		axisGroup.selectAll(".tick").attr("text-anchor", function(d, i){
-			return ["start", "end"][i];
-		})
 	}
 
 	/**
