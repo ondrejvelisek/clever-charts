@@ -189,6 +189,7 @@ export default class HistogramHandle {
 		this._handleLabelEl.attr("fill-opacity", 1);
 		this._handleMaskEl.attr("display", "block");
 		this._handleCircleEl.attr("stroke-width", 3);
+		this._updateLabelPosition(this._position);
 	}
 	
 	/**

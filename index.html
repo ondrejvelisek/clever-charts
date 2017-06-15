@@ -14,6 +14,7 @@
 
     .graphs-ct {
         margin-top:15px;
+        display: none;
     }
 </style>
 
@@ -113,17 +114,18 @@
         var histogram2 = new Histogram({
             width:360,
             height:150,
-            fontSize:24,
             selectionType:Histogram.SelectionTypes.FILTER
         });
 
         histogram2.render(".graphs-ct");
 
-        d3.json("data/buckets_full.json", (json) => {
+        d3.json("data/anchor-issue.json", (json) => {
             histogram2.setData(json.content, [{
-                from:789,
-                to:2027
+                from:58,
+                to:20310
             }]);
+
+            d3.select(".graphs-ct").style("display","block");
         });
 
         histogram2.on("selectionOver", (selectionIndex)=>{
