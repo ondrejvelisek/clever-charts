@@ -313,8 +313,11 @@ export default class HistogramHandle {
 
 		this.setHoverState();
 
+		this._value = this._histogramData.positionToValue(xpos);
+		this._position = xpos;
+
 		this._handleLabelEl.text(() => {
-			return format(this._histogramData.positionToValue(xpos));
+			return format(this._value);
 		})
 
 		this._updateLabelPosition(xpos);

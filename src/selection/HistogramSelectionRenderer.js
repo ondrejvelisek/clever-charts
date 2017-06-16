@@ -286,7 +286,8 @@ export default class HistogramSelectionRenderer {
 			handle1.setHoverState();
 			handle2.setHoverState();
 
-			var labelOffsets = PositionUtils.getHandlePositionOffsets(handle1, handle2, this._options.maskPadding, this._options.width);
+			var labelOffsets = PositionUtils.getHandlePositionOffsets(handle1, handle2, this._options.fontSize, this._options.width);
+
 			handle1.setLabelOffset(labelOffsets[0]);
 			handle2.setLabelOffset(labelOffsets[1]);
 		}
@@ -633,7 +634,7 @@ export default class HistogramSelectionRenderer {
 			var handle1 = this._handles[i];
 			var handle2 = this._handles[i+1];
 
-			var labelOffsets = PositionUtils.getHandlePositionOffsets(handle1, handle2, this._options.maskPadding, this._options.width);
+			var labelOffsets = PositionUtils.getHandlePositionOffsets(handle1, handle2, this._options.fontSize, this._options.width);
 			handle1.setLabelOffset(labelOffsets[0]);
 			handle2.setLabelOffset(labelOffsets[1]);
 		});
