@@ -477,7 +477,7 @@ export default class HistogramHandle {
 		this._handleMaskEl = this._groupEl.append("rect")
 			.attr("class", style["drag-label-mask"])
 			.attr("fill", "url(#brush-mask-gradient-" + gradientIndex+")")
-			.attr("y", this._options.height + Defaults.MARGIN.bottom)
+			.attr("y", this._options.height + Defaults.LABEL_MARGIN)
 			.attr("display", "none");			
 
 		return this._handleMaskEl;
@@ -499,7 +499,7 @@ export default class HistogramHandle {
 			.text(() => {
 				return format(data.positionToValue(this._position));
 			})
-			.attr("y", height + this._options.fontSize + Defaults.MARGIN.bottom);
+			.attr("y", height + this._options.fontSize + Defaults.LABEL_MARGIN);
 
 		
 		this._updateLabelPosition(this._position);

@@ -304,7 +304,7 @@ export default class HistogramRenderer {
 	_renderXAxis(){
 		var minMax = this._histogramData.getMinMax();
 		var format = this._options.format;
-		var height = this._options.height + this._options.fontSize + Defaults.MARGIN.bottom;
+		var height = this._options.height + this._options.fontSize + Defaults.LABEL_MARGIN;
 
 		this._groupEl.selectAll("."+style["x-axis"])
 			.data([minMax.min, minMax.max])

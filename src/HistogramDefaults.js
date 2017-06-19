@@ -18,8 +18,13 @@ export const MARGIN = {
     top:0,
     left:5,
     right:5,
-    bottom:10
+    bottom:15
 };
+
+/**
+ * Default label margin from x axis
+ */
+export const LABEL_MARGIN = 7;
 
 /**
  * @public
