@@ -426,9 +426,9 @@ export default class HistogramHandle {
 			.attr("data-handle-index", this._index)
 			.attr("data-handle-value", this._value)
 			.attr("cursor", "ew-resize")
-			.attr("width", 10)
+			.attr("width", 4)
 			.attr("height", this._options.height + 5)
-			.attr("x", this._position - 5);
+			.attr("x", this._position - 2);
 
 		return this._handleEl;
 	}
