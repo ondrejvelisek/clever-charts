@@ -306,7 +306,7 @@ export default class HistogramHandle {
 		var xpos = Math.round(Math.max(Math.min(d3.event.x, width), 0));
 		var format = this._options.format;
 
-		this._handleEl.attr("x", xpos - 5);
+		this._handleEl.attr("x", xpos - 2);
 		this._handleLineEl.attr("x", xpos - 2);
 		this._handleCircleEl.attr("transform", "translate(" + xpos + "," + height + ")");
 		this._handleEl.attr("data-handle-value", this._histogramData.positionToValue(xpos))
