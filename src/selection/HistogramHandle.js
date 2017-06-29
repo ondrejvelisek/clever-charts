@@ -177,7 +177,7 @@ export default class HistogramHandle {
 	 * @returns {Number} X position handle
 	 */
 	getXPosition() {
-		return parseInt(this._handleEl.attr("x"))+2;
+		return parseInt(this._handleEl.attr("x"))+Defaults.ACTIVE_HANDLE_AREA_WIDTH/2;
 	}
 
 	/**
@@ -206,8 +206,9 @@ export default class HistogramHandle {
 	 * Shifts handle label by given offset so it can handle label position conflicts
 	 */
 	setLabelOffset(offset){
-		this._handleLabelEl.attr("transform", "translate("+offset+", 0)")
-		this._handleMaskEl.attr("transform", "translate("+offset+", 0)")
+		this._handleLabelEl.attr("transform", "translate("+offset+", 0)");
+		this._handleMaskEl.attr("transform", "translate("+offset+", 0)");
+		this._updateLabelPosition(this._position);
 	}
 
 	/**
@@ -306,7 +307,7 @@ export default class HistogramHandle {
 		var xpos = Math.round(Math.max(Math.min(d3.event.x, width), 0));
 		var format = this._options.format;
 
-		this._handleEl.attr("x", xpos - 2);
+		this._handleEl.attr("x", xpos - Defaults.ACTIVE_HANDLE_AREA_WIDTH/2);
 		this._handleLineEl.attr("x", xpos - 2);
 		this._handleCircleEl.attr("transform", "translate(" + xpos + "," + height + ")");
 		this._handleEl.attr("data-handle-value", this._histogramData.positionToValue(xpos))
@@ -426,9 +427,9 @@ export default class HistogramHandle {
 			.attr("data-handle-index", this._index)
 			.attr("data-handle-value", this._value)
 			.attr("cursor", "ew-resize")
-			.attr("width", 4)
+			.attr("width", Defaults.ACTIVE_HANDLE_AREA_WIDTH)
 			.attr("height", this._options.height + 5)
-			.attr("x", this._position - 2);
+			.attr("x", this._position - Defaults.ACTIVE_HANDLE_AREA_WIDTH/2);
 
 		return this._handleEl;
 	}

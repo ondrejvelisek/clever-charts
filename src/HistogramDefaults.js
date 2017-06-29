@@ -61,3 +61,9 @@ export const FONT_SIZE = 11;
  * Default colors 
  */
 export const DEFAULT_COLORS = ["#e6f3fb", "#cbe7f6", "#b1dbf2", "#98cfee", "#7ec4ea"];
+
+/**
+ * @public
+ * Default width of active handle area
+ */
+export const ACTIVE_HANDLE_AREA_WIDTH = 4;

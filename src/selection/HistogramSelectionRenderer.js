@@ -496,13 +496,20 @@ export default class HistogramSelectionRenderer {
 	 */
 	_getBarOpacity (barX, selection, data){
 		var defaultOpacity = 1;
-		
+
 		var barSelectionIndex = this._getBarSelectionIndex(barX, selection, data);
-		if (barSelectionIndex == null || !selection[barSelectionIndex].opacity){
-			return defaultOpacity;
-		} else {
+		var isOver = this._histogramSelection.allowsToggle() && this._overSelectionIndex == barSelectionIndex;
+		var isDisabled = barSelectionIndex != null && selection[barSelectionIndex].disabled;
+
+		// set opacity to 1 when highlighted or disabled
+		if (isOver || isDisabled) return defaultOpacity;
+		
+		// otherwise use set opacity if 
+		if (barSelectionIndex != null && selection[barSelectionIndex].opacity != null){
 			return selection[barSelectionIndex].opacity;
-		}
+		} 
+
+		return defaultOpacity;
 	}	
 
 	/**
