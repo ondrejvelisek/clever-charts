@@ -281,7 +281,7 @@ export default class HistogramRenderer {
 			this._groupEl.selectAll("."+style.bar)
 				.data(data)
 				.transition()
-				.duration(500)
+				.duration(250)
 				.attr("y", function (d) { return Math.floor(y(d.volume)); })
 				.attr("height", function (d) { return Math.ceil(height - y(d.volume)); })
 		} else {

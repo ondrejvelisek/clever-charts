@@ -71,6 +71,12 @@ export default class HistogramSelectionRenderer {
 		 */
 		this._rendered = false;
 
+		/**
+		 * @private
+		 * true if animation is run
+		 */
+		this._animating = false;
+
 
 		/**
 		 * @private
@@ -543,7 +549,7 @@ export default class HistogramSelectionRenderer {
 					while(t[0] !== t[1]){
 						setTimeout(onTransition.bind(this, t[0], selectionIndex, handleIndex), duration);
 						
-						duration = duration+1/frames[handleIndex];
+						duration = duration+0.5/frames[handleIndex];
 						t[0] = t[0]>t[1]?t[0]-1:t[0]+1;
 					}
 
@@ -596,6 +602,7 @@ export default class HistogramSelectionRenderer {
 				this._handles[i+1].setHandleXPosition(p2).setLabelPosition(p2)
 			});
 
+			this._animating = true;
 			//fill bars on selection transition and move handles
 			this._onSelectionTransition(prevSelection, selection, prevData, this._histogramData, 
 				// on transition callback
@@ -613,6 +620,7 @@ export default class HistogramSelectionRenderer {
 					// hide handles
 					//[this._handles[selectionIndex], this._handles[selectionIndex+1]][handleIndex].hideLabel();
 					fillBars(selection, this._histogramData)
+					this._animating = false;
 				}
 			);
 
@@ -642,6 +650,11 @@ export default class HistogramSelectionRenderer {
 	 * Shows selection labels
 	 */
 	showSelectionLabels(){
+		// show label without calculating offsets when animating
+		if (this._animating) {
+			return this._handles.forEach(handle=>handle.showLabel());
+		}
+
 		this._histogramSelection.getSelection().forEach((s,i)=>{
 			var handle1 = this._handles[i];
 			var handle2 = this._handles[i+1];
