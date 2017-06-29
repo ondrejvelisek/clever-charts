@@ -177,7 +177,7 @@ export default class HistogramHandle {
 	 * @returns {Number} X position handle
 	 */
 	getXPosition() {
-		return parseInt(this._handleEl.attr("x"))+5;
+		return parseInt(this._handleEl.attr("x"))+2;
 	}
 
 	/**
