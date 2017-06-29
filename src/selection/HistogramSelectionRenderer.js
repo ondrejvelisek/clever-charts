@@ -501,8 +501,13 @@ export default class HistogramSelectionRenderer {
 		var isOver = this._histogramSelection.allowsToggle() && this._overSelectionIndex == barSelectionIndex;
 		var isDisabled = barSelectionIndex != null && selection[barSelectionIndex].disabled;
 
-		// set opacity to 1 when highlighted or disabled
-		if (isOver || isDisabled) return defaultOpacity;
+		if (isOver){
+			return this._options.overSelectionOpacity;
+		}
+
+		if (isDisabled){
+			return this._options.inactiveBarOpacity;
+		}
 		
 		// otherwise use set opacity if 
 		if (barSelectionIndex != null && selection[barSelectionIndex].opacity != null){

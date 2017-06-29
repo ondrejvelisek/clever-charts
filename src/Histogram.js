@@ -59,9 +59,21 @@ class Histogram {
 
 		/**
 		 * @public
+		 * Inactive bar opacity 
+		 */
+		this._options.inactiveBarOpacity = getOptionValue(options.inactiveBarOpacity, Defaults.INACTIVE_BAR_OPACITY);
+
+		/**
+		 * @public
 		 * Over bar color 
 		 */
 		this._options.overSelectionColor = getOptionValue(options.overSelectionColor, Defaults.OVER_SELECTION_COLOR);
+
+		/**
+		 * @public
+		 * Over selection opacity 
+		 */
+		this._options.overSelectionOpacity = getOptionValue(options.overSelectionOpacity, Defaults.OVER_SELECTION_OPACITY);
 
 		/**
 		 * @public

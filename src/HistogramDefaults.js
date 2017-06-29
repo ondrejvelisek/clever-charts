@@ -34,9 +34,21 @@ export const INACTIVE_BAR_COLOR = "#f0f0f0";
 
 /**
  * @public
+ * Default inactive bar opacity
+ */
+export const INACTIVE_BAR_OPACITY = 1;
+
+/**
+ * @public
  * Default over bar color
  */
 export const OVER_SELECTION_COLOR = "#ffea00";
+
+/**
+ * @public
+ * Default over selection opacity
+ */
+export const OVER_SELECTION_OPACITY = 1;
 
 /**
  * @public
