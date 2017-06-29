@@ -90,7 +90,7 @@
         });
 
         d3.select(".change-selection-control").on("click", function(){
-            sampleSelection[1].disabled = this.checked;
+            sampleSelection[0].disabled = this.checked;
             histogram.setSelection(sampleSelection);
         });                   
 
