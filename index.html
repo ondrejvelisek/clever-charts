@@ -119,10 +119,10 @@
 
         histogram2.render(".graphs-ct");
 
-        d3.json("data/anchor-issue.json", (json) => {
+        d3.json("data/buckets_full.json", (json) => {
             histogram2.setData(json.content, [{
-                from:58,
-                to:20310
+                from:789,
+                to:2027
             }]);
 
             d3.select(".graphs-ct").style("display","block");

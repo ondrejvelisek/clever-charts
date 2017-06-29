@@ -118,6 +118,11 @@ export default class HistogramHandle {
 		 * histogram data
 		 */		
 		this._histogramData = histogramData;
+		/**
+		 * @private 
+		 * Cache for storing label size, enhances performance when animating
+		 */		
+		this._labelSizeCache = {};
 
 		/**
 		 * @private 
@@ -348,6 +353,17 @@ export default class HistogramHandle {
 			.on("start", this._onStartDrag.bind(this))
 			.on("end", this._onEndDrag.bind(this)));
 	}
+	/**
+	 * @private
+	 * Return computed or stored label length
+	 * @param {SVGElement}
+	 * @param {Number} length 
+	 */
+	_getComputedLabelTextLength(label){
+		var content = label.innerHTML;
+		this._labelSizeCache[content] = this._labelSizeCache[content] || label.getComputedTextLength();
+		return this._labelSizeCache[content];
+	}
 
 	/**
 	 * @private
@@ -359,7 +375,7 @@ export default class HistogramHandle {
 		var maskPadding = this._options.fontSize;		
 
 		// we need to calculate text length so we can create mask and center text
-		var textLength = label.getComputedTextLength();
+		var textLength = this._getComputedLabelTextLength(label);
 		var maskWidth = textLength + maskPadding * 2;
 		var xPosition = position - textLength / 2;
 
