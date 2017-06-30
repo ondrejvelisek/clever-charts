@@ -3,7 +3,7 @@
 
 <head>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js"></script>
-    <script src="dist/histogram.min.js"></script>
+    <script src="dist/can-histogram.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
 </head>
 
@@ -121,8 +121,8 @@
 
         d3.json("data/buckets_full.json", (json) => {
             histogram2.setData(json.content, [{
-                from:789,
-                to:2027
+                from:9591,
+                to:20310
             }]);
 
             d3.select(".graphs-ct").style("display","block");
@@ -147,10 +147,10 @@
         // simulate zoom
         d3.select(".zoom-control").on("click", function(){
             if (this.checked){
-                d3.json("data/buckets_zoom.json", (json) => {
+                d3.json("data/sample-zoom-issue.json", (json) => {
                     histogram2.setData(json.content, [{
-                        from:789,
-                        to:2027
+                        from:9591,
+                        to:20310
                     }],
                     {
                         animate:true
@@ -159,8 +159,8 @@
             } else {
                 d3.json("data/buckets_full.json", (json) => {
                     histogram2.setData(json.content, [{
-                        from:789,
-                        to:2027
+                        from:9591,
+                        to:20310
                     }],{
                         animate:true
                     });

@@ -553,10 +553,14 @@ export default class HistogramSelectionRenderer {
 						t[0] = t[0]>t[1]?t[0]-1:t[0]+1;
 					}
 
-					setTimeout(function(p, si, hi){
-						onTransition(p, si, hi)
-						onComplete(p, si, hi);
-					}.bind(this, t[1], selectionIndex, handleIndex), ++duration);
+					// call final complete fn only if duration is > 0, this prevents premature animation end
+					// when one of the sides is in the same position
+					if (duration>0){
+						setTimeout(function(p, si, hi){
+							onTransition(p, si, hi)
+							onComplete(p, si, hi);
+						}.bind(this, t[1], selectionIndex, handleIndex), ++duration);
+					}
 				});
 			}
 		});
@@ -607,7 +611,7 @@ export default class HistogramSelectionRenderer {
 			this._onSelectionTransition(prevSelection, selection, prevData, this._histogramData, 
 				// on transition callback
 				(p, selectionIndex, handleIndex)=>{
-					var bar = d3.select(bars.nodes()[p-1]);
+					var bar = d3.select(bars.nodes()[p]);
 					var barColor = this._getBarColor(p, selection, this._histogramData);
 					bar.attr("fill", barColor);
 
