@@ -1,19 +1,31 @@
 /**
- * @interface
- * HistogramSelection interface
+ * @abstract
+ * abstract HistogramSelection class
  */
 export default class HistogramSelection {
+	constructor(histogramData, selection){
+		this._selection = selection.map(s=>{
+			return Object.assign(s, {
+				position:{
+					from:histogramData.valueToPosition(s.from),
+					to:histogramData.valueToPosition(s.to)
+				}
+			});
+		});
+    }
+
 	/**
 	 * @public
-	 * @returns {Array} histogram selection
+	 * @implements HistogramSelection.getSelection()
 	 * Returns histogram selection
 	 */
 	getSelection(){
-		throw "HistogramSelection.getSelection() has to be implemented";
+		return this._selection;
 	}
 
 	/**
 	 * @public
+	 * @abstract
 	 * @returns {Array} histogram selection
 	 * Returns histogram selection 
 	 */
@@ -23,6 +35,7 @@ export default class HistogramSelection {
 
 	/**
 	 * @public 
+	 * @abstract
 	 * @returns {String}
 	 * Returns histogram selection type
 	 */
@@ -31,6 +44,7 @@ export default class HistogramSelection {
 	}
 
 	/**
+	 * @abstract
 	 * @public 
 	 * @returns {Boolean}
 	 * Returns true if toogle is allowed
@@ -40,7 +54,8 @@ export default class HistogramSelection {
 	}	
 
 	/**
-	 * @public 
+	 * @public
+	 * @abstract 
 	 * @returns {Array}
 	 * Returns histogram selection points
 	 */

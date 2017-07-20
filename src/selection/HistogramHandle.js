@@ -105,9 +105,19 @@ export default class HistogramHandle {
 		this._value = value;
 		/**
 		 * @private 
+		 * initial handle value
+		 */		
+		this._initialValue = new Number(value);		
+		/**
+		 * @private 
 		 * handle position
 		 */		
 		this._position = histogramData.valueToPosition(value);
+		/**
+		 * @private 
+		 * initial handle position
+		 */		
+		this._initialPosition = new Number(this._position);
 		/**
 		 * @private 
 		 * bar options
@@ -310,7 +320,6 @@ export default class HistogramHandle {
 		var width = this._options.width;
 		var height = this._options.height;
 		var xpos = Math.round(Math.max(Math.min(d3.event.x, width), 0));
-		var format = this._options.format;
 
 		this._handleEl.attr("x", xpos - Defaults.ACTIVE_HANDLE_AREA_WIDTH/2);
 		this._handleLineEl.attr("x", xpos - 2);
@@ -319,17 +328,24 @@ export default class HistogramHandle {
 
 		this.setHoverState();
 
-		this._value = this._histogramData.positionToValue(xpos);
 		this._position = xpos;
 
-		this._handleLabelEl.text(() => {
-			return format(this._value);
-		})
+		// prevent recalculating value for the same position
+		if (parseInt(this._position) !== parseInt(this._initialPosition)){
+			this._value = this._histogramData.positionToValue(xpos);
+		} else {
+			this._value = this._initialValue;
+		}
+
+		this._handleLabelEl.text(this._getLabelText())
 
 		this._updateLabelPosition(xpos);
 		this._observable.fire("drag");		
-	}	
+	}
 
+	_getLabelText() {
+		return this._options.format(this._value);
+	}
 	/**
 	 * @private
 	 * handles what happens when drag ends
@@ -507,14 +523,14 @@ export default class HistogramHandle {
 	 */
 	_createDragLabelElement(){
 		var format = this._options.format;
-		var data = this._histogramData;
 		var height = this._options.height;
 		this._handleLabelEl = this._groupEl.append("text")
 			.attr("class", style["drag-label"])
 			.attr("fill-opacity", 0)
 			.attr("font-size", this._options.fontSize)
 			.text(() => {
-				return format(data.positionToValue(this._position));
+				var formattedValue = format(this._initialValue);
+				return formattedValue;
 			})
 			.attr("y", height + this._options.fontSize + Defaults.LABEL_MARGIN);
 

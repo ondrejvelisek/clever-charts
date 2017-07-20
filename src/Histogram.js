@@ -221,7 +221,7 @@ class Histogram {
 		this._selection = selection;
 
 		if (!this._options.format) {
-			this._options.format = d3.format(",." + this._histogramData.getPrecision() + "f")
+			this._options.format = (value => String(value));
 		} else if (typeof this._options.format == "string"){
 			this._options.format = d3.format(this._options.format);
 		}

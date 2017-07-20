@@ -14,19 +14,8 @@ export default class FilterHistogramSelectionImpl extends HistogramSelection{
 		if (selection.length != 1){
 			throw "Filter selection doesn't allow more than one selection"
 		}
-		super();
-		this._selection = selection.slice();
-    }
-
-	/**
-	 * @public
-	 * @implements HistogramSelection.getSelection()
-	 * Returns histogram selection
-	 */
-	getSelection(){
-		return this._selection;
+		super(histogramData, selection);
 	}
-
 	/**
 	 * @public
 	 * @returns {Array} histogram selection

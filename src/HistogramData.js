@@ -64,26 +64,23 @@ export default class HistogramData {
 
 	/**
 	 * @public
-	 * Returns precision (number of floating digits) for given number
-	 */
-	getPrecision() {
-		var num = this._minMax.min;
-		var numParts = num.toString().split(".");
-		if (numParts.length > 1) {
-			return numParts[1].length;
-		} else {
-			return 0;
-		}
-	}
-
-	/**
-	 * @public
 	 * Returns data value from given position 
 	 * @param {Number} position
 	 */
 	positionToValue(position) {
-		var valueRatio = this.getValueRatio();
 		var minMax = this.getMinMax();
+		// return min if position is 0
+		if (position === 0){
+			return minMax.min;
+		}
+
+		// return max if position is at the end
+		if (position === this._options.width){
+			return minMax.max;
+		}
+
+		// else calculate based on value ratio and min/max
+		var valueRatio = this.getValueRatio();
 		return position * valueRatio + minMax.min;
 	}
 
@@ -95,7 +92,7 @@ export default class HistogramData {
 	valueToPosition(value) {
 		var valueRatio = this.getValueRatio();
 		var minMax = this.getMinMax();
-		return value / valueRatio - minMax.min / valueRatio;
+		return Math.round(value / valueRatio - minMax.min / valueRatio);
 	}
 
 	/** 

@@ -378,8 +378,18 @@ export default class HistogramSelectionRenderer {
 			if (index>selection.length-1){
 				return;
 			}
-			selection[index].from = this._histogramData.positionToValue(p);
-			selection[index].to = this._histogramData.positionToValue(positions[index+1]);
+
+			var position = {
+				from:p,
+				to:positions[index+1]
+			};
+
+			["from", "to"].forEach(pos=>{
+				if (selection[index]["position"][pos] !== position[pos]){
+					selection[index][pos] = this._histogramData.positionToValue(position[pos]);	
+					selection[index]["position"][pos] = position[pos];
+				}
+			});
 		});
 
 		this._updateSelection();
@@ -463,7 +473,8 @@ export default class HistogramSelectionRenderer {
 	_getBarSelectionIndex(barX, selection, data){
 		for (var i=0;i<selection.length;i++){
 			var s = selection[i];
-			var within = barX >= data.valueToPosition(s.from) && barX < data.valueToPosition(s.to);
+			var isLast = i == selection.length-1;
+			var within = barX >= data.valueToPosition(s.from) && (barX < data.valueToPosition(s.to) || (isLast && barX <= data.valueToPosition(s.to)));
 			if (within) return i;
 		}
 

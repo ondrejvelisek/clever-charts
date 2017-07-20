@@ -255,10 +255,9 @@ export default class HistogramRenderer {
 	*/
 	_renderDataBars() { 
 		var data = this._histogramData.getData();
-		var prevData = this._prevData;
+		// var prevData = this._prevData;
 		var height = this._options.height;
 
-		var x = this._xAxis;
 		var y = this._yAxis;
 
 		// disable this for now as it's slow to animate all bars
@@ -291,9 +290,9 @@ export default class HistogramRenderer {
 				.data(data)
 				.enter().append("rect")
 				.attr("class", style.bar)
-				.attr("x", function (d) { return x(d.value); })
-				.attr("width", x.bandwidth())
-				.attr("y", function (d) { return Math.floor(y(d.volume)); })
+				.attr("x", (d) => { return this._histogramData.valueToPosition(d.value); })
+				.attr("width", "1")
+				.attr("y", (d) => { return Math.floor(y(d.volume)); })
 				.attr("height", function (d) { return Math.ceil(height - y(d.volume)); })
 		//}
 	}

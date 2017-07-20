@@ -11,8 +11,7 @@ export default class MultipleHistogramSelection extends HistogramSelection{
 	 * @param {Array} selection
 	 */
     constructor(histogramData, selection) {
-		super();
-		this._selection = selection.slice();
+		super(histogramData, selection);
     }
 
 	/**
@@ -22,15 +21,6 @@ export default class MultipleHistogramSelection extends HistogramSelection{
 	 */
 	getSelectionType(){
 		return SelectionTypes.MULTI;
-	}
-
-	/**
-	 * @public
-	 * @implements HistogramSelection.getSelection()
-	 * Returns histogram selection
-	 */
-	getSelection(){
-		return this._selection;
 	}
 
 	/**

@@ -57,35 +57,14 @@
         histogram.render(".graphs-ct");
 
         var sampleSelection = [
-            {
-                "from": 58,
-                "to": 1801.9222222222222,
-                "color": "#e6f3fb",
-                "opacity":0.5
-            },
-            {
-                "from": 1801.9222222222222,
-                "to": 3095.7999999999997,
-                "color": "#cbe7f6"
-            },
-            {
-                "from": 3095.7999999999997,
-                "to": 15865.81111111111,
-                "color": "#b1dbf2"
-            },
-            {
-                "from": 15865.81111111111,
-                "to": 18003.522222222222,
-                "color": "#98cfee"
-            },
-            {
-                "from": 18003.522222222222,
-                "to": 20310,
-                "color": "#7ec4ea"
-            }
+            {"from":-37.27350427350427,"to":-30.286128521684077,"disabled":false,"color":"#55a3ec","opacity":0.1},
+            {"from":-30.286128521684077,"to":-23.2987527699,"disabled":false,"color":"#55a3ec","opacity":0.29},
+            {"from":-23.2987527699,"to":-16.311377018043686,"disabled":false,"color":"#55a3ec","opacity":0.48},
+            {"from":-16.311377018043686,"to":-9.32400126622349,"disabled":false,"color":"#55a3ec","opacity":0.67},
+            {"from":-9.32400126622349,"to":-2.336625514403292,"disabled":false,"color":"#55a3ec","opacity":0.86}
         ];
 
-        d3.json("data/buckets_wrong.json", (json) => {
+        d3.json("data/selection-issue.json", (json) => {
             histogram.setData(json.content,sampleSelection);  
         });
 
