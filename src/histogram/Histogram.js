@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import Observable from "./utils/Observable";
+import Observable from "../utils/Observable";
 import * as Defaults from "./HistogramDefaults";
 import HistogramData from "./HistogramData";
 import HistogramRenderer from "./HistogramRenderer";

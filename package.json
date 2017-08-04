@@ -1,8 +1,8 @@
 {
-  "name": "histogram",
-  "version": "1.2.0",
-  "description": "Histogram widget.",
-  "main": "dist/can-histogram.min.js",
+  "name": "can-charts",
+  "version": "1.3.0",
+  "description": "Clever Analytics charts.",
+  "main": "dist/can-charts.min.js",
   "scripts": {
     "prebuild": "eslint src test",
     "build": "rollup -c",
@@ -11,18 +11,14 @@
     "test": "mocha",
     "prepublish": "npm test"
   },
-  "repository": "clevermaps/histogram",
-  "keywords": [
-    "d3.js",
-    "histogram"
-  ],
+  "repository": "https://datamatic@bitbucket.org/clevermaps/can-charts.git",
   "author": "Clever Maps s.r.o",
   "files": [
     "src",
     "dist"
   ],
   "dependencies": {
-    "d3":"^4.8.0"
+    "d3":"^4.10.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

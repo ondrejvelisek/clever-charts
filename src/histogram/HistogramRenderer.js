@@ -1,7 +1,7 @@
 import style from "./Histogram.css";
 import HistogramSelectionRenderer from "./selection/HistogramSelectionRenderer";
 import * as Defaults from "./HistogramDefaults";
-import Observable from "./utils/Observable";
+import Observable from "../utils/Observable";
 import * as d3 from "d3";
 
 /**

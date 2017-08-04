@@ -1,0 +1,43 @@
+text {
+    font-family: Roboto;
+}
+
+.bar {
+    
+}
+
+.bar-over>.bar-active {
+    fill:#ffea00;
+}
+
+.bar-disabled>.bar-active {
+    fill:#c9c9c9;
+}
+
+.bar-disabled>text{
+    fill:#cacaca;
+}
+
+.bar-active {
+
+}
+
+.bar-inactive {
+
+}
+
+.bar-label {
+    font-weight: 700;
+}
+
+.bar-tooltip {
+    
+}
+
+.bar-hover {
+    
+}
+
+g text {
+    user-select: none;
+}

@@ -10,7 +10,7 @@ let external = Object.keys(pkg.dependencies);
 const cssExportMap = {};
 
 export default {
-  entry: 'src/Histogram.js',
+  entry: 'src/CanCharts.js',
   plugins: [
     postcss({
       plugins: [
@@ -35,7 +35,7 @@ export default {
     {
       dest: pkg.main,
       format: 'umd',
-      moduleName: 'Histogram',
+      moduleName: 'CanCharts',
       sourceMap: true
     }
   ]

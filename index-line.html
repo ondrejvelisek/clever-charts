@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js"></script>
+    <script src="dist/can-charts.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet"/>
+</head>
+
+<style>
+
+</style>
+
+<body>
+    <br>
+    <div class="line1-ct"></div>
+    <div class="line2-ct"></div>
+    <div class="line3-ct"></div>
+    <div class="line4-ct"></div>
+    <div class="line5-ct"></div>
+    <div class="line6-ct"></div>
+    <div class="line7-ct"></div>
+    <div class="line8-ct"></div>
+    <div class="line9-ct"></div>
+    <script>
+        // line 1  ================================================================
+        var line = new CanCharts.Line({
+            width:360,
+            height:200,
+            lineColor:"#7ed321",
+            fillColor:"#7ed321"
+        });
+
+        line.render(".line1-ct");
+
+        d3.json("data/line/sample.json", (json) => {
+            line.setData(json.content);  
+        });
+
+        // line 2  ================================================================
+        var line2 = new CanCharts.Line({
+            width:360,
+            height:200,
+            lineColor:"#e8493f",
+            fillColor:"#e8493f"
+        });
+
+        line2.render(".line2-ct");
+
+        d3.json("data/line/sample.json", (json) => {
+            line2.setData(json.content.reverse());  
+        });        
+
+        // line 3  ================================================================
+        var line3 = new CanCharts.Line({
+            width:360,
+            height:200,
+            lineColor:"#7ed321",
+            fillColor:"#7ed321"
+        });
+
+        line3.render(".line3-ct");
+
+        d3.json("data/line/sample-negative.json", (json) => {
+            line3.setData(json.content);  
+        });            
+
+        // line 4  ================================================================
+        var line4 = new CanCharts.Line({
+            width:360,
+            height:200,
+            lineColor:"#e8493f",
+            fillColor:"#e8493f"
+        });
+
+        line4.render(".line4-ct");
+
+        d3.json("data/line/sample-negative.json", (json) => {
+            line4.setData(json.content.reverse());  
+        });                
+
+        // line 5  ================================================================
+        var line5 = new CanCharts.Line({
+            width:360,
+            height:200,
+            lineColor:"#7ed321",
+            fillColor:"#7ed321"
+        });
+
+        line5.render(".line5-ct");
+
+        d3.json("data/line/sample-zero.json", (json) => {
+            line5.setData(json.content);  
+        });                 
+
+        // line 6  ================================================================
+        var line6 = new CanCharts.Line({
+            width:360,
+            height:200,
+            lineColor:"#e8493f",
+            fillColor:"#e8493f"
+        });
+
+        line6.render(".line6-ct");
+
+        d3.json("data/line/sample-zero2.json", (json) => {
+            line6.setData(json.content.reverse());  
+        });                         
+
+        // line 7  ================================================================
+        var line7 = new CanCharts.Line({
+            width:360,
+            height:200,
+            lineColor:"#e8493f",
+            fillColor:"#e8493f"
+        });
+
+        line7.render(".line7-ct");
+
+        d3.json("data/line/sample-zero3.json", (json) => {
+            line7.setData(json.content);  
+        });         
+        
+        // line 8  ================================================================
+        var line8 = new CanCharts.Line({
+            width:360,
+            height:200,
+            lineColor:"#e8493f",
+            fillColor:"#e8493f"
+        });
+
+        line8.render(".line8-ct");
+
+        d3.json("data/line/sample-null.json", (json) => {
+            line8.setData(json.content);  
+        });        
+
+        // line 9  ================================================================
+        var line9 = new CanCharts.Line({
+            width:360,
+            height:200,
+            lineColor:"#e8493f",
+            fillColor:"#e8493f"
+        });
+
+        line9.render(".line9-ct");
+
+        d3.json("data/line/sample-one-item.json", (json) => {
+            line9.setData(json.content);  
+        });             
+    </script>
+</body>

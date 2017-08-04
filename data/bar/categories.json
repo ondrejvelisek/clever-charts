@@ -1,0 +1,22 @@
+{
+  "content": [
+    {
+      "value":86,
+      "tooltip":"80 oblastí",
+      "color":"#ed78b6",
+      "label":"TETA"
+    },
+    {
+      "value":32,
+      "tooltip":"32 oblastí",
+      "color":"#e8b43f",
+      "label":"TOP"
+    },
+    {
+      "value":10,
+      "tooltip":"10 oblastí",
+      "color":"#4a4a4a",
+      "label":"Žádné"
+    }
+  ]
+}

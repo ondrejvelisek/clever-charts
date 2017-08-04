@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import style from "../Histogram.css";
 import * as Defaults from "../HistogramDefaults";
-import Observable from "../utils/Observable";
+import Observable from "../../utils/Observable";
 
 /**
  * Gradient index shared for all instances

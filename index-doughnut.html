@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js"></script>
+    <script src="dist/can-charts.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet"/>
+</head>
+
+<style>
+    html {
+        background-color: #F0F0F0;
+        font-family: Roboto;
+    }
+
+    .panel {
+        position:relative;
+        width:400px;
+        height:300px;
+        margin:50px;
+        border-radius: 2px;
+        background-color: #F0F0F0;
+        box-shadow: 0 0 15px rgba(0,0,0,0.15);
+    }
+
+    .panel-item, .panel-title {
+        position:relative;
+        width:calc(100% - 40px);
+        cursor:pointer;
+        padding:18px;
+        box-sizing: border-box;
+        margin:auto;
+        top:20px;
+        font-size:13px;
+        height:50px;
+        margin-bottom:20px;
+        border-radius: 5px;
+        background-color: #ffffff;
+    }
+
+    .panel-title-icon {
+        position:absolute;
+        width:9px;
+        height:13px;
+        top:19px;
+        left:21px;
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAANCAMAAABM3rQ0AAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAAVUExURcbGxu7u7nh4eJ2dnUtLS////0pKSnTGfkkAAABHSURBVHjaTIzJEcAACALXA/svOWjyiKOA6IBEZmFSjqtL1LIbbBFei56WYiZ/3vc3EEs+OqVOYXVmbrLwY5zyfXHnhUeAAQB8aAH1wyiAOgAAAABJRU5ErkJggg==');
+    }
+
+    .panel-title {
+        background-color: transparent;
+        font-size:15px;
+        cursor:default;
+        padding-left:50px;
+        font-weight: bold;
+    }
+
+    .panel-item-indicator-doughnut-ct {
+        position:absolute;
+        right:0;
+        top:0;
+        width:50px;
+        height:50px;
+    }
+
+    .panel-item-indicator-doughnut-ct-left {
+        left:0px;
+    }
+</style>
+
+<body>
+    <div class="panel">
+        <div class="panel-title">
+            Title
+            <div class="panel-item-indicator-doughnut-ct panel-item-indicator-doughnut-ct-left" id="doughnut-ct-0"></div>
+            <div class="panel-title-icon"></div>
+        </div>        
+        <div class="panel-item" id="item-1">
+            Red
+            <div class="panel-item-indicator-doughnut-ct" id="doughnut-ct-1"></div>
+        </div>
+        <div class="panel-item" id="item-2">
+            Orange
+            <div class="panel-item-indicator-doughnut-ct" id="doughnut-ct-2"></div>
+        </div>
+        <div class="panel-item" id="item-3">
+            Green -> Blue 
+            <div class="panel-item-indicator-doughnut-ct" id="doughnut-ct-3"></div>
+        </div>
+    </div>
+    
+    <script>
+        var defaultOuterRadius = 6;
+        var defaultInnerRadius = 0;
+
+        var overOuterRadius = 12;
+        var overInnerRadius = 9;
+
+        var titleOuterRadius = 17;
+        var titleInnerRadius = 14;
+
+        var values = [70, 25, 35, 65];      
+
+        // doughnut title  ================================================================
+        var doughnutTitle = new CanCharts.Doughnut({
+            outerRadius:titleOuterRadius,
+            innerRadius:titleInnerRadius,
+            value:0,
+            backgroundColor:"white",
+            activeColor:"#E8493F",
+            renderTo:"#doughnut-ct-0"
+        });
+
+        // runs animation on load
+        doughnutTitle.update({
+            value:values[0]
+        });
+
+
+        // doughnut 1  ================================================================
+        var doughnut1 = new CanCharts.Doughnut({
+            outerRadius:defaultOuterRadius,
+            innerRadius:defaultInnerRadius,
+            value:100,
+            renderTo:"#doughnut-ct-1",
+            activeColor:"#E8493F"
+        });
+
+        d3.select("#item-1").on("mouseover", ()=>{
+            doughnut1.update({
+                outerRadius:overOuterRadius,
+                innerRadius:overInnerRadius,
+                value:values[1]
+            });
+        });
+
+       d3.select("#item-1").on("mouseout", ()=>{
+            doughnut1.update({
+                outerRadius:defaultOuterRadius,
+                innerRadius:defaultInnerRadius,
+                value:100
+            });
+        });      
+
+        doughnut1.on("mouseOver", ()=>console.log("doughnut1 mouseOver"));
+        doughnut1.on("mouseOut", ()=>console.log("doughnut1 mouseOut"));
+
+        // doughnut 2  ================================================================
+        var doughnut2 = new CanCharts.Doughnut({
+            outerRadius:defaultOuterRadius,
+            innerRadius:defaultInnerRadius,
+            value:100,
+            renderTo:"#doughnut-ct-2",
+            activeColor:"#F0DC00"
+        });
+
+        d3.select("#item-2").on("mouseover", ()=>{
+            doughnut2.update({
+                outerRadius:overOuterRadius,
+                innerRadius:overInnerRadius,
+                value:values[2]
+            });
+        });
+
+       d3.select("#item-2").on("mouseout", ()=>{
+            doughnut2.update({
+                outerRadius:defaultOuterRadius,
+                innerRadius:defaultInnerRadius,
+                value:100
+            });
+        });             
+
+        // doughnut 3  ================================================================
+        var doughnut3 = new CanCharts.Doughnut({
+            outerRadius:defaultOuterRadius,
+            innerRadius:defaultInnerRadius,
+            value:100,
+            renderTo:"#doughnut-ct-3",
+            activeColor:"#7ED321"
+        });
+
+        d3.select("#item-3").on("mouseover", ()=>{
+            doughnut3.update({
+                outerRadius:overOuterRadius,
+                innerRadius:overInnerRadius,
+                activeColor:"#56B0E1",
+                value:values[3]
+            });
+        });
+
+       d3.select("#item-3").on("mouseout", ()=>{
+            doughnut3.update({
+                outerRadius:defaultOuterRadius,
+                innerRadius:defaultInnerRadius,
+                activeColor:"#7ED321",
+                value:100
+            });
+        });               
+      
+    </script>
+</body>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js"></script>
+    <script src="dist/can-charts.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet"/>
+</head>
+
+<style>
+    .invert-control, .highlight-control {
+        margin-left:10px;
+    }    
+
+    .bar1-ct, .bar2-ct {
+        position:relative;
+        float:left;
+        margin:20px;
+    }
+</style>
+
+<body>
+    <input type="checkbox" class="invert-control">Invert</button>
+    <button class="highlight-control">Highlight 2->2</button>
+    <br>
+    <div class="bar1-ct"></div>
+    <div class="bar2-ct"></div>
+    <script>
+        // bar 1  ================================================================
+        var bar = new CanCharts.Bar({
+            width:360
+        });
+
+        bar.render(".bar1-ct");
+
+        d3.json("data/bar/sample.json", function(json) {
+            bar.setData(json.content);  
+        });
+
+        // simulate invert
+        d3.select(".invert-control").on("click", function(){
+            if (this.checked){
+                d3.json("data/bar/sample.json", function(json)  {
+                    bar.setData(json.content.map(function(item){
+                        return {
+                            value:item.value,
+                            label:item.label,
+                            disabled:!item.disabled
+                        }
+                    }));  
+                });       
+            } else {
+                d3.json("data/bar/sample.json", function(json) {
+                    bar.setData(json.content);  
+                });       
+            }
+        });            
+
+        bar.on("barClick", function(barIndex){
+            console.log("barClick:"+barIndex);
+        });
+
+        bar.on("barDisabled", function(barIndex, disabled){
+            console.log("barDisabled:"+barIndex, "disabled: "+disabled);
+        });        
+
+        // bar 2  ================================================================        
+        var bar2 = new CanCharts.Bar({
+            width:360,
+            labelFontSize:24,
+            valueFontSize:20,
+            barHeight:60,
+            enableBarToggle:true,
+            enableBarHover:true
+        });
+
+        bar2.render(".bar2-ct");
+
+        d3.json("data/bar/categories.json", function(json) {
+            bar2.setData(json.content);  
+        });
+
+        bar2.on("barOver", function(barIndex){
+            console.log("bar 2 over:"+barIndex);
+        });
+
+        bar2.on("barOut", function(barIndex){
+            console.log("bar2 out:"+barIndex);
+        });        
+
+        // simulate highlight
+        d3.select(".highlight-control").on("click", function(){
+            d3.json("data/bar/categories.json", function(json) {
+                json.content[1].highlighted = true;
+                bar2.setData(json.content);  
+            });
+        })
+    </script>
+</body>

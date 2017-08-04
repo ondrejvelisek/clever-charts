@@ -1,0 +1,49 @@
+text {
+    font-size: 11px;
+    fill:#7d7d7d;
+    font-family: Roboto;
+}
+
+.line {
+    
+}
+
+.area {
+    
+}
+
+.tooltip-group {
+
+}
+
+.tooltip-hover-area {
+    
+}
+
+.tooltip-line-circle {
+    fill: white;
+}
+
+.tooltip-axis-circle {
+    stroke:#bababa;
+    fill: white;
+}
+
+.tooltip-label-mask {
+    
+}
+
+.tooltip-top-label {
+    border-radius: 4px;
+    font-size: 11px;
+    fill:#7d7d7d;
+    pointer-events: none;
+    font-family: Roboto;    
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    padding:6px 10px;
+}
+
+.svg {
+    overflow: visible;
+}

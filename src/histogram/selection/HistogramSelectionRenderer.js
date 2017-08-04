@@ -1,6 +1,6 @@
 import style from "../Histogram.css";
 import HistogramHandle from "./HistogramHandle";
-import Observable from "../utils/Observable";
+import Observable from "../../utils/Observable";
 import * as PositionUtils from "../utils/PositionUtils"
 import * as d3 from "d3";
 

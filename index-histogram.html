@@ -3,7 +3,7 @@
 
 <head>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js"></script>
-    <script src="dist/can-histogram.min.js"></script>
+    <script src="dist/can-charts.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
 </head>
 
@@ -41,7 +41,7 @@
         });
 
         // histogram 1 (default selection) ================================================================
-        var histogram = new Histogram({
+        var histogram = new CanCharts.Histogram({
             width:360,
             promptHandler:(value)=>{
                 return new Promise((success)=>{
@@ -64,7 +64,7 @@
             {"from":-9.32400126622349,"to":-2.336625514403292,"disabled":false,"color":"#55a3ec","opacity":0.86}
         ];
 
-        d3.json("data/selection-issue.json", (json) => {
+        d3.json("data/histogram/selection-issue.json", (json) => {
             histogram.setData(json.content,sampleSelection);  
         });
 
@@ -90,15 +90,15 @@
         });
 
         // histogram 2 (filter) ==================================================================================
-        var histogram2 = new Histogram({
+        var histogram2 = new CanCharts.Histogram({
             width:360,
             height:150,
-            selectionType:Histogram.SelectionTypes.FILTER
+            selectionType:CanCharts.Histogram.SelectionTypes.FILTER
         });
 
         histogram2.render(".graphs-ct");
 
-        d3.json("data/buckets_full.json", (json) => {
+        d3.json("data/histogram/buckets_full.json", (json) => {
             histogram2.setData(json.content, [{
                 from:9591,
                 to:20310
@@ -126,7 +126,7 @@
         // simulate zoom
         d3.select(".zoom-control").on("click", function(){
             if (this.checked){
-                d3.json("data/sample-zoom-issue.json", (json) => {
+                d3.json("data/histogram/sample-zoom-issue.json", (json) => {
                     histogram2.setData(json.content, [{
                         from:9591,
                         to:20310
@@ -136,7 +136,7 @@
                     });
                 });
             } else {
-                d3.json("data/buckets_full.json", (json) => {
+                d3.json("data/histogram/buckets_full.json", (json) => {
                     histogram2.setData(json.content, [{
                         from:9591,
                         to:20310
