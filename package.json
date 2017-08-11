@@ -1,18 +1,20 @@
 {
-  "name": "can-charts",
-  "version": "1.3.0",
-  "description": "Clever Analytics charts.",
-  "main": "dist/can-charts.min.js",
+  "name": "clever-charts",
+  "version": "1.0.0",
+  "description": "Simple javascript charts suited for BI applications.",
+  "main": "dist/clever-charts.min.js",
   "scripts": {
-    "prebuild": "eslint src test",
+    "prebuild": "eslint src",
     "build": "rollup -c",
     "watch": "rollup -c -w",
-    "pretest": "npm run build",
-    "test": "mocha",
-    "prepublish": "npm test"
+    "pretest": "npm run build"
   },
-  "repository": "https://datamatic@bitbucket.org/clevermaps/can-charts.git",
-  "author": "Clever Maps s.r.o",
+  "repository": "https://github.com/CleverMaps/clever-charts.git",
+  "author": "Jaroslav Benc <jaroslav.benc@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CleverMaps/clever-charts/issues"
+  },
   "files": [
     "src",
     "dist"
@@ -26,13 +28,13 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-register": "^6.24.1",
     "babelrc-rollup": "^3.0.0",
-    "eslint": "^3.19.0",
-    "mocha": "^3.2.0",
-    "rollup": "^0.41.6",
-    "rollup-plugin-babel": "^2.7.1",
-    "rollup-watch": "^3.2.2",
-    "rollup-plugin-postcss":"^0.4.1",
-    "postcss-modules":"^0.6.4",
-    "rollup-plugin-uglify":"^1.0.2"
+    "eslint": "^4.4.1",
+    "mocha": "^3.5.0",
+    "rollup": "^0.45.2",
+    "rollup-plugin-babel": "^3.0.1",
+    "rollup-watch": "^4.3.1",
+    "rollup-plugin-postcss":"^0.5.4",
+    "postcss-modules":"^0.8.0",
+    "rollup-plugin-uglify":"^2.0.1"
   }
 }
