@@ -98,6 +98,17 @@ export default class TooltipRenderer {
 		return this;
 	}
 
+	_getTextAnchor(xPos, bottomLabelWidth, width){
+		var xpos = xPos;
+		if (xpos - bottomLabelWidth/2 < 0){
+			return "start"
+		} else if (xpos + bottomLabelWidth/2 > width){
+			return "end"
+		} else {
+			return "middle";
+		}
+	}
+
 	_onHoverAreaOver(d){
 		var duration = this._tooltipGroup.attr("visibility") == "visible"?0:0;
 		var x = this._xAxis;
@@ -115,29 +126,28 @@ export default class TooltipRenderer {
 		// update tooltip bottom label
 		var bottomLabelWidth = this._tooltipBottomLabel.node().getBBox().width;
 		var bottomMaskPadding = 25;
+		var textAnchor = this._getTextAnchor(xPos, bottomLabelWidth, width);
 
 		this._tooltipBottomLabel
 			.text(d.label)
-			.attr("text-anchor", ()=>{
-				var xpos = xPos;
-				if (xpos - bottomLabelWidth/2 < 0){
-					return "start"
-				} else if (xpos + bottomLabelWidth/2 > width){
-					return "end"
-				} else {
-					return "middle";
-				}
-			});
+			.attr("text-anchor", textAnchor);
 
-		var textAnchor = this._tooltipBottomLabel.attr("text-anchor");
+		this._tooltipBottomLabel.attr("transform", ()=>{
+			return {
+				"start":"translate("+-xPos+", 0)",
+				"middle":"translate(0, 0)",
+				"end":"translate("+(width-xPos)+", 0)"
+			}[textAnchor]
+		});
+		
 		var bottomMaskWidth = bottomMaskPadding*2 + bottomLabelWidth;
 		this._tooltipBottomLabelMask
 			.attr("width", bottomMaskWidth)
 			.attr("x", ()=>{
 				return {
-					"start":-bottomMaskPadding,
+					"start":-xPos-bottomMaskPadding,
 					"middle":-bottomMaskWidth/2,
-					"end":-bottomMaskWidth+bottomMaskPadding,
+					"end":width-xPos-bottomMaskWidth+bottomMaskPadding,
 				}[textAnchor]
 			})
 
