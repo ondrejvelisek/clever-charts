@@ -163,8 +163,8 @@ export default class LineRenderer {
 		x.domain(data.map(function (d) {return d.label; }));
 		y.domain([minMax.min, minMax.max]);
 
-		this._renderDataLines(data);
 		this._renderZeroLine(data);
+		this._renderDataLines(data);
 		this._renderXAxis(data);
 		this._tooltipRenderer.update(lineData, x, y);
 
