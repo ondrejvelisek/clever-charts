@@ -111,7 +111,7 @@ export default class HistogramData {
 			d3.range(bucket.min, bucket.max, step).forEach((value) => {
 				histogramData.push({
 					value: value,
-					volume: bucket.content[0].frequency
+					volume: bucket.volume
 				});
 			});
 
@@ -119,7 +119,7 @@ export default class HistogramData {
 			if (i == data.length-1){
 				histogramData.push({
 					value: bucket.max,
-					volume: bucket.content[0].frequency
+					volume: bucket.volume
 				});
 			}
 		});

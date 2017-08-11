@@ -2,21 +2,21 @@
   "content": [
     {
       "value":86,
-      "tooltip":"80 oblastí",
+      "tooltip":"80 regions",
       "color":"#ed78b6",
-      "label":"TETA"
+      "label":"Label 1"
     },
     {
       "value":32,
-      "tooltip":"32 oblastí",
+      "tooltip":"32 regions",
       "color":"#e8b43f",
-      "label":"TOP"
+      "label":"Label 2"
     },
     {
       "value":10,
-      "tooltip":"10 oblastí",
+      "tooltip":"10 regions",
       "color":"#4a4a4a",
-      "label":"Žádné"
+      "label":"Label 3"
     }
   ]
 }
