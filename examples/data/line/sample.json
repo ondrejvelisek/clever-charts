@@ -2,7 +2,7 @@
   "content": [
     {
       "label":"2013 (Q4)",
-      "tooltip":"425 <span style='font-size:8px;'>EUR</span>",
+      "tooltip":"5506007700600770055060077006007700 $",
       "value":425
     },
     {
@@ -57,7 +57,123 @@
     },
     {
       "label":"2016 (Q3)",
-      "tooltip":"550 <span style='font-size:8px;'>EUR</span>",
+      "tooltip":"5506007700600770055060077006007700 $",
+      "value":550
+    },
+
+    {
+      "label":"2017 (Q4)",
+      "tooltip":"425 <span style='font-size:8px;'>EUR</span>",
+      "value":425
+    },
+    {
+      "label":"2018 (Q1)",
+      "tooltip":"440 <span style='font-size:8px;'>EUR</span>",
+      "value":440
+    },
+    {
+      "label":"2018 (Q2)",
+      "tooltip":"460 <span style='font-size:8px;'>EUR</span>",
+      "value":460
+    },
+    {
+      "label":"2018 (Q3)",
+      "tooltip":"470 <span style='font-size:8px;'>EUR</span>",
+      "value":470
+    },
+    {
+      "label":"2018 (Q4)",
+      "tooltip":"460 <span style='font-size:8px;'>EUR</span>",
+      "value":460
+    },
+    {
+      "label":"2019 (Q1)",
+      "tooltip":"500 <span style='font-size:8px;'>EUR</span>",
+      "value":500
+    },
+    {
+      "label":"2019 (Q2)",
+      "tooltip":"540 <span style='font-size:8px;'>EUR</span>",
+      "value":540
+    },
+    {
+      "label":"2019 (Q3)",
+      "tooltip":"600 <span style='font-size:8px;'>EUR</span>",
+      "value":600
+    },
+    {
+      "label":"2019 (Q4)",
+      "tooltip":"580 <span style='font-size:8px;'>EUR</span>",
+      "value":580
+    },
+    {
+      "label":"2020 (Q1)",
+      "tooltip":"570 <span style='font-size:8px;'>EUR</span>",
+      "value":570
+    },
+    {
+      "label":"2020 (Q2)",
+      "tooltip":"560 <span style='font-size:8px;'>EUR</span>",
+      "value":560
+    },
+    {
+      "label":"2020 (Q3)",
+      "tooltip":"5506007700600770055060077006007700 $",
+      "value":550
+    },
+    {
+      "label":"2021 (Q1)",
+      "tooltip":"440 <span style='font-size:8px;'>EUR</span>",
+      "value":440
+    },
+    {
+      "label":"2021 (Q2)",
+      "tooltip":"460 <span style='font-size:8px;'>EUR</span>",
+      "value":460
+    },
+    {
+      "label":"2021 (Q3)",
+      "tooltip":"470 <span style='font-size:8px;'>EUR</span>",
+      "value":470
+    },
+    {
+      "label":"2021 (Q4)",
+      "tooltip":"460 <span style='font-size:8px;'>EUR</span>",
+      "value":460
+    },
+    {
+      "label":"2022 (Q1)",
+      "tooltip":"500 <span style='font-size:8px;'>EUR</span>",
+      "value":500
+    },
+    {
+      "label":"2022 (Q2)",
+      "tooltip":"540 <span style='font-size:8px;'>EUR</span>",
+      "value":540
+    },
+    {
+      "label":"2022 (Q3)",
+      "tooltip":"600 <span style='font-size:8px;'>EUR</span>",
+      "value":600
+    },
+    {
+      "label":"2022 (Q4)",
+      "tooltip":"580 <span style='font-size:8px;'>EUR</span>",
+      "value":580
+    },
+    {
+      "label":"2023 (Q1)",
+      "tooltip":"570 <span style='font-size:8px;'>EUR</span>",
+      "value":570
+    },
+    {
+      "label":"2023 (Q2)",
+      "tooltip":"560 <span style='font-size:8px;'>EUR</span>",
+      "value":560
+    },
+    {
+      "label":"2023 (Q3)",
+      "tooltip":"5506007700600770055060077006007700 $",
       "value":550
     }
   ]

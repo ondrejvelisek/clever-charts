@@ -22,6 +22,7 @@
     <div class="line7-ct"></div>
     <div class="line8-ct"></div>
     <div class="line9-ct"></div>
+    <div class="line10-ct"></div>
     <script>
         // line 1  ================================================================
         var line = new CleverCharts.Line({
@@ -148,5 +149,19 @@
         d3.json("data/line/sample-one-item.json", (json) => {
             line9.setData(json.content);  
         });             
+
+        // line 10  ================================================================
+        var line10 = new CleverCharts.Line({
+            width:360,
+            height:200,
+            lineColor:"#e8493f",
+            fillColor:"#e8493f"
+        });
+
+        line10.render(".line10-ct");
+
+        d3.json("data/line/sample-invisible-mac.json", (json) => {
+            line10.setData(json);  
+        });              
     </script>
 </body>

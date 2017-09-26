@@ -266,25 +266,38 @@ export default class LineRenderer {
 		const groupedData = this._getGroupedData(data);
 
 		groupedData.forEach(lineData=>{
-			// add the area path
-			this._groupEl.append("path")
-			.data([lineData])
-			.attr("class", style["area"])
-			.attr("fill", options.fillColor)
-			.attr("fill-opacity", options.fillOpacity)
-			.attr("d", area);
-
-			// add the line path
-			this._groupEl.append("path")
+			// only add area if not rendering a dot
+			if (lineData.length>1){
+				// add the area path
+				this._groupEl.append("path")
 				.data([lineData])
-				.attr("fill", "none")
-				.attr("stroke-linecap", "round")
-				.attr("stroke", options.lineColor)
-				.attr("stroke-opacity", options.lineOpacity)
-				// note that in case of a single item, dot is rendered with a different size
-				.attr("stroke-width", lineData.length>1?options.lineWidth:options.dotSize)
-				.attr("class", style["line"])
-				.attr("d", line);
+				.attr("class", style["area"])
+				.attr("fill", options.fillColor)
+				.attr("fill-opacity", options.fillOpacity)
+				.attr("d", area);
+			}
+
+			if (lineData.length){
+				// add the line path
+				this._groupEl.append("path")
+					.data([lineData])
+					.attr("fill", "none")
+					.attr("stroke-linecap", "round")
+					.attr("stroke", options.lineColor)
+					.attr("stroke-opacity", 1)
+					// note that in case of a single item, dot is rendered with a different size
+					.attr("stroke-width", lineData.length>1?options.lineWidth:options.dotSize)
+					.attr("class", style["line"])
+					.attr("d", (d)=>{
+						var path = line(d);
+						// Fix issue in Chrome on Mac and Surface where
+						// path points are not rendererd if it's a single point 
+						if (path && path.split(",").length == 2){
+							return path + " " + path;
+						}
+						return path;
+					});
+			}
 		});
 		
 

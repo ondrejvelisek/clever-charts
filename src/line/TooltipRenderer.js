@@ -169,6 +169,7 @@ export default class TooltipRenderer {
 			this._tooltipLineCircle
 				.transition()
 				.duration(duration)
+				.style("visibility", "visible")
 				.attr("cy", y(d.value))				
 		} else {
 			this._tooltipTopLabel.style("visibility", "hidden");
@@ -196,6 +197,7 @@ export default class TooltipRenderer {
 		// only hide when mouse is outside of widget
 		if (!this._groupEl.node().parentNode.contains(d3.event.relatedTarget)){
 			this._hideTooltip();
+			this._tooltipLineCircle.style("visibility", "hidden");
 		}
 		
 	}
