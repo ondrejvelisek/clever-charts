@@ -62,15 +62,16 @@
             console.log("histogram 1: selectionOver:"+selectionIndex);
         });
 
-        histogram.on("toggleSelection", (selectionIndex, enabled)=>{
+        histogram.on("toggleSelection", (selectionIndex, enabled, event)=>{
             console.log("histogram 1: toggleSelection:"+selectionIndex+", enabled:"+enabled);
+            console.log("SHIFT: ", event.shiftKey);
         });
 
         histogram.on("selectionChanged", (selection)=>{
             console.log("histogram 1: selectionChanged:"+JSON.stringify(selection, null, 4));
         });
 
-        histogram.on("handleClick", (handleIndex, handleValue)=>{
+        histogram.on("handleClick", (handleIndex, handleValue, ev)=>{
             console.log("histogram 1: handleClick: index: "+handleIndex+", value: "+handleValue);
         });
 
@@ -99,6 +100,7 @@
 
         histogram2.on("toggleSelection", (selectionIndex, enabled)=>{
             console.log("histogram 2: toggleSelection:"+selectionIndex+", enabled:"+enabled);
+
         });        
 
         histogram2.on("selectionChanged", (selection)=>{

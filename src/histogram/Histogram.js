@@ -115,6 +115,7 @@ class Histogram {
 			 * Fires when selection is toggled
 			 * @param {int} selectionIndex
 			 * @param {bool} enabled
+			 * @param {MouseEvent} browser event
 			 */
 			"toggleSelection",
 			/**
@@ -144,7 +145,7 @@ class Histogram {
 		})
 
 		this._histogramRenderer.on("toggleSelection", (selectionIndex, enabled)=>{
-			this._observable.fire("toggleSelection", selectionIndex, enabled);
+			this._observable.fire("toggleSelection", selectionIndex, enabled, d3.event);
 		})
 
 		this._histogramRenderer.on("selectionChanged", (selection)=>{
