@@ -92,7 +92,9 @@ export default class HistogramData {
 	valueToPosition(value) {
 		var valueRatio = this.getValueRatio();
 		var minMax = this.getMinMax();
-		return Math.round(value / valueRatio - minMax.min / valueRatio);
+		var constrainedValue = Math.min(Math.max(value, minMax.min), minMax.max);
+		
+		return Math.round(constrainedValue / valueRatio - minMax.min / valueRatio);
 	}
 
 	/** 
