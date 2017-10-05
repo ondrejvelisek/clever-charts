@@ -165,7 +165,8 @@ export default class HistogramRenderer {
 		// render SVG
 		var svg = this._svgEl = ct.append("svg")
 			.attr("width", width + margin.left + margin.right)
-			.attr("height", height + margin.top + this._options.fontSize + margin.bottom);
+			.attr("height", height + margin.top + this._options.fontSize + margin.bottom)
+			.classed(style.histogram, true);
 
 		// render group element
 		var g = this._groupEl = this._svgEl.append("g")
