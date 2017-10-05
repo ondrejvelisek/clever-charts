@@ -176,6 +176,7 @@ export default class HistogramSelectionRenderer {
 		// call prompt handler if available
 		if (this._options.promptHandler){
 			this._options.promptHandler(handleValue).then((promptResult)=>{
+				var startSelectionSnapshot = JSON.stringify(this._histogramSelection.getOutputSelection());
 				promptResult = parseFloat(promptResult);
 				// must be within min max range
 				var minMax = this._histogramData.getMinMax();
@@ -191,12 +192,17 @@ export default class HistogramSelectionRenderer {
 					.map(point=>this._histogramData.valueToPosition(point.value))
 					.sort((p1,p2)=>p1-p2);
 				
-				this._updateSelectionPositions(positions, points);
+				this._updateSelectionPositions(positions);
 				this._updateSelection();
 
 				// TODO: update handles without destroying them
 				this._destroyHandles();
 				this._renderHandles();
+
+				// fire selection change if selection is changed
+				if (JSON.stringify(this._options.selection) != startSelectionSnapshot){
+					this._observable.fire("selectionChanged", this._histogramSelection.getOutputSelection());
+				}
 			})
 		}
 
