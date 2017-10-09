@@ -120,8 +120,9 @@ export default class LineRenderer {
 		// render SVG
 		this._svgEl = ct.append("svg")
 			.attr("width", width)
-			.attr("class", style.svg)
-			.attr("height", height);
+			.attr("height", height)
+			.classed(style.svg, true)
+			.classed(style.line, true);
 
 		// render group element
 		this._groupEl = this._svgEl.append("g");
