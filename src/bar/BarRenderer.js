@@ -137,6 +137,7 @@ export default class BarRenderer {
 		// render SVG
 		this._svgEl = ct.append("svg")
 			.attr("width", width)
+			.attr("class", style.bar)
 			.attr("height", height);
 
 		// render group element
