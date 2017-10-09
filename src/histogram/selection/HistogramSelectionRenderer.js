@@ -189,11 +189,10 @@ export default class HistogramSelectionRenderer {
 				};
 
 				var positions = points
-					.map(point=>this._histogramData.valueToPosition(point.value))
-					.sort((p1,p2)=>p1-p2);
+					.sort((p1,p2)=>p1.value-p2.value)
+					.map(point=>this._histogramData.valueToPosition(point.value));
 				
-				this._updateSelectionPositions(positions);
-				this._updateSelection();
+				this._updateSelectionPositions(positions, points);
 
 				// TODO: update handles without destroying them
 				this._destroyHandles();
@@ -391,22 +390,14 @@ export default class HistogramSelectionRenderer {
 				to:positions[index+1]
 			};
 
-			var value = {};
-
-			if (points){
-				value = {
-					from:points[index].value,
-					to:points[index+1].value
-				};
-			}
+			var value = {
+				from:points?points[index].value:this._histogramData.positionToValue(position.from),
+				to:points?points[index+1].value:this._histogramData.positionToValue(position.to),
+			};
 
 			["from", "to"].forEach(pos=>{
-				if (selection[index]["position"][pos] !== position[pos]){
-					var v = value[pos];
-					if (typeof v == "undefined"){
-						v = this._histogramData.positionToValue(position[pos]);
-					}
-					selection[index][pos] = v;	
+				if (selection[index][pos] !== value[pos]){
+					selection[index][pos] = value[pos];	
 					selection[index]["position"][pos] = position[pos];
 				}
 			});
