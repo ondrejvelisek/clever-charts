@@ -396,7 +396,14 @@ export default class HistogramSelectionRenderer {
 			};
 
 			["from", "to"].forEach(pos=>{
-				if (selection[index][pos] !== value[pos]){
+				const selectionChanged = points?
+					// if new points are given, we need to compare selection values
+					selection[index][pos] !== value[pos]:
+					// otherwise, we need to compare selection position
+					selection[index]["position"][pos] !== position[pos];
+
+				// update selection on change
+				if (selectionChanged){
 					selection[index][pos] = value[pos];	
 					selection[index]["position"][pos] = position[pos];
 				}
