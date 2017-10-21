@@ -193,6 +193,7 @@ export default class HistogramSelectionRenderer {
 					.map(point=>this._histogramData.valueToPosition(point.value));
 				
 				this._updateSelectionPositions(positions, points);
+				this._updateSelection();
 
 				// TODO: update handles without destroying them
 				this._destroyHandles();
@@ -370,6 +371,7 @@ export default class HistogramSelectionRenderer {
 		});
 
 		this._updateSelectionPositions(positions);
+		this._updateSelection();
 	}
 
 	/**
@@ -409,8 +411,6 @@ export default class HistogramSelectionRenderer {
 				}
 			});
 		});
-
-		this._updateSelection();
 	}	
 
 	/**
