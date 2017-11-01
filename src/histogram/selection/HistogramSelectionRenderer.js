@@ -569,7 +569,7 @@ export default class HistogramSelectionRenderer {
 				transitions.push([Math.round(data1.valueToPosition(s1.from)), Math.round(data2.valueToPosition(s2.from))]);
 				transitions.push([Math.round(data1.valueToPosition(s1.to)), Math.round(data2.valueToPosition(s2.to))]);
 
-				// make sure duration is calculated based on transitino length
+				// make sure duration is calculated based on transition length
 				frames = [Math.abs((transitions[0][0] - transitions[0][1])/width), Math.abs((transitions[1][0] - transitions[1][1])/width)];
 
 				transitions.forEach((t, handleIndex)=>{
