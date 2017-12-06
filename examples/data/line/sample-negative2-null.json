@@ -1,0 +1,52 @@
+{
+  "content": [
+    {
+      "label":"2013 (Q4)",
+      "value":-80
+    },
+    {
+      "label":"2014 (Q1)",
+      "value":-100
+    },
+    {
+      "label":"2014 (Q2)",
+      "value":-120
+    },
+    {
+      "label":"2014 (Q3)",
+      "value":-50
+    },
+    {
+      "label":"2014 (Q4)",
+      "value":-50
+    },
+    {
+      "label":"2015 (Q1)",
+      "value":-20
+    },
+    {
+      "label":"2015 (Q2)",
+      "value":null
+    },
+    {
+      "label":"2015 (Q3)",
+      "value":100
+    },
+    {
+      "label":"2015 (Q4)",
+      "value":null
+    },
+    {
+      "label":"2016 (Q1)",
+      "value":150
+    },
+    {
+      "label":"2016 (Q2)",
+      "value":40
+    },
+    {
+      "label":"2016 (Q3)",
+      "value":50
+    }
+  ]
+}

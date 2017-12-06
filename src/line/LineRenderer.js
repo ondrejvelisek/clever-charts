@@ -155,18 +155,21 @@ export default class LineRenderer {
 		var height = this._options.height;
 		var verticalSpacing = this._options.verticalSpacing;
 
-		var data = lineData.getData();
+		var series = lineData.getSeries();
+		var allData = lineData.getAllData()
 		var minMax = lineData.getMinMax();
 
 		var x = this._xAxis = d3.scalePoint().range([0, width]);	
 		var y = this._yAxis = d3.scaleLinear().range([height-verticalSpacing, verticalSpacing]);
 
-		x.domain(data.map(function (d) {return d.label; }));
+		x.domain(allData.map(function (d) {return d.label; }));
 		y.domain([minMax.min, minMax.max]);
 
-		this._renderZeroLine(data);
-		this._renderDataLines(data);
-		this._renderXAxis(data);
+		this._renderZeroLine(allData);
+		series.forEach((data, seriesIndex)=>{
+			this._renderDataLines(data, seriesIndex);
+		});
+		this._renderXAxis(allData);
 		this._tooltipRenderer.update(lineData, x, y);
 
 		return this;
@@ -241,16 +244,18 @@ export default class LineRenderer {
 	/**
 	 * @private
 	 * @param {Array} data
+	 * @param {Number} seriesIndex
 	 * Renders data lines
 	*/
-	_renderDataLines(data) { 
+	_renderDataLines(data, seriesIndex) { 
 		var x = this._xAxis;
 		var y = this._yAxis;
 		
 		var options = this._options;
 		var minHeight = this._options.height-Defaults.MARGIN.bottom;
-
 		var areaZero = this._showZeroLine()?Math.min(minHeight, y(0)):minHeight;
+		var lineColor = options.lineColors[seriesIndex] || options.lineColor;
+		var fillColor = options.fillColors[seriesIndex] || options.fillColor;
 
 		// define the area
 		var area = d3.area()
@@ -273,7 +278,7 @@ export default class LineRenderer {
 				this._groupEl.append("path")
 				.data([lineData])
 				.attr("class", style["area"])
-				.attr("fill", options.fillColor)
+				.attr("fill", fillColor)
 				.attr("fill-opacity", options.fillOpacity)
 				.attr("d", area);
 			}
@@ -284,7 +289,7 @@ export default class LineRenderer {
 					.data([lineData])
 					.attr("fill", "none")
 					.attr("stroke-linecap", "round")
-					.attr("stroke", options.lineColor)
+					.attr("stroke", lineColor)
 					.attr("stroke-opacity", 1)
 					// note that in case of a single item, dot is rendered with a different size
 					.attr("stroke-width", lineData.length>1?options.lineWidth:options.dotSize)

@@ -64,6 +64,12 @@ class Line {
 
 		/**
 		 * @public
+		 * Line colors 
+		 */
+		this._options.lineColors = getOptionValue(options.lineColors, Defaults.LINE_COLORS);		
+
+		/**
+		 * @public
 		 * Line opacity 
 		 */
 		this._options.lineOpacity = getOptionValue(options.lineOpacity, Defaults.LINE_OPACITY);
@@ -73,6 +79,12 @@ class Line {
 		 * Fill color 
 		 */
 		this._options.fillColor = getOptionValue(options.fillColor, Defaults.FILL_COLOR);
+
+		/**
+		 * @public
+		 * Fill colors
+		 */
+		this._options.fillColors = getOptionValue(options.fillColors, Defaults.FILL_COLORS);		
 
 		/**
 		 * @public
@@ -168,16 +180,25 @@ class Line {
 	}
 
 	/**
-	 * Sets widget data
-	 * @param {Array} data
+	 * Sets multiple series of data
+	 * @param {Array[]} series
 	 * @returns {Line} returns this widget instance 
 	 */
-	setData(data) {
+	setSeries(series) {
+		return this.setData.apply(this, series);
+	}
+
+	/**
+	 * Sets line data
+	 * @param {...Array} series
+	 * @returns {Line} returns this widget instance 
+	 */
+	setData(...series) {
 		if (!this._lineRenderer.isRendered()) {
 			throw "Can't call setData() when widget is not rendered, please call .render() first."
 		}
 
-		var lineData = this._lineData = new LineData(data, this._options);
+		var lineData = this._lineData = new LineData(series, this._options);
 
 		if (!this._options.format) {
 			this._options.format = d3.format(",." + this._lineData.getPrecision() + "f")

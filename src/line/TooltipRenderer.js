@@ -109,6 +109,19 @@ export default class TooltipRenderer {
 		}
 	}
 
+	_getTooltipHTML(d){
+		return d.tooltips.filter((tooltip, index)=>{
+			return d.values[index] != null;
+		}).map((tooltip, index)=>{
+			const value = tooltip || this._options.format(d.values[index]);
+			var color = this._options.lineColors[index] || this._options.lineColor;
+			const icon = `
+				<span style="display:inline-block;position:relative;top:-1px;margin-right:5px;width:6px;height:6px;border-radius:50%;background-color:${color}"></span>
+			`;
+			return icon + value;
+		}).join("<br />");
+	}
+
 	_onHoverAreaOver(d){
 		var duration = this._tooltipGroup.attr("visibility") == "visible"?0:0;
 		var x = this._xAxis;
@@ -155,22 +168,27 @@ export default class TooltipRenderer {
 		this._handleMaskGradientEl.attr("x2", bottomMaskWidth/2);			
 
 		// update tooltip top label 
-		var tooltipHtml = d.tooltip || this._options.format(d.value);
+		var tooltipHtml = this._getTooltipHTML(d);
 		this._tooltipTopLabel.node().innerHTML = tooltipHtml;
 		var labelLeft = this._getLabelLeft(xPos);
 
-		if (d.value){
+		// if value is not null or undefined
+		if (d.values.some(d => d != null)){
 			this._tooltipTopLabel
 				.style("left", labelLeft+"px")
 				.style("visibility", "visible")
-				.style("top", y(d.value)-50+"px")
+				.style("top", y(Math.max.apply(Math,d.values))-50+"px")
 
 			// update line circle
 			this._tooltipLineCircle
 				.transition()
 				.duration(duration)
-				.style("visibility", "visible")
-				.attr("cy", y(d.value))				
+				.style("visibility", (circle, i)=>{
+					return d.values[i]?"visible":"hidden";
+				})
+				.attr("cy", (circle, i)=>{
+					return d.values[i]?y(d.values[i]):0
+				})				
 		} else {
 			this._tooltipTopLabel.style("visibility", "hidden");
 			this._tooltipLineCircle.style("visibility", "hidden");
@@ -208,9 +226,11 @@ export default class TooltipRenderer {
 	}
 
 	_renderTooltip(){
-		var data = this._lineData.getData();
+		var data = this._lineData.getMergedData();
+		
+		var series = this._lineData.getSeries();
 		var hoverWidth;
-		if (data.length>1){
+		if (data.length>series.length){
 			hoverWidth = this._options.width / (data.length-1);
 		} else {
 			hoverWidth = this._options.width;
@@ -235,11 +255,18 @@ export default class TooltipRenderer {
 			.attr("visibility", "hidden")
 			.attr("class", style["tooltip-group"])
 
+
 		this._tooltipLineCircle = this._tooltipGroup
+			.selectAll("."+style["tooltip-line-circle"])
+			.data(series)
+			.enter()
 			.append("circle")
+			.attr("visibility", "hidden")
 			.attr("class", style["tooltip-line-circle"])
 			.attr("stroke-width", this._options.lineWidth)
-			.attr("stroke", this._options.lineColor)
+			.attr("stroke", (d, i)=>{
+				return this._options.lineColors[i] || this._options.lineColor;
+			})
 			.attr("stroke-opacity", this._options.lineOpacity)
 			.attr("r", 2.5+this._options.lineWidth/2)
 

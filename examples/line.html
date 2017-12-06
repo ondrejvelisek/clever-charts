@@ -23,6 +23,8 @@
     <div class="line8-ct"></div>
     <div class="line9-ct"></div>
     <div class="line10-ct"></div>
+    <div class="line11-ct"></div>
+    <div class="line12-ct"></div>
     <script>
         // line 1  ================================================================
         var line = new CleverCharts.Line({
@@ -162,6 +164,38 @@
 
         d3.json("data/line/sample-invisible-mac.json", (json) => {
             line10.setData(json);  
-        });              
+        });  
+        
+        // line 11  ================================================================
+        var line11 = new CleverCharts.Line({
+            width:360,
+            height:200,
+            lineColors:["#4AACE2", "#CD22D2"],
+            fillColors:["#4AACE2", "#CD22D2"]
+        });
+
+        line11.render(".line11-ct");
+
+        d3.json("data/line/sample-negative.json", (json1) => {
+            d3.json("data/line/sample-negative2.json", (json2) => {
+                line11.setSeries([json1.content, json2.content]);
+            });
+        });        
+
+        // line 12  ================================================================
+        var line12 = new CleverCharts.Line({
+            width:360,
+            height:200,
+            lineColors:["#4AACE2", "#CD22D2"],
+            fillColors:["#4AACE2", "#CD22D2"]
+        });
+
+        line12.render(".line12-ct");
+
+        d3.json("data/line/sample-negative.json", (json1) => {
+            d3.json("data/line/sample-negative2-null.json", (json2) => {
+                line12.setSeries([json1.content, json2.content]);
+            });
+        });        
     </script>
 </body>

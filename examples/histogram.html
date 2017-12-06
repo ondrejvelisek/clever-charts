@@ -43,10 +43,10 @@
         histogram.render(".graphs-ct");
 
         var sampleSelection = [
-            {"from":-5,"to":100,"disabled":false,"colors":["#55a3ec", "#CD22D2"],"opacity":0.6},
-            {"from":100,"to":200,"disabled":false,"colors":["#55a3ec", "#CD22D2"],"opacity":0.4},
-            {"from":200,"to":300,"disabled":false,"colors":["#55a3ec", "#CD22D2"],"opacity":0.2},
-            {"from":300,"to":421,"disabled":false,"colors":["#55a3ec", "#CD22D2"],"opacity":0.1}
+            {"from":-5,"to":100,"disabled":false,"colors": ["#CD22D2", "#55a3ec"],"opacity":0.6},
+            {"from":100,"to":200,"disabled":false,"colors":["#CD22D2", "#55a3ec"],"opacity":0.4},
+            {"from":200,"to":300,"disabled":false,"colors":["#CD22D2", "#55a3ec"],"opacity":0.2},
+            {"from":300,"to":421,"disabled":false,"colors":["#CD22D2", "#55a3ec"],"opacity":0.1}
         ];
 
         d3.json("data/histogram/sample-compare.json", (json) => {

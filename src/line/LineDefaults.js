@@ -18,6 +18,12 @@ export const LINE_COLOR = "#7ed321";
 
 /**
  * @public
+ * Default line colors
+ */
+export const LINE_COLORS = [];
+
+/**
+ * @public
  * Default line opacity
  */
 export const LINE_OPACITY = 1;
@@ -27,6 +33,12 @@ export const LINE_OPACITY = 1;
  * Default fill color
  */
 export const FILL_COLOR = "#7ed321";
+
+/**
+ * @public
+ * Default fill colors
+ */
+export const FILL_COLORS = [];
 
 /**
  * @public
