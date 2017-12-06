@@ -110,10 +110,13 @@ export default class HistogramData {
 
 		data.forEach((bucket, i) => {
 			var step = (bucket.max - bucket.min) / numOfBarsPerBucket;
+			// support array as well as single values
+			const volume = Array.isArray(bucket.volume)?bucket.volume:[bucket.volume];
+
 			d3.range(bucket.min, bucket.max, step).forEach((value) => {
 				histogramData.push({
 					value: value,
-					volume: bucket.volume
+					volume: volume
 				});
 			});
 
@@ -121,7 +124,7 @@ export default class HistogramData {
 			if (i == data.length-1){
 				histogramData.push({
 					value: bucket.max,
-					volume: bucket.volume
+					volume: volume
 				});
 			}
 		});

@@ -1,8 +1,8 @@
 {
   "name": "clever-charts",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Simple javascript charts suited for BI applications.",
-  "main": "dist/clever-charts-1.0.5.min.js",
+  "main": "dist/clever-charts-1.0.6.min.js",
   "scripts": {
     "build": "rollup -c",
     "test": "mocha",
@@ -33,7 +33,7 @@
     "ignore-styles": "^5.0.1",
     "mocha": "^4.0.1",
     "postcss-modules": "^1.0.0",
-    "rollup": "^0.50.0",
+    "rollup": "^0.52.1",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-postcss": "^0.5.5",
     "rollup-plugin-uglify": "^2.0.1",

@@ -501,12 +501,30 @@ export default class HistogramSelectionRenderer {
 
 	/**
 	 * @private
+	 * Returns selection color
+	 * @param {Object} selection
+	 * @param {Object} d datum
+	 */
+	_getSelectionColor(selection, d){
+		if (selection.colors){
+			return selection.colors[d.volumeIndex];
+		}
+
+		if (selection.color){
+			return selection.color
+		}
+
+		return this._options.selectionColor;
+	}
+
+	/**
+	 * @private
 	 * Returns bar color for given bar position with given selection
 	 * @param {Number} barX 
 	 * @param {Array} selection 
 	 * @param {HistogramData} histogram data 
 	 */
-	_getBarColor (barX, selection, data){
+	_getBarColor (barX, selection, data, d){
 		var inactiveBarColor = this._options.inactiveBarColor;
 		var overSelectionColor = this._options.overSelectionColor;
 		
@@ -518,7 +536,7 @@ export default class HistogramSelectionRenderer {
 		} if (this._histogramSelection.allowsToggle() && this._overSelectionIndex == barSelectionIndex){
 			return overSelectionColor;
 		} else {
-			return selection[barSelectionIndex].color || this._options.selectionColor;                    
+			return this._getSelectionColor(selection[barSelectionIndex], d);
 		}
 	}
 
@@ -608,13 +626,13 @@ export default class HistogramSelectionRenderer {
 			// handle bar colors
 			bars.attr("fill", (d)=> {
 				var barX = this._histogramData.valueToPosition(d.value);
-				return this._getBarColor(barX, s, data);
+				return this._getBarColor(barX, s, data, d);
 			})
 
 			// handle bar opacity
 			bars.attr("fill-opacity", (d)=> {
 				var barX = this._histogramData.valueToPosition(d.value);
-				return this._getBarOpacity(barX, s, data);
+				return this._getBarOpacity(barX, s, data, d);
 			})
 		}
 
@@ -641,8 +659,9 @@ export default class HistogramSelectionRenderer {
 				// on transition callback
 				(p, selectionIndex, handleIndex)=>{
 					var bar = d3.select(bars.nodes()[p]);
-					var barColor = this._getBarColor(p, selection, this._histogramData);
-					bar.attr("fill", barColor);
+					bar.attr("fill", d=>{
+						return this._getBarColor(p, selection, this._histogramData, d);
+					});
 
 					//var handleText = this._options.format(this._histogramData.positionToValue(p));
 					// move handles

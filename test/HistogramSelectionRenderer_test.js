@@ -135,18 +135,10 @@ describe('HistogramSelectionRenderer', () => {
     }];
 
     // should start on 169th pixel
-    var pxPos = 169;
-    selectionRenderer._onSelectionTransition(selection, selection, data1, data2, function onTransition(p){
-      equal(pxPos, p);
-      pxPos--;
-    }, function onComplete(p){
+    selectionRenderer._onSelectionTransition(selection, selection, data1, data2, function onTransition(){}, function onComplete(p){
       // and stop on 0
       equal(p, 0);
       done();
     });
   });
-
-
-  
-  
 });

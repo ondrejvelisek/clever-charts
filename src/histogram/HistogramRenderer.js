@@ -214,7 +214,7 @@ export default class HistogramRenderer {
 		this._clear();
 
 		this._xAxis.domain(histogramData.getData().map(function (d) {return d.value; }));
-		this._yAxis.domain([0, d3.max(histogramData.getData(), function (d) { return d.volume; })]);
+		this._yAxis.domain([0, d3.max(histogramData.getData(), function (d) { return Math.max.apply(Math, d.volume); })]);
 
 		this._renderXAxis();		
 		this._renderDataBars();
@@ -261,41 +261,21 @@ export default class HistogramRenderer {
 
 		var y = this._yAxis;
 
-		// disable this for now as it's slow to animate all bars
-		// animate from previous data if available
-		// if (this._animate && prevData){
-		// 	x.domain(prevData.map(function (d) {return d.value; }));
-		// 	y.domain([0, d3.max(prevData, function (d) { return d.volume; })]);
-
-		// 	this._groupEl.selectAll("."+style.bar)
-		// 		.data(prevData)
-		// 		.enter().append("rect")
-		// 		.attr("class", style.bar)
-		// 		.attr("x", function (d) { return x(d.value); })
-		// 		.attr("width", x.bandwidth())
-		// 		.attr("y", function (d) { return Math.floor(y(d.volume)); })
-		// 		.attr("height", function (d) {return Math.ceil(height - y(d.volume)); })
-
-		// 	x.domain(data.map(function (d) {return d.value; }));
-		// 	y.domain([0, d3.max(data, function (d) { return d.volume; })]);				
-
-		// 	this._groupEl.selectAll("."+style.bar)
-		// 		.data(data)
-		// 		.transition()
-		// 		.duration(250)
-		// 		.attr("y", function (d) { return Math.floor(y(d.volume)); })
-		// 		.attr("height", function (d) { return Math.ceil(height - y(d.volume)); })
-		// } else {
-			// append the rectangles for the bar chart
-			this._groupEl.selectAll("."+style.bar)
-				.data(data)
-				.enter().append("rect")
-				.attr("class", style.bar)
-				.attr("x", (d) => { return this._histogramData.valueToPosition(d.value); })
-				.attr("width", "1")
-				.attr("y", (d) => { return Math.floor(y(d.volume)); })
-				.attr("height", function (d) { return Math.ceil(height - y(d.volume)); })
-		//}
+		data.forEach(d=>{
+			d.volume.forEach((v, i)=>{
+				this._groupEl
+					.append("rect")
+					.datum({
+						value:d.value,
+						volumeIndex:i
+					})
+					.attr("class", style.bar)
+					.attr("x", this._histogramData.valueToPosition(d.value))
+					.attr("width", "1")
+					.attr("y", Math.floor(y(d.volume[i])))
+					.attr("height", Math.ceil(height - y(d.volume[i])))
+			});
+		});
 	}
 
 	/**
