@@ -9,7 +9,8 @@ export default class BarData {
 	 * @param {Array} series
 	 * @param {Object} options
 	 */
-	constructor(series) {
+	constructor(series, options) {
+		this._options = options;
 		this._series = series.slice();
 		this._minMax = this._calculateMinMax(this._series);
 	}
@@ -74,18 +75,28 @@ export default class BarData {
 	* @returns {Object} minMax.max
 	*/
 	_calculateMinMax(series) {
-		var data = [].concat.apply([], series);
-		var min = d3.min(data, function (d) { return d.value; });
-		var max = d3.max(data, function (d) { return d.value; });
-
-		if (data.length <= series.length) {
-			min = Math.min(min, 0);
-			max = Math.max(max, 0);
-		}
-
-		return {
-			min: min,
-			max: max
+		let data = [].concat.apply([], series);
+		if (this._options.minMax == "sum"){
+			let sums = this._series.map((data)=>{
+				return d3.sum(data, function (d) { return d.value; });
+			});
+			return {
+				min:0,
+				max:Math.max.apply(Math, sums)
+			}
+		} else {
+			let min = d3.min(data, function (d) { return d.value; });
+			let max = d3.max(data, function (d) { return d.value; });
+	
+			if (data.length <= series.length) {
+				min = Math.min(min, 0);
+				max = Math.max(max, 0);
+			}
+	
+			return {
+				min: min,
+				max: max
+			}
 		}
 	}
 

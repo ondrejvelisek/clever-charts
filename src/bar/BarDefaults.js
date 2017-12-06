@@ -57,3 +57,9 @@ export const LABEL_FONT_SIZE = 13;
  * Value font size
  */
 export const VALUE_FONT_SIZE = 11;
+
+/**
+ * @public
+ * Default minMax value
+ */
+export const MINMAX = "sum";

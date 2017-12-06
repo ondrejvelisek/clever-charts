@@ -93,6 +93,12 @@ class Bar {
 		this._options.enableBarHover = getOptionValue(options.enableBarHover, Defaults.ENABLE_BAR_HOVER);		
 
 		/**
+		 * @public
+		 * Allows to set minMax range, default is 'sum' (sum of all data items), can be also 'auto' (min/max based on data)
+		 */
+		this._options.minMax = getOptionValue(options.minMax, Defaults.MINMAX);		
+
+		/**
 		 * @private
 		 * observable handler
 		 */
