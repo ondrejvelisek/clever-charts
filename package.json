@@ -33,7 +33,7 @@
     "ignore-styles": "^5.0.1",
     "mocha": "^4.0.1",
     "postcss-modules": "^1.0.0",
-    "rollup": "^0.52.1",
+    "rollup": "^0.49.3",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-postcss": "^0.5.5",
     "rollup-plugin-uglify": "^2.0.1",

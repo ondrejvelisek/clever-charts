@@ -18,6 +18,10 @@
     fill:#cacaca;
 }
 
+.bar-disabled>circle{
+    fill:#cacaca;
+}
+
 .bar-active {
 
 }

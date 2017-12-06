@@ -62,12 +62,6 @@ export default class BarRenderer {
 
 		/**
 		 * @private
-		 * stores previous data for animation
-		 */
-		this._prevData = null;		
-
-		/**
-		 * @private
 		 * observable handler
 		 */
 		this._observable = new Observable([
@@ -175,7 +169,7 @@ export default class BarRenderer {
 		this._barData = barData;		
 		this._clear();
 
-		var data = barData.getData();
+		var data = barData.getMergedData();
 		var minMax = barData.getMinMax();
 
 		var barHeight = this._options.barHeight;
@@ -190,7 +184,6 @@ export default class BarRenderer {
 		this._yAxis.domain(data.map((item, i)=>i).reverse());
 
 		this._renderDataBars(data);
-		this._prevData = barData.getData();			
 
 		return this;
 	}
@@ -207,95 +200,124 @@ export default class BarRenderer {
 		var barHeight = 5;
 		var observable = this._observable;
 		var options = this._options;
-
-		// create bar groups
-		var barGroups = this._groupEl.selectAll("."+style.bar).data(data).enter().append("g").attr("class", style["bar"]);
-		barGroups
-			.attr("transform", function (d, i) {return "translate(0,"+ (Math.floor(y(i)))+")"})
-			.classed(style["bar-over"], (d)=>{
-				return d.highlighted;
-			})
-
-			.on("mouseover", function(d, i){
-				if (options.enableBarHover){
-					d3.select(this).classed(style["bar-over"], true);
-					observable.fire("barOver", i);
-				}
-			})
-			.on("mouseout", function(d, i){
-				if (options.enableBarHover){
-					d3.select(this).classed(style["bar-over"], false);
-					observable.fire("barOut", i);
-				}
-			})
-			.on("click", function(d, i){
-				if (options.enableBarToggle){
-					var disabled = !d3.select(this).classed(style["bar-disabled"]);
-					d3.select(this).classed(style["bar-disabled"], disabled);
-					observable.fire("barDisabled", i, disabled);
-				}
-
-				observable.fire("barClick", i);
-			})
-
-		barGroups.classed(style["bar-disabled"], (d)=>{
-			return d.disabled;
-		})
-
-		// label
-		barGroups.append("text")
-			.text(d=>d.label)
-			.attr("class", style["bar-label"])
-			.attr("x", horizontalPadding)
-			.attr("font-size", this._options.labelFontSize)
-			.attr("y", this._options.labelFontSize)
-
-		// tooltip
-		barGroups.append("text")
-			.text(d=>{
-				//var pcValue = Math.round(x(d.value)/this._options.width*100);
-				return d.tooltip || this._options.format(d.value)
-			})
-			.attr("class", style["bar-tooltip"])
-			.attr("x", this._options.width-horizontalPadding)
-			.attr("text-anchor","end")
-			.attr("font-size", this._options.valueFontSize)
-			.attr("y", this._options.labelFontSize)
 		
-		// active bar
-		barGroups.append("rect")
-			.attr("fill",(d)=>{
-				return d.color || Defaults.ACTIVE_BAR_COLOR;
-			})
-			.attr("class", style["bar-active"])
-			.attr("x", 0)
-			.attr("clip-path", "url(#rounded-corners-"+this._maskIndex+")")
-			.attr("width", function (d) { return Math.floor(x(d.value)); })
-			.attr("y", this._options.labelFontSize + 10)
-			.attr("height", barHeight);
+		data.forEach((d, i)=>{
+			const barGroup = this._groupEl
+				.datum(d)
+				.append("g")
+				.attr("class", style["bar"])
+				.attr("transform", ()=> {
+					return "translate(0,"+ (Math.floor(y(i)))+")"
+				})
+				.classed(style["bar-over"], (d)=>{
+					return d.highlighted;
+				})
+				.on("mouseover", function(d, i){
+					if (options.enableBarHover){
+						d3.select(this).classed(style["bar-over"], true);
+						observable.fire("barOver", i);
+					}
+				})
+				.on("mouseout", function(d, i){
+					if (options.enableBarHover){
+						d3.select(this).classed(style["bar-over"], false);
+						observable.fire("barOut", i);
+					}
+				})
+				.on("click", function(d, i){
+					if (options.enableBarToggle){
+						var disabled = !d3.select(this).classed(style["bar-disabled"]);
+						d3.select(this).classed(style["bar-disabled"], disabled);
+						observable.fire("barDisabled", i, disabled);
+					}
+	
+					observable.fire("barClick", i);
+				})
+				.classed(style["bar-disabled"], (d)=>{
+					return d.disabled;
+				});
 
-		// inactive bar
-		barGroups.append("rect")
-			.attr("fill",Defaults.INACTIVE_BAR_COLOR)
-			.attr("class", style["bar-inactive"])
-			.attr("clip-path", "url(#rounded-corners-"+MASK_INDEX+")")
-			.attr("x", (d) => {
-				return Math.floor(x(d.value));
-			})
-			.attr("width", (d)=> { return this._options.width - Math.floor(x(d.value)); })
-			.attr("y", this._options.labelFontSize + 10)
-			.attr("height", barHeight)
+				// label
+				barGroup.append("text")
+					.text(d=>d.label)
+					.attr("class", style["bar-label"])
+					.attr("x", horizontalPadding)
+					.attr("font-size", this._options.labelFontSize)
+					.attr("y", this._options.labelFontSize)
 
-		// hover
-		barGroups.append("rect")
-			.attr("class", style["bar-hover"])
-			.attr("fill", "transparent")
-			.attr("x", 0)
-			.attr("text-anchor","end")
-			.attr("cursor",()=>this._options.enableBarHover?"pointer":"default")
-			.attr("y", 0)
-			.attr("height", this._options.barHeight)					
-			.attr("width", this._options.width)
+				// tooltip
+				let tooltipX = horizontalPadding;
+				d.values.forEach((value, valueIndex)=>{
+					const tooltipEl = barGroup.append("text")
+						.text(()=>{
+							// generating tooltip in reversed order as it goes from right -> left
+							const reversedIndex = d.values.length - 1 - valueIndex;
+							return d.tooltips[reversedIndex] || this._options.format(d.values[reversedIndex])
+						})
+						.attr("class", style["bar-tooltip"])
+						.attr("x", this._options.width-tooltipX)
+						.attr("text-anchor","end")
+						.attr("font-size", this._options.valueFontSize)
+						.attr("y", this._options.labelFontSize)
+
+					tooltipX+= tooltipEl.node().getComputedTextLength()+20;
+
+					if (d.values.length>1){
+						barGroup
+							.append("circle")
+							.attr("r", 3)
+							.attr("fill", ()=>{
+								// generating in reversed order as it goes from right -> left
+								const reversedIndex = d.values.length - 1 - valueIndex;
+								return d.colors[reversedIndex] || options.activeBarColors[reversedIndex] || options.activeBarColor
+							})
+							.attr("cx", this._options.width-tooltipX-this._options.labelFontSize+25)
+							.attr("cy", this._options.labelFontSize/1.5)
+					}
+
+					const barOffset = valueIndex*(barHeight+1);
+					// active bar
+					barGroup.append("rect")
+						.attr("transform", "translate(0,"+ barOffset + ")")						
+						.attr("fill",()=>{
+							return d.colors[valueIndex] || options.activeBarColors[valueIndex] || options.activeBarColor;
+						})
+						.attr("class", style["bar-active"])
+						.attr("x", 0)
+						.attr("clip-path", "url(#rounded-corners-"+this._maskIndex+")")
+						.attr("width", function () { return Math.floor(x(value)); })
+						.attr("y", this._options.labelFontSize + 10)
+						.attr("height", barHeight);
+
+					// inactive bar
+					barGroup.append("rect")
+						.attr("transform", "translate(0,"+ barOffset + ")")						
+						.attr("fill",Defaults.INACTIVE_BAR_COLOR)
+						.attr("class", style["bar-inactive"])
+						.attr("clip-path", "url(#rounded-corners-"+MASK_INDEX+")")
+						.attr("x", () => {
+							return Math.floor(x(value));
+						})
+						.attr("width", ()=> { return this._options.width - Math.floor(x(value)); })
+						.attr("y", this._options.labelFontSize + 10)
+						.attr("height", barHeight)
+				});
+				
+				// hover
+				barGroup.append("rect")
+					.attr("class", style["bar-hover"])
+					.attr("fill", "transparent")
+					.attr("x", 0)
+					.attr("text-anchor","end")
+					.attr("cursor",()=>this._options.enableBarHover?"pointer":"default")
+					.attr("y", 0)
+					.attr("height", this._options.barHeight)					
+					.attr("width", this._options.width)
+
+		});
+		
+
+		
 	}
 
 	/**

@@ -1,0 +1,21 @@
+{
+  "content": [
+    {
+      "value":1600,
+      "label":"Sole ownership"
+    },
+    {
+      "value":500,
+      "disabled":"true",
+      "label":"State / Municipality"
+    },
+    {
+      "value":75,
+      "label":"Cooperative"
+    },
+    {
+      "value":120,
+      "label":"Joint tenancy"
+    }
+  ]
+}

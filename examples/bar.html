@@ -12,7 +12,7 @@
         margin-left:10px;
     }    
 
-    .bar1-ct, .bar2-ct {
+    .bar1-ct, .bar2-ct, .bar3-ct {
         position:relative;
         float:left;
         margin:20px;
@@ -25,6 +25,7 @@
     <br>
     <div class="bar1-ct"></div>
     <div class="bar2-ct"></div>
+    <div class="bar3-ct"></div>
     <script>
         // bar 1  ================================================================
         var bar = new CleverCharts.Bar({
@@ -95,5 +96,21 @@
                 bar2.setData(json.content);  
             });
         })
+
+        // bar 3  ================================================================
+        var bar3 = new CleverCharts.Bar({
+            width:360,
+            activeBarColors:["#4AACE2", "#CD21D3"],
+            enableBarToggle:true,
+            enableBarHover:true
+        });
+
+        bar3.render(".bar3-ct");
+
+        d3.json("data/bar/sample.json", function(json1) {
+            d3.json("data/bar/sample2.json", function(json2) {
+                bar3.setData(json1.content, json2.content);  
+            });
+        });
     </script>
 </body>

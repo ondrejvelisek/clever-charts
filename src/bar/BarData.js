@@ -2,17 +2,16 @@ import * as d3 from "d3";
 
 /**
  * @class
- * BarData representing data for the bar
+ * series representing data for the line
  */
 export default class BarData {
 	/**
-	 * @param {data} data
+	 * @param {Array} series
 	 * @param {Object} options
 	 */
-	constructor(data, options) {
-		this._barData = this._loadBarData(data, options);
-		this._minMax = this._calculateMinMax(this._barData);
-		this._options = options;
+	constructor(series) {
+		this._series = series.slice();
+		this._minMax = this._calculateMinMax(this._series);
 	}
 
 	/**
@@ -28,25 +27,64 @@ export default class BarData {
 
 	/**
 	 * @public
-	 * Returns histogram data
-	 * @returns {Array} histogram data
+	 * Returns line series
+	 * @returns {Array} line series
 	 */
-	getData() {
-		return this._barData;
+	getSeries() {
+		return this._series;
+	}
+
+	/**
+	 * @public
+	 * Returns all data from all series merged into one array
+	 * @returns {Array}
+	 */
+	getAllData() {
+		return [].concat.apply([], this._series);
+	}
+
+	/**
+	 * Returns merged data where each unique label has an array of values
+	 */
+	getMergedData() {
+		var dataMap = {};
+		this.getAllData().forEach((item=>{
+			const result = dataMap[item.label] || {
+				label:item.label,
+				values:[],
+				disabled:item.disabled,
+				highlighted:item.highlighted,
+				colors:[],
+				tooltips:[]
+			};
+			result.values.push(item.value);
+			result.tooltips.push(item.tooltip);
+			result.colors.push(item.color);
+			dataMap[item.label] = result;
+		}));
+
+		return Object.values(dataMap);
 	}
 
 	/**
 	* @private
-	* Returns min max values for given BarData
-	* @param {Array} BarData
+	* Returns min max values for given series
+	* @param {Array} series
 	* @returns {Object} minMax.min
 	* @returns {Object} minMax.max
 	*/
-	_calculateMinMax(barData) {
-		var max = d3.sum(barData, function (d) { return d.value; });
+	_calculateMinMax(series) {
+		var data = [].concat.apply([], series);
+		var min = d3.min(data, function (d) { return d.value; });
+		var max = d3.max(data, function (d) { return d.value; });
+
+		if (data.length <= series.length) {
+			min = Math.min(min, 0);
+			max = Math.max(max, 0);
+		}
 
 		return {
-			min: 0,
+			min: min,
 			max: max
 		}
 	}
@@ -63,15 +101,5 @@ export default class BarData {
 		} else {
 			return 0;
 		}
-	}
-
-	/** 
-	* @private
-	* @param {Array} data
-	* @returns {Array} bar data
-	*/
-	_loadBarData(data) {
-		// no transofrmation at this stage
-		return data.slice();
 	}
 }

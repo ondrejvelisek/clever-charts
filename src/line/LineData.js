@@ -4,7 +4,7 @@ import * as d3 from "d3";
  * @class
  * series representing data for the line
  */
-export default class series {
+export default class LineData {
 	/**
 	 * @param {Array} series
 	 * @param {Object} options

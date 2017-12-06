@@ -24,9 +24,15 @@ export const OVER_BAR_COLOR = "#ffea00";
 
 /**
  * @public
- * Default over bar color
+ * Default active bar color
  */
 export const ACTIVE_BAR_COLOR = "#49ace2";
+
+/**
+ * @public
+ * Default active bar colors
+ */
+export const ACTIVE_BAR_COLORS = [];
 
 /**
  * @public

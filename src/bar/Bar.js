@@ -76,6 +76,12 @@ class Bar {
 
 		/**
 		 * @public
+		 * Selection color 
+		 */
+		this._options.activeBarColors = getOptionValue(options.activeBarColors, Defaults.ACTIVE_BAR_COLORS);
+
+		/**
+		 * @public
 		 * Enables bar toggle
 		 */
 		this._options.enableBarToggle = getOptionValue(options.enableBarToggle, Defaults.ENABLE_BAR_TOGGLE);
@@ -187,15 +193,15 @@ class Bar {
 
 	/**
 	 * Sets widget data
-	 * @param {Array} data
+	 * @param {...Array} series
 	 * @returns {Bar} returns this widget instance 
 	 */
-	setData(data) {
+	setData(...series) {
 		if (!this._barRenderer.isRendered()) {
 			throw "Can't call setData() when widget is not rendered, please call .render() first."
 		}
 
-		var barData = this._barData = new BarData(data, this._options);
+		var barData = this._barData = new BarData(series, this._options);
 
 		if (!this._options.format) {
 			this._options.format = d3.format(",." + this._barData.getPrecision() + "f")
