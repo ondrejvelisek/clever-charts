@@ -260,7 +260,7 @@ export default class BarRenderer {
 						.attr("font-size", this._options.valueFontSize)
 						.attr("y", this._options.labelFontSize)
 
-					tooltipX+= tooltipEl.node().getComputedTextLength()+20;
+					tooltipX+= tooltipEl.node().getComputedTextLength()+25;
 
 					if (d.values.length>1){
 						barGroup
@@ -271,7 +271,7 @@ export default class BarRenderer {
 								const reversedIndex = d.values.length - 1 - valueIndex;
 								return d.colors[reversedIndex] || options.activeBarColors[reversedIndex] || options.activeBarColor
 							})
-							.attr("cx", this._options.width-tooltipX-this._options.labelFontSize+25)
+							.attr("cx", this._options.width-tooltipX-this._options.labelFontSize+30)
 							.attr("cy", this._options.labelFontSize/1.5)
 					}
 
@@ -294,7 +294,7 @@ export default class BarRenderer {
 						.attr("transform", "translate(0,"+ barOffset + ")")						
 						.attr("fill",Defaults.INACTIVE_BAR_COLOR)
 						.attr("class", style["bar-inactive"])
-						.attr("clip-path", "url(#rounded-corners-"+MASK_INDEX+")")
+						.attr("clip-path", "url(#rounded-corners-"+this._maskIndex+")")
 						.attr("x", () => {
 							return Math.floor(x(value));
 						})

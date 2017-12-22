@@ -118,7 +118,13 @@ export default class TooltipRenderer {
 			const icon = `
 				<span style="display:inline-block;position:relative;top:-1px;margin-right:5px;width:6px;height:6px;border-radius:50%;background-color:${color}"></span>
 			`;
-			return icon + value;
+
+			if (d.tooltips.length>1){
+				return icon + value;
+			} else {
+				return value;
+			}
+			
 		}).join("<br />");
 	}
 
