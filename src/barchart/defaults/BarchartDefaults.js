@@ -1,0 +1,20 @@
+
+export const WIDTH = 360;
+export const HEIGHT = 129;
+export const LABEL_FONT_SIZE = 13;
+export const TOOLTIP_FONT_SIZE = 11;
+export const TOOLTIP_SYMBOL = '\u26AB';
+export const ACTIVE_COLORS = ["#49ace2", "#CD21D3"];
+export const DETAILS_HIDDEN = false;
+export const MINMAX = "sum";
+export const DUAL_VALUE = false;
+export const ENABLE_BAR_HOVER = false;
+export const ENABLE_BAR_TOGGLE = false;
+export const FORMAT = ",f";
+export const BAR_HEIGHT = 43;
+export const BAR_DISABLED = false;
+export const HORIZONTAL_PADDING = 10;
+export const STRIPE_HEIGHT = 5;
+export const STRIPE_BACKGROUND_COLOR = "#f0f0f0";
+export const TOOLTIP_SPACE = 3;
+export const BAR_HIGHLIGHTED = false;

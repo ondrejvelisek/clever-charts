@@ -49,6 +49,18 @@ export default class Observable {
 
 	/**
 	 * @public
+	 * Add new event to be handled
+	 * @param {String} event
+	 */
+	add(event) {
+		if (!(event in this._handlers)) {
+			this._handlers[event] = [];
+		}
+		return this;
+	}
+
+	/**
+	 * @public
 	 * Fire widget event
 	 * @param {String} event event name
 	 * @param {*} ...args event arguments

@@ -3,16 +3,33 @@
 
 <head>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js"></script>
-    <script src="../dist/clever-charts-1.0.7.min.js"></script>
+    <script src="../dist/clever-charts-1.0.8.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet"/>
 </head>
 
 <style>
     .invert-control, .highlight-control {
         margin-left:10px;
-    }    
+    }
 
-    .bar1-ct, .bar2-ct, .bar3-ct {
+    .bar1-ct,
+    .bar2-ct,
+    .bar3-ct,
+    .bar1b-ct,
+    .bar2b-ct,
+    .bar3b-ct,
+    .barchart1-ct,
+    .barchart2-ct,
+    .barchart3-ct,
+    .barchart4-ct,
+    .barchart5-ct,
+    .barchart6-ct,
+    .barchart7-ct,
+    .barchart8-ct,
+    .barchart9-ct,
+    .barchart10-ct,
+    .barchart11-ct,
+    .barchart12-ct {
         position:relative;
         float:left;
         margin:20px;
@@ -20,99 +37,878 @@
 </style>
 
 <body>
-    <input type="checkbox" class="invert-control">Invert</button>
-    <button class="highlight-control">Highlight 2->2</button>
-    <br>
-    <div class="bar1-ct"></div>
-    <div class="bar2-ct"></div>
-    <div class="bar3-ct"></div>
-    <script>
-        // bar 1  ================================================================
-        var bar = new CleverCharts.Bar({
-            width:360
-        });
+<input type="checkbox" class="invert-control">Invert</button>
+<button class="highlight-control">Highlight 2->2</button>
+<br>
 
-        bar.render(".bar1-ct");
+<div class="bar1-ct"></div>
+<div class="bar1b-ct"></div>
+<div class="barchart1-ct"></div>
 
-        d3.json("data/bar/sample.json", function(json) {
-            bar.setData(json.content);  
-        });
+<div class="bar2-ct"></div>
+<div class="bar2b-ct"></div>
+<div class="barchart2-ct"></div>
 
-        // simulate invert
-        d3.select(".invert-control").on("click", function(){
-            if (this.checked){
-                d3.json("data/bar/sample.json", function(json)  {
-                    bar.setData(json.content.map(function(item){
-                        return {
-                            value:item.value,
-                            label:item.label,
-                            disabled:!item.disabled
-                        }
-                    }));  
-                });       
-            } else {
-                d3.json("data/bar/sample.json", function(json) {
-                    bar.setData(json.content);  
-                });       
-            }
-        });            
+<div class="bar3-ct"></div>
+<div class="bar3b-ct"></div>
+<div class="barchart3-ct"></div>
 
-        bar.on("barClick", function(barIndex){
-            console.log("barClick:"+barIndex);
-        });
+<div class="barchart4-ct"></div>
+<div class="barchart5-ct"></div>
+<div class="barchart6-ct"></div>
+<div class="barchart7-ct"></div>
+<div class="barchart8-ct"></div>
+<div class="barchart9-ct"></div>
+<div class="barchart10-ct"></div>
+<div class="barchart11-ct"></div>
+<div class="barchart12-ct"></div>
 
-        bar.on("barDisabled", function(barIndex, disabled){
-            console.log("barDisabled:"+barIndex, "disabled: "+disabled);
-        });        
+<script>
 
-        // bar 2  ================================================================        
-        var bar2 = new CleverCharts.Bar({
-            width:360,
-            labelFontSize:24,
-            valueFontSize:20,
-            barHeight:60,
-            enableBarToggle:true,
-            enableBarHover:true
-        });
+	// bar 1  ================================================================
+	var bar = new CleverCharts.Bar({
+		width:360
+	});
 
-        bar2.render(".bar2-ct");
+	bar.render(".bar1-ct");
 
-        d3.json("data/bar/categories.json", function(json) {
-            bar2.setData(json.content);  
-        });
+	d3.json("data/bar/sample.json", function(json) {
+		bar.setData(json.content);
+	});
 
-        bar2.on("barOver", function(barIndex){
-            console.log("bar 2 over:"+barIndex);
-        });
+	// simulate invert
+	d3.select(".invert-control").on("click", function(){
+		if (this.checked){
+			d3.json("data/bar/sample.json", function(json)  {
+				bar.setData(json.content.map(function(item){
+					return {
+						value:item.value,
+						label:item.label,
+						disabled:!item.disabled
+					}
+				}));
+			});
+		} else {
+			d3.json("data/bar/sample.json", function(json) {
+				bar.setData(json.content);
+			});
+		}
+	});
 
-        bar2.on("barOut", function(barIndex){
-            console.log("bar2 out:"+barIndex);
-        });        
+	bar.on("barClick", function(barIndex){
+		console.log("barClick:",barIndex);
+	});
 
-        // simulate highlight
-        d3.select(".highlight-control").on("click", function(){
-            d3.json("data/bar/categories.json", function(json) {
-                json.content[1].highlighted = true;
-                bar2.setData(json.content);  
-            });
-        })
+	bar.on("barDisabled", function(barIndex, disabled){
+		console.log("barDisabled:",barIndex, "disabled: ",disabled);
+	});
 
-        // bar 3  ================================================================
-        var bar3 = new CleverCharts.Bar({
-            width:360,
-            activeBarColors:["#4AACE2", "#CD21D3"],
-            enableBarToggle:true,
-            minMax:"auto",
-            barHeight:48,
-            enableBarHover:true
-        });
+	// bar 1 backport  ================================================================
+	var bar1b = new CleverCharts.BarchartBackport({
+		width:360
+	});
 
-        bar3.render(".bar3-ct");
+	bar1b.render(".bar1b-ct");
 
-        d3.json("data/bar/sample.json", function(json1) {
-            d3.json("data/bar/sample2.json", function(json2) {
-                bar3.setData(json1.content, json2.content);  
-            });
-        });
-    </script>
+	d3.json("data/bar/sample.json", function(json) {
+		bar1b.setData(json.content);
+	});
+
+	// simulate invert
+	d3.select(".invert-control").on("click", function(){
+		if (this.checked){
+			d3.json("data/bar/sample.json", function(json)  {
+				bar1b.setData(json.content.map(function(item){
+					return {
+						value:item.value,
+						label:item.label,
+						disabled:!item.disabled
+					}
+				}));
+			});
+		} else {
+			d3.json("data/bar/sample.json", function(json) {
+				bar1b.setData(json.content);
+			});
+		}
+	});
+
+	bar1b.on("barClick", function(barIndex){
+		console.log("barClick:",barIndex);
+	});
+
+	bar1b.on("barDisabled", function(barIndex, disabled){
+		console.log("barDisabled:",barIndex, "disabled: ",disabled);
+	});
+
+	// barchart1 ================================================================
+
+	var barchart1 = new CleverCharts.Barchart({
+		width: 360,
+	});
+
+	barchart1.render(".barchart1-ct");
+
+	const barchart1Data = new CleverCharts.BarchartData({}, null,
+		[
+			new CleverCharts.BarData(
+				{},
+				new CleverCharts.DetailsData({
+					label: "Sole ownership"
+				}),
+				[
+					new CleverCharts.StripeData({
+						value: 1500
+					})
+				]
+			),
+			new CleverCharts.BarData(
+				{
+					disabled: true
+				},
+				new CleverCharts.DetailsData({
+					label: "State / Municipality"
+				}),
+				[
+					new CleverCharts.StripeData({
+						value: 630
+					})
+				]
+			),
+			new CleverCharts.BarData(
+				{},
+				new CleverCharts.DetailsData({
+					label: "Cooperative"
+				}),
+				[
+					new CleverCharts.StripeData({
+						value: 50
+					})
+				]
+			),
+			new CleverCharts.BarData(
+				{},
+				new CleverCharts.DetailsData({
+					label: "Joint tenancy"
+				}),
+				[
+					new CleverCharts.StripeData({
+						value: 100
+					})
+				]
+			)
+		]
+	);
+
+	barchart1.setData(barchart1Data);
+
+	// bar 2  ================================================================
+	var bar2 = new CleverCharts.Bar({
+		width:360,
+		labelFontSize:24,
+		valueFontSize:20,
+		barHeight:60,
+		enableBarToggle:true,
+		enableBarHover:true
+	});
+
+	bar2.render(".bar2-ct");
+
+	d3.json("data/bar/categories.json", function(json) {
+		bar2.setData(json.content);
+	});
+
+	bar2.on("barOver", function(barIndex){
+		console.log("bar 2 over:",barIndex);
+	});
+
+	bar2.on("barOut", function(barIndex){
+		console.log("bar2 out:",barIndex);
+	});
+
+	// simulate highlight
+	d3.select(".highlight-control").on("click", function(){
+		d3.json("data/bar/categories.json", function(json) {
+			json.content[1].highlighted = true;
+			bar2.setData(json.content);
+		});
+	})
+
+
+	// bar 2 backport  ================================================================
+	var bar2b = new CleverCharts.BarchartBackport({
+		width:360,
+		labelFontSize:24,
+		valueFontSize:20,
+		barHeight:60,
+		enableBarToggle:true,
+		enableBarHover:true
+	});
+
+	bar2b.render(".bar2b-ct");
+
+	d3.json("data/bar/categories.json", function(json) {
+		bar2b.setData(json.content);
+	});
+
+	bar2b.on("barOver", function(barIndex){
+		console.log("bar 2 over:",barIndex);
+	});
+
+	bar2b.on("barOut", function(barIndex){
+		console.log("bar2 out:",barIndex);
+	});
+
+	// simulate highlight
+	d3.select(".highlight-control").on("click", function(){
+		d3.json("data/bar/categories.json", function(json) {
+			json.content[1].highlighted = true;
+			bar2b.setData(json.content);
+		});
+	});
+
+	// barchart2 ================================================================
+	var barchart2 = new CleverCharts.Barchart({
+		width:360,
+		labelFontSize:24,
+		tooltipFontSize:20,
+		barHeight:60,
+		enableBarHover:true,
+		enableBarToggle:true
+	});
+
+	barchart2.render(".barchart2-ct");
+
+	const barchart2Data = new CleverCharts.BarchartData({}, null,
+		[
+			new CleverCharts.BarData(
+				{color: "#ed78b6"},
+				new CleverCharts.DetailsData({
+					label: "Label 1",
+					tooltips: [
+						new CleverCharts.TooltipData({text: "80 regions"})
+					]
+				}),
+				[
+					new CleverCharts.StripeData({
+						value: 80
+					})
+				]
+			),
+			new CleverCharts.BarData(
+				{},
+				new CleverCharts.DetailsData({
+					label: "Label 2",
+					tooltips: [
+						new CleverCharts.TooltipData({text: "32 regions"})
+					]
+				}),
+				[
+					new CleverCharts.StripeData({
+						color: "#e8b43f",
+						value: 32
+					})
+				]
+			),
+			new CleverCharts.BarData(
+				{color: "#4a4a4a"},
+				new CleverCharts.DetailsData({
+					label: "Label 3",
+					tooltips: [
+						new CleverCharts.TooltipData({text: "10 regions"})
+					]
+				}),
+				[
+					new CleverCharts.StripeData({
+						value: 10
+					})
+				]
+			)
+		]
+	);
+
+	barchart2.setData(barchart2Data);
+
+
+	// bar 3  ================================================================
+	var bar3 = new CleverCharts.Bar({
+		width:360,
+		activeBarColors:["#4AACE2", "#CD21D3"],
+		enableBarToggle:true,
+		minMax:"auto",
+		barHeight:48,
+		enableBarHover:true
+	});
+
+	bar3.render(".bar3-ct");
+
+	d3.json("data/bar/sample.json", function(json1) {
+		d3.json("data/bar/sample2.json", function(json2) {
+			bar3.setData(json1.content, json2.content);
+		});
+	});
+
+
+	// bar 3  ================================================================
+	var bar3b = new CleverCharts.BarchartBackport({
+		width:360,
+		activeBarColors:["#4AACE2", "#CD21D3"],
+		enableBarToggle:true,
+		minMax:"auto",
+		barHeight:48,
+		enableBarHover:true
+	});
+
+	bar3b.render(".bar3b-ct");
+
+	d3.json("data/bar/sample.json", function(json1) {
+		d3.json("data/bar/sample2.json", function(json2) {
+			bar3b.setData(json1.content, json2.content);
+		});
+	});
+
+
+	// barchart3 ================================================================
+
+	var barchart3 = new CleverCharts.Barchart({
+		width: 360,
+		color: "#4AACE2",
+		enableBarToggle:true,
+		minMax:"auto",
+		barHeight:48,
+		enableBarHover:true,
+		format:",f"
+	});
+
+	barchart3.render(".barchart3-ct");
+
+	const barchart3Data = new CleverCharts.BarchartData({}, null,
+		[
+			new CleverCharts.BarData(
+				{},
+				new CleverCharts.DetailsData({
+					label: "Sole ownership",
+					tooltips: [
+						new CleverCharts.TooltipData({text: "1500"}),
+						new CleverCharts.TooltipData({text: 1600})
+					]
+				}),
+				[
+					new CleverCharts.StripeData({
+						value: 1500
+					}),
+					new CleverCharts.StripeData({
+						value: 1600
+					})
+				]
+			),
+			new CleverCharts.BarData(
+				{
+					disabled: true
+				},
+				new CleverCharts.DetailsData({
+					label: "State / Municipality",
+					tooltips: [
+						new CleverCharts.TooltipData({text: "630"}),
+						new CleverCharts.TooltipData({text: "500"})
+					]
+				}),
+				[
+					new CleverCharts.StripeData({
+						value: 630
+					}),
+					new CleverCharts.StripeData({
+						value: 500
+					})
+				]
+			),
+			new CleverCharts.BarData(
+				{},
+				new CleverCharts.DetailsData({
+					label: "Cooperative",
+					tooltips: [
+						new CleverCharts.TooltipData({text: "50"}),
+						new CleverCharts.TooltipData({text: "75"})
+					]
+				}),
+				[
+					new CleverCharts.StripeData({
+						value: 50
+					}),
+					new CleverCharts.StripeData({
+						value: 75
+					})
+				]
+			),
+			new CleverCharts.BarData(
+				{},
+				new CleverCharts.DetailsData({
+					label: "Joint tenancy",
+					tooltips: [
+						new CleverCharts.TooltipData({text: "100 more"}),
+						new CleverCharts.TooltipData({text: "120"})
+					]
+				}),
+				[
+					new CleverCharts.StripeData({
+						value: 100
+					}),
+					new CleverCharts.StripeData({
+						value: 120
+					})
+				]
+			),
+		]
+	);
+
+	barchart3.setData(barchart3Data);
+
+	// barchart4 ================================================================
+
+	var barchart4 = new CleverCharts.Barchart({
+		width: 360,
+		minMax: "auto",
+		dualValue: true,
+		enableBarHover: true,
+		enableBarToggle: true,
+		detailsVisible: true,
+		barHeight: 16
+	});
+
+	barchart4.render(".barchart4-ct");
+
+	const bars4Data = [
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+                left: { value: 885 },
+                right: { value: 715 }
+            }),
+			new CleverCharts.StripeData({
+				left: { value: 585 },
+				right: { value: 515 }
+			})
+        ]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				left: { value: 2115 },
+				right: { value: 2095 }
+			}),
+			new CleverCharts.StripeData({
+				left: { value: 1115 },
+				right: { value: 1295 }
+			})
+        ]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				left: { value: 2423 },
+				right: { value: 2585 }
+			}),
+			new CleverCharts.StripeData({
+				left: { value: 1223 },
+				right: { value: 1485 }
+			})
+        ]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				left: { value: 2483 },
+				right: { value: 2535 }
+			}),
+			new CleverCharts.StripeData({
+				left: { value: 1883 },
+				right: { value: 1735 }
+			})
+        ]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				left: { value: 2865 },
+				right: { value: 2925 }
+			}),
+			new CleverCharts.StripeData({
+				left: { value: 2465 },
+				right: { value: 2125 }
+			})
+        ]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				left: { value: 2774 },
+				right: { value: 2714 }
+			}),
+			new CleverCharts.StripeData({
+				left: { value: 2074 },
+				right: { value: 2614 }
+			})
+        ]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				left: { value: 2656 },
+				right: { value: 2725 }
+			}),
+			new CleverCharts.StripeData({
+				left: { value: 1956 },
+				right: { value: 2125 }
+			})
+        ]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				left: { value: 2556 },
+				right: { value: 2425 }
+			}),
+			new CleverCharts.StripeData({
+				left: { value: 1956 },
+				right: { value: 1925 }
+			})
+        ]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				left: { value: 1828 },
+				right: { value: 1731 }
+			}),
+			new CleverCharts.StripeData({
+				left: { value: 1228 },
+				right: { value: 731 }
+			})
+        ]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				left: { value: 1598 },
+				right: { value: 1631 }
+			}),
+			new CleverCharts.StripeData({
+				left: { value: 1098 },
+				right: { value: 1531 }
+			})
+        ]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				left: { value: 1279 },
+				right: { value: 1311 }
+			}),
+			new CleverCharts.StripeData({
+				left: { value: 1079 },
+				right: { value: 911 }
+			})
+        ]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				left: { value: 997 },
+				right: { value: 910 }
+			}),
+			new CleverCharts.StripeData({
+				left: { value: 597 },
+				right: { value: 310 }
+			})
+        ]),
+	];
+
+	const barchart4Data = new CleverCharts.BarchartData({},
+		new CleverCharts.DetailsData({
+			label: "0 - 65+ years",
+			tooltips: [
+				new CleverCharts.TooltipData({text: "495,663 | 595,663"}),
+				new CleverCharts.TooltipData({text: "299,578 | 325,612"})
+			]
+		}),
+		bars4Data
+	);
+
+	barchart4.setData(barchart4Data);
+
+
+
+
+	// barchart5 ================================================================
+
+	var barchart5 = new CleverCharts.Barchart({
+		width: 360,
+		minMax: "auto",
+		dualValue: true,
+		enableBarHover: true,
+		enableBarToggle: true,
+		detailsVisible: true,
+		barHeight: 10
+	});
+
+	barchart5.render(".barchart5-ct");
+
+	const barsData = [
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			left: { value: 885 },
+			right: { value: 715 }
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			left: { value: 2115 },
+			right: { value: 2095 }
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			left: { value: 2423 },
+			right: { value: 2485 }
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			left: { value: 2483 },
+			right: { value: 2535 }
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			left: { value: 2865 },
+			right: { value: 2925 }
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			left: { value: 2774 },
+			right: { value: 2714 }
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			left: { value: 2656 },
+			right: { value: 2725 }
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			left: { value: 2556 },
+			right: { value: 2425 }
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			left: { value: 1828 },
+			right: { value: 1731 }
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			left: { value: 1598 },
+			right: { value: 1631 }
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			left: { value: 1279 },
+			right: { value: 1311 }
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			left: { value: 997 },
+			right: { value: 910 }
+		})]),
+	];
+
+	const barchart5details = new CleverCharts.DetailsData({
+		label: "0 - 65+ years",
+		tooltips: [
+			new CleverCharts.TooltipData({color: "#CD21D3", text: 495663}),
+			new CleverCharts.TooltipData({color: "#49ace2", text: 525663})
+		]
+	});
+
+	const barchart5Data = new CleverCharts.BarchartData({},
+		barchart5details,
+		barsData
+	);
+
+	barchart5.setData(barchart5Data);
+
+	console.log(barsData, barsData[0]);
+
+	barchart5.on("barEnter", (index) => {
+		barchart5.setDetailsData(new CleverCharts.DetailsData({
+            label: `${index*5} - ${(index+1)*5} years`,
+			disabled: d3.select(barchart5.node()).select(style),
+            tooltips: [
+                new CleverCharts.TooltipData({color: "#CD21D3", text: barsData[index].stripes[0].left.value}),
+                new CleverCharts.TooltipData({color: "#49ace2", text: barsData[index].stripes[0].right.value})
+            ]
+        }));
+	});
+
+	barchart5.on("barsLeave", () => {
+		barchart5.setDetailsData(barchart5details);
+	});
+
+
+
+
+	// barchart6 ================================================================
+
+	var barchart6 = new CleverCharts.Barchart({
+		width: 360,
+		minMax: "auto",
+		enableBarHover: true,
+		enableBarToggle: true,
+		detailsVisible: true,
+		barHeight: 16
+	});
+
+	barchart6.render(".barchart6-ct");
+
+	const bars6Data = [
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				value: 885
+			}),
+			new CleverCharts.StripeData({
+				value: 585
+			})
+		]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				value: 2115
+			}),
+			new CleverCharts.StripeData({
+				value: 1115
+			})
+		]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				value: 2423
+			}),
+			new CleverCharts.StripeData({
+				value: 1223
+			})
+		]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				value: 2483
+			}),
+			new CleverCharts.StripeData({
+				value: 1883
+			})
+		]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				value: 2865
+			}),
+			new CleverCharts.StripeData({
+				value: 2465
+			})
+		]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				value: 2774
+			}),
+			new CleverCharts.StripeData({
+				value: 2074
+			})
+		]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				value: 2656
+			}),
+			new CleverCharts.StripeData({
+				value: 1956
+			})
+		]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				value: 2556
+			}),
+			new CleverCharts.StripeData({
+				value: 1956
+			})
+		]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				value: 1828
+			}),
+			new CleverCharts.StripeData({
+				value: 1228
+			})
+		]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				value: 1598
+			}),
+			new CleverCharts.StripeData({
+				value: 1098
+			})
+		]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				value: 1279
+			}),
+			new CleverCharts.StripeData({
+				value: 1079
+			})
+		]),
+		new CleverCharts.BarData({}, null, [
+			new CleverCharts.StripeData({
+				value: 997
+			}),
+			new CleverCharts.StripeData({
+				value: 597
+			})
+		]),
+	];
+
+	const barchart6Data = new CleverCharts.BarchartData({},
+		new CleverCharts.DetailsData({
+			label: "12 months",
+			tooltips: [
+				new CleverCharts.TooltipData({text: "495,663"}),
+				new CleverCharts.TooltipData({text: "299,578"})
+			]
+		}),
+		bars6Data
+	);
+
+	barchart6.setData(barchart6Data);
+
+
+
+
+	// barchart7 ================================================================
+
+	var barchart7 = new CleverCharts.Barchart({
+		width: 360,
+		minMax: "auto",
+		enableBarHover: true,
+		enableBarToggle: true,
+		detailsVisible: true,
+		barHeight: 10
+	});
+
+	barchart7.render(".barchart7-ct");
+
+	const bars7Data = [
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			value: 885
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			value: 2115
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			value: 2423
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			value: 2483
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			value: 2865
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			value: 2774
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			value: 2656
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			value: 2556
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			value: 1828
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			value: 1598
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			value: 1279
+		})]),
+		new CleverCharts.BarData({}, null, [new CleverCharts.StripeData({
+			value: 997
+		})]),
+	];
+
+	const barchart7Data = new CleverCharts.BarchartData({},
+		new CleverCharts.DetailsData({
+			label: "12 months",
+			tooltips: [
+				new CleverCharts.TooltipData({text: 495663})
+			]
+		}),
+		bars7Data
+	);
+
+	barchart7.setData(barchart7Data);
+
+
+
+</script>
 </body>
