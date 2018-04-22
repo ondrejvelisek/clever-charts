@@ -1,0 +1,38 @@
+{
+  "bars": [
+    {
+      "details": {
+        "label": "Label 1",
+        "tooltips": [
+          {"text": "80 regions"}
+        ]
+      },
+      "stripes": [
+        {"value": 80, "color":"#ed78b6"}
+      ]
+    },
+    {
+      "details": {
+        "label": "Label 2",
+        "tooltips": [
+          {"text": "32 regions"}
+        ]
+      },
+      "stripes": [
+        {"value": 32, "color":"#e8b43f"}
+      ]
+    },
+    {
+      "details": {
+        "label": "Label 2",
+        "tooltips": [
+          {"text": "10 regions"}
+        ]
+      },
+      "stripes": [
+        {"value": 10, "color":"#4a4a4a"}
+      ]
+    }
+  ]
+}
+

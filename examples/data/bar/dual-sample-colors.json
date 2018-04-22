@@ -1,0 +1,86 @@
+
+{
+  "details": {
+    "label": "4 Seasons",
+    "tooltips": [
+      {
+        "text": 8920,
+        "color": ["#49ace2", "#CD21D3"]
+      },
+      {
+        "text": 8363,
+        "color": ["red", "orange"]
+      }
+    ]
+  },
+  "bars": [
+    {
+      "details": {
+        "label": "Spring"
+      },
+      "stripes": [
+        {
+          "left": {
+            "value": 1140,
+            "color": ["#49ace2", "#CD21D3"]
+          },
+          "right": {
+            "value": 1202,
+            "color": ["red", "orange"]
+          }
+        }
+      ]
+    },
+    {
+      "details": {
+        "label": "Summer"
+      },
+      "stripes": [
+        {
+          "left": {
+            "value": 2438,
+            "color": ["#49ace2", "#CD21D3"]
+          },
+          "right": {
+            "value": 2612,
+            "color": ["red", "orange"]
+          }
+        }
+      ]
+    },
+    {
+      "details": {
+        "label": "Autumn"
+      },
+      "stripes": [
+        {
+          "left": {
+            "value": 3385,
+            "color": ["#49ace2", "#CD21D3"]
+          },
+          "right": {
+            "value": 3365,
+            "color": ["red", "orange"]
+          }
+        }
+      ]
+    },
+    {
+      "details": {
+        "label": "Winter"
+      },
+      "stripes": [
+        {
+          "left": {
+            "value": 1675,
+            "color": ["#49ace2", "#CD21D3"]
+          },
+          "right": {
+            "value": 1335,
+            "color": ["red", "orange"]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -3,116 +3,706 @@
 
 <head>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js"></script>
-    <script src="../dist/clever-charts-1.0.7.min.js"></script>
+    <script src="../dist/clever-charts-1.0.8.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet"/>
 </head>
 
 <style>
-    .invert-control, .highlight-control {
+    input, button {
         margin-left:10px;
-    }    
+    }
 
-    .bar1-ct, .bar2-ct, .bar3-ct {
-        position:relative;
-        float:left;
+    div {
+        display: inline-block;
         margin:20px;
     }
 </style>
 
 <body>
-    <input type="checkbox" class="invert-control">Invert</button>
-    <button class="highlight-control">Highlight 2->2</button>
-    <br>
-    <div class="bar1-ct"></div>
-    <div class="bar2-ct"></div>
-    <div class="bar3-ct"></div>
-    <script>
-        // bar 1  ================================================================
-        var bar = new CleverCharts.Bar({
-            width:360
-        });
 
-        bar.render(".bar1-ct");
+<h1>Compatibility</h1>
 
-        d3.json("data/bar/sample.json", function(json) {
-            bar.setData(json.content);  
-        });
+<br>
+<input type="checkbox" class="invert-control1">Invert 1</button>
+<input type="checkbox" class="invert-control2">Invert 2</button>
+<input type="checkbox" class="invert-control3">Invert 3</button>
+<br>
 
-        // simulate invert
-        d3.select(".invert-control").on("click", function(){
-            if (this.checked){
-                d3.json("data/bar/sample.json", function(json)  {
-                    bar.setData(json.content.map(function(item){
-                        return {
-                            value:item.value,
-                            label:item.label,
-                            disabled:!item.disabled
-                        }
-                    }));  
-                });       
-            } else {
-                d3.json("data/bar/sample.json", function(json) {
-                    bar.setData(json.content);  
-                });       
-            }
-        });            
+<div class="bar1-ct"></div>
+<div class="bar1back-ct"></div>
+<div class="barchart1-ct"></div>
+<br>
 
-        bar.on("barClick", function(barIndex){
-            console.log("barClick:"+barIndex);
-        });
+<button class="highlight-control1">Highlight 1->2</button>
+<button class="highlight-control2">Highlight 2->2</button>
+<button class="highlight-control3">Highlight 3->2</button>
+<br>
 
-        bar.on("barDisabled", function(barIndex, disabled){
-            console.log("barDisabled:"+barIndex, "disabled: "+disabled);
-        });        
+<div class="bar2-ct"></div>
+<div class="bar2back-ct"></div>
+<div class="barchart2-ct"></div>
+<br>
 
-        // bar 2  ================================================================        
-        var bar2 = new CleverCharts.Bar({
-            width:360,
-            labelFontSize:24,
-            valueFontSize:20,
-            barHeight:60,
-            enableBarToggle:true,
-            enableBarHover:true
-        });
+<div class="bar3-ct"></div>
+<div class="bar3back-ct"></div>
+<div class="barchart3-ct"></div>
 
-        bar2.render(".bar2-ct");
+<h1>Compare</h1>
 
-        d3.json("data/bar/categories.json", function(json) {
-            bar2.setData(json.content);  
-        });
+<div class="compare1-ct"></div>
+<div class="compare2-ct"></div>
+<div class="compare3-ct"></div>
 
-        bar2.on("barOver", function(barIndex){
-            console.log("bar 2 over:"+barIndex);
-        });
+<h1>Dual value</h1>
 
-        bar2.on("barOut", function(barIndex){
-            console.log("bar2 out:"+barIndex);
-        });        
+<div class="dual1-ct"></div>
+<div class="dual2-ct"></div>
+<div class="dual3-ct"></div>
 
-        // simulate highlight
-        d3.select(".highlight-control").on("click", function(){
-            d3.json("data/bar/categories.json", function(json) {
-                json.content[1].highlighted = true;
-                bar2.setData(json.content);  
-            });
-        })
+<h1>Condensed</h1>
 
-        // bar 3  ================================================================
-        var bar3 = new CleverCharts.Bar({
-            width:360,
-            activeBarColors:["#4AACE2", "#CD21D3"],
-            enableBarToggle:true,
-            minMax:"auto",
-            barHeight:48,
-            enableBarHover:true
-        });
+<div class="condensed1-ct"></div>
+<div class="condensed2-ct"></div>
+<div class="condensed3-ct"></div>
 
-        bar3.render(".bar3-ct");
+<h1>Colors</h1>
 
-        d3.json("data/bar/sample.json", function(json1) {
-            d3.json("data/bar/sample2.json", function(json2) {
-                bar3.setData(json1.content, json2.content);  
-            });
-        });
-    </script>
+<div class="colors1-ct"></div>
+<div class="colors2-ct"></div>
+<div class="colors3-ct"></div>
+
+<h1>Hover</h1>
+
+<div class="hover1-ct"></div>
+<div class="hover2-ct"></div>
+<div class="hover3-ct"></div>
+
+<h1>Tooltips</h1>
+
+<div class="tooltips1-ct"></div>
+<div class="tooltips2-ct"></div>
+<div class="tooltips3-ct"></div>
+
+<h1>Precision</h1>
+
+<div class="precision1-ct"></div>
+<div class="precision2-ct"></div>
+<div class="precision3-ct"></div>
+
+<h1>Negative values</h1>
+
+<div class="negative1-ct"></div>
+<div class="negative2-ct"></div>
+<div class="negative3-ct"></div>
+
+<h1>Custom callbacks</h1>
+
+<div class="custom1-ct"></div>
+<div class="custom2-ct"></div>
+<div class="custom3-ct"></div>
+
+<h1>Min max</h1>
+
+<div class="minmax1-ct"></div>
+<div class="minmax2-ct"></div>
+<div class="minmax3-ct"></div>
+<br>
+<div class="minmax4-ct"></div>
+<div class="minmax5-ct"></div>
+<div class="minmax6-ct"></div>
+
+<script>
+
+	// bar 1  ================================================================
+
+	var bar = new CleverCharts.Bar({
+		width:360
+	});
+
+	bar.render(".bar1-ct");
+
+	d3.json("data/bar/sample.json", function(json) {
+		bar.setData(json.content);
+	});
+
+	// simulate invert
+	d3.select(".invert-control1").on("click", function(){
+		if (this.checked){
+			d3.json("data/bar/sample.json", function(json)  {
+				bar.setData(json.content.map(function(item){
+					return {
+						value:item.value,
+						label:item.label,
+						disabled:!item.disabled
+					}
+				}));
+			});
+		} else {
+			d3.json("data/bar/sample.json", function(json) {
+				bar.setData(json.content);
+			});
+		}
+	});
+
+	bar.on("barClick", function(barIndex){
+		console.log("barClick:",barIndex);
+	});
+
+	bar.on("barDisabled", function(barIndex, disabled){
+		console.log("barDisabled:",barIndex, "disabled: ",disabled);
+	});
+
+	// bar 1 backport  ================================================================
+
+	var bar1b = new CleverCharts.BarLegacy({
+		width:360
+	});
+
+	bar1b.render(".bar1back-ct");
+
+	d3.json("data/bar/sample.json", function(json) {
+		bar1b.setData(json.content);
+	});
+
+	// simulate invert
+	d3.select(".invert-control2").on("click", function(){
+		if (this.checked){
+			d3.json("data/bar/sample.json", function(json)  {
+				bar1b.setData(json.content.map(function(item){
+					return {
+						value:item.value,
+						label:item.label,
+						disabled:!item.disabled
+					}
+				}));
+			});
+		} else {
+			d3.json("data/bar/sample.json", function(json) {
+				bar1b.setData(json.content);
+			});
+		}
+	});
+
+	bar1b.on("barClick", function(barIndex){
+		console.log("barClick:",barIndex);
+	});
+
+	bar1b.on("barDisabled", function(barIndex, disabled){
+		console.log("barDisabled:",barIndex, "disabled: ",disabled);
+	});
+
+	// barchart1 ================================================================
+
+	var barchart1 = new CleverCharts.Barchart({
+		width: 360,
+	});
+
+	barchart1.render(".barchart1-ct");
+
+	d3.json("data/bar/sample-new.json", function(json) {
+		barchart1.setData(json);
+	});
+
+	// simulate invert
+	d3.select(".invert-control3").on("click", function(){
+		if (this.checked){
+			d3.json("data/bar/sample-new.json", function(json)  {
+				barchart1.setData({ bars: json.bars.map(function(item){
+						return {
+							details:item.details,
+							stripes:item.stripes,
+							disabled:!item.disabled
+						}
+					})});
+			});
+		} else {
+			d3.json("data/bar/sample-new.json", function(json) {
+				barchart1.setData(json);
+			});
+		}
+	});
+
+	barchart1.on("barClick", function(barIndex){
+		console.log("barClick:",barIndex);
+	});
+
+	barchart1.on("barDisabled", function(barIndex, disabled){
+		console.log("barDisabled:",barIndex, "disabled: ",disabled);
+	});
+
+
+
+
+
+
+
+
+
+	// bar 2  ================================================================
+
+	var bar2 = new CleverCharts.Bar({
+		width:360,
+		labelFontSize:24,
+		valueFontSize:20,
+		barHeight:60,
+		enableBarToggle:true,
+		enableBarHover:true
+	});
+
+	bar2.render(".bar2-ct");
+
+	d3.json("data/bar/categories.json", function(json) {
+		bar2.setData(json.content);
+	});
+
+	bar2.on("barOver", function(barIndex){
+		console.log("bar 2 over:",barIndex);
+	});
+
+	bar2.on("barOut", function(barIndex){
+		console.log("bar2 out:",barIndex);
+	});
+
+	// simulate highlight
+	d3.select(".highlight-control1").on("click", function(){
+		d3.json("data/bar/categories.json", function(json) {
+			json.content[1].highlighted = true;
+			bar2.setData(json.content);
+		});
+	})
+
+
+	// bar 2 backport  ================================================================
+	var bar2b = new CleverCharts.BarLegacy({
+		width:360,
+		labelFontSize:24,
+		valueFontSize:20,
+		barHeight:60,
+		enableBarToggle:true,
+		enableBarHover:true
+	});
+
+	bar2b.render(".bar2back-ct");
+
+	d3.json("data/bar/categories.json", function(json) {
+		bar2b.setData(json.content);
+	});
+
+	bar2b.on("barOver", function(barIndex){
+		console.log("bar 2 over:",barIndex);
+	});
+
+	bar2b.on("barOut", function(barIndex){
+		console.log("bar2 out:",barIndex);
+	});
+
+	// simulate highlight
+	d3.select(".highlight-control2").on("click", function(){
+		d3.json("data/bar/categories.json", function(json) {
+			json.content[1].highlighted = true;
+			bar2b.setData(json.content);
+		});
+	});
+
+	// barchart2 ================================================================
+
+	var barchart2 = new CleverCharts.Barchart({
+		width:360,
+		labelFontSize:24,
+		tooltipFontSize:20,
+		barHeight:60,
+		enableBarHover:true,
+		enableBarToggle:true
+	});
+
+	barchart2.render(".barchart2-ct");
+
+	d3.json("data/bar/categories-new.json", function(json) {
+		barchart2.setData(json);
+	});
+
+	barchart2.on("barEnter", function(barIndex){
+		console.log("bar 2 over:",barIndex);
+	});
+
+	barchart2.on("barLeave", function(barIndex){
+		console.log("bar2 out:",barIndex);
+	});
+
+	// simulate highlight
+	d3.select(".highlight-control3").on("click", function(){
+		d3.json("data/bar/categories-new.json", function(json) {
+			json.bars[1].highlighted = true;
+			barchart2.setData(json);
+		});
+	});
+
+
+
+
+
+
+
+
+
+	// bar 3  ================================================================
+
+	var bar3 = new CleverCharts.Bar({
+		width:360,
+		activeBarColors:["#4AACE2", "#CD21D3"],
+		enableBarToggle:true,
+		minMax:"auto",
+		barHeight:48,
+		enableBarHover:true
+	});
+
+	bar3.render(".bar3-ct");
+
+	d3.json("data/bar/sample.json", function(json1) {
+		d3.json("data/bar/sample2.json", function(json2) {
+			bar3.setData(json1.content, json2.content);
+		});
+	});
+
+
+	// bar 3  ================================================================
+
+
+	var bar3b = new CleverCharts.BarLegacy({
+		width:360,
+		activeBarColors:["#4AACE2", "#CD21D3"],
+		enableBarToggle:true,
+		minMax:"auto",
+		barHeight:48,
+		enableBarHover:true
+	});
+
+	bar3b.render(".bar3back-ct");
+
+	d3.json("data/bar/sample.json", function(json1) {
+		d3.json("data/bar/sample2.json", function(json2) {
+			bar3b.setData(json1.content, json2.content);
+		});
+	});
+
+
+	// barchart3 ================================================================
+
+	var barchart3 = new CleverCharts.Barchart({
+		width: 360,
+		color: "#4AACE2",
+		enableBarToggle:true,
+		minMax:"auto",
+		barHeight:48,
+		enableBarHover:true,
+		format:",f"
+	});
+
+	barchart3.render(".barchart3-ct");
+
+	d3.json("data/bar/sample2-new.json", function(json) {
+		barchart3.setData(json);
+	});
+
+
+
+
+
+
+
+
+
+
+	// COMPARE ================================================================
+
+	var compare1 = new CleverCharts.Barchart({
+		minMax:"auto"
+	});
+	compare1.render(".compare1-ct");
+	d3.json("data/bar/sample-new.json", function(json) {
+		compare1.setData(json);
+	});
+
+	var compare2 = new CleverCharts.Barchart({
+		minMax:"auto",
+		activeColors:["#CD21D3"]
+	});
+	compare2.render(".compare2-ct");
+	d3.json("data/bar/sample3-new.json", function(json) {
+		compare2.setData(json);
+	});
+
+	var compare3 = new CleverCharts.Barchart({
+		minMax:"auto"
+	});
+	compare3.render(".compare3-ct");
+	d3.json("data/bar/sample2-new.json", function(json) {
+		compare3.setData(json);
+	});
+
+
+
+
+
+	// DUAL VALUE ================================================================
+
+	var dual1 = new CleverCharts.Barchart({
+		minMax:"auto",
+		dualValue:true
+	});
+	dual1.render(".dual1-ct");
+	d3.json("data/bar/dual-sample3.json", function(json) {
+		dual1.setData(json);
+	});
+
+	var dual2 = new CleverCharts.Barchart({
+		minMax:"auto",
+		dualValue:true
+	});
+	dual2.render(".dual2-ct");
+	d3.json("data/bar/dual-sample2.json", function(json) {
+		dual2.setData(json);
+	});
+
+	var dual3 = new CleverCharts.Barchart({
+		minMax:"auto",
+		dualValue:true
+	});
+	dual3.render(".dual3-ct");
+	d3.json("data/bar/dual-sample-compare.json", function(json) {
+		dual3.setData(json);
+	});
+
+
+
+
+
+	// CONDENSED ================================================================
+
+	var condensed1 = new CleverCharts.Barchart({
+		minMax:"auto",
+		detailsVisible:true,
+		barHeight:10,
+		enableBarHover:true
+	});
+	condensed1.render(".condensed1-ct");
+	d3.json("data/bar/sample-new.json", function(json) {
+		condensed1.setData(json);
+	});
+
+	var condensed2 = new CleverCharts.Barchart({
+		minMax:"auto",
+		dualValue:true,
+		detailsVisible:true,
+		barHeight:10,
+		enableBarHover:true
+	});
+	condensed2.render(".condensed2-ct");
+	d3.json("data/bar/dual-sample3.json", function(json) {
+		condensed2.setData(json);
+	});
+
+	var condensed3 = new CleverCharts.Barchart({
+		minMax:"auto",
+		dualValue:true,
+		detailsVisible:true,
+		barHeight:15,
+		enableBarHover:true
+	});
+	condensed3.render(".condensed3-ct");
+	d3.json("data/bar/dual-sample-compare.json", function(json) {
+		condensed3.setData(json);
+	});
+
+
+
+
+
+
+
+	// HOVER ================================================================
+
+	var hover1 = new CleverCharts.Barchart({
+		minMax:"auto",
+		detailsVisible: true,
+		barHeight:10
+	});
+	hover1.render(".hover1-ct");
+	d3.json("data/bar/sample-new.json", function(json) {
+		hover1.setData(json);
+	});
+
+	hover1.on("barsLeave", () => {
+		hover1.updateDetailsData(oldDetailsData => {
+			oldDetailsData.tooltips[0].text = 2120;
+			oldDetailsData.tooltips[0].symbol = "";
+			return hover1.data.details;
+		});
+	});
+	hover1.on("barLeftEnter", _ => {
+		hover1.updateDetailsData(oldDetailsData => {
+			oldDetailsData.label = "Low";
+			oldDetailsData.tooltips[0].text = 125;
+			oldDetailsData.tooltips[0].symbol = "\u263A";
+			oldDetailsData.tooltips[0].color = "#55AA55";
+			return oldDetailsData;
+		});
+	});
+
+	hover1.on("barMiddleEnter", _ => {
+		hover1.updateDetailsData(oldDetailsData => {
+			oldDetailsData.label = "Moderate";
+			oldDetailsData.tooltips[0].text = 952;
+			oldDetailsData.tooltips[0].symbol = "\u24D8";
+			oldDetailsData.tooltips[0].color = "#4466CC";
+			return oldDetailsData;
+		});
+	});
+
+	hover1.on("barRightEnter", _ => {
+		hover1.updateDetailsData(oldDetailsData => {
+			oldDetailsData.label = "High";
+			oldDetailsData.tooltips[0].text = 3562;
+			oldDetailsData.tooltips[0].symbol = "\u26A0";
+			oldDetailsData.tooltips[0].color = "#FF5522";
+			return oldDetailsData;
+		});
+	});
+
+
+
+
+
+	// COLORS ================================================================
+
+	var colors1 = new CleverCharts.Barchart({
+		minMax:"auto",
+		enableBarHover:true,
+		enableBarToggle:true
+	});
+	colors1.render(".colors1-ct");
+	d3.json("data/bar/sample-new-colors.json", function(json) {
+		colors1.setData(json);
+	});
+
+	var colors2 = new CleverCharts.Barchart({
+		minMax:"auto",
+		enableBarHover:true,
+		enableBarToggle:true
+	});
+	colors2.render(".colors2-ct");
+	d3.json("data/bar/sample-new-colors2.json", function(json) {
+		colors2.setData(json);
+	});
+
+	var colors3 = new CleverCharts.Barchart({
+		minMax:"auto",
+		detailsVisible:true,
+		barHeight:10,
+		enableBarHover:true,
+		dualValue:true,
+		enableBarToggle:true,
+		activeColors: [["#49ace2", "#CD21D3"], ["red", "orange"]]
+	});
+	colors3.render(".colors3-ct");
+	d3.json("data/bar/dual-sample2.json", function(json) {
+		colors3.setData(json);
+	});
+
+
+
+
+
+	// NEGATIVE VALUES ================================================================
+
+	var negative1 = new CleverCharts.Barchart({
+		minMax:"auto",
+		enableBarHover:true
+	});
+	negative1.render(".negative1-ct");
+	d3.json("data/bar/sample-new-negative.json", function(json) {
+		negative1.setData(json);
+	});
+
+	var negative2 = new CleverCharts.Barchart({
+		minMax:"auto",
+		enableBarHover:true
+	});
+	negative2.render(".negative2-ct");
+	d3.json("data/bar/sample-new-negative2.json", function(json) {
+		negative2.setData(json);
+	});
+
+	var negative3 = new CleverCharts.Barchart({
+		minMax:"auto",
+		detailsVisible:true,
+		barHeight:15,
+		enableBarHover:true
+	});
+	negative3.render(".negative3-ct");
+	d3.json("data/bar/sample-new-negative2.json", function(json) {
+		negative3.setData(json);
+	});
+
+
+
+	// MIN MAX ================================================================
+
+	var minmax1 = new CleverCharts.Barchart({
+		minMax:"auto",
+		enableBarHover:true
+	});
+	minmax1.render(".minmax1-ct");
+	d3.json("data/bar/sample3-new.json", function(json) {
+		minmax1.setData(json);
+	});
+
+	var minmax2 = new CleverCharts.Barchart({
+		minMax:"sum",
+		enableBarHover:true
+	});
+	minmax2.render(".minmax2-ct");
+	d3.json("data/bar/sample3-new.json", function(json) {
+		minmax2.setData(json);
+	});
+
+	var minmax3 = new CleverCharts.Barchart({
+		minMax: {min: 75, max: 1600},
+		enableBarHover:true
+	});
+	minmax3.render(".minmax3-ct");
+	d3.json("data/bar/sample3-new.json", function(json) {
+		minmax3.setData(json);
+	});
+
+
+	var minmax4 = new CleverCharts.Barchart({
+		minMax:"auto",
+		enableBarHover:true
+	});
+	minmax4.render(".minmax4-ct");
+	d3.json("data/bar/sample-new-negative.json", function(json) {
+		minmax4.setData(json);
+	});
+
+	var minmax5 = new CleverCharts.Barchart({
+		minMax:"sum",
+		enableBarHover:true
+	});
+	minmax5.render(".minmax5-ct");
+	d3.json("data/bar/sample-new-negative.json", function(json) {
+		minmax5.setData(json);
+	});
+
+	var minmax6 = new CleverCharts.Barchart({
+		minMax: {min: -830, max: 3500},
+		enableBarHover:true
+	});
+	minmax6.render(".minmax6-ct");
+	d3.json("data/bar/sample-new-negative.json", function(json) {
+		minmax6.setData(json);
+	});
+
+
+</script>
 </body>

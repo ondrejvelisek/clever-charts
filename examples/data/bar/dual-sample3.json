@@ -1,0 +1,129 @@
+
+{
+  "details": {
+    "label": "4 Seasons",
+    "tooltips": [
+      {
+        "text": "",
+        "symbol": "Woman"
+      },
+      {
+        "text": "",
+        "symbol": "Man"
+      }
+    ]
+  },
+  "bars": [
+    {
+      "details": {
+        "label": "Spring",
+        "tooltips": [
+          {
+            "text": "many",
+            "symbol": "W",
+            "color": "#CD21D3"
+          },
+          {
+            "text": "little",
+            "symbol": "M",
+            "color": "#49ace2"
+          }
+        ]
+      },
+      "stripes": [
+        {
+          "left": {
+            "value": 50
+          },
+          "right": {
+            "value": 10
+          }
+        }
+      ]
+    },
+    {
+      "disabled": false,
+      "highlighted": false,
+      "details": {
+        "disabled": false,
+        "label": "Summer",
+        "tooltips": [
+          {
+            "text": "moderatly",
+            "symbol": "W",
+            "color": "#CD21D3"
+          },
+          {
+            "text": "none",
+            "symbol": "M",
+            "color": "#49ace2"
+          }
+        ]
+      },
+      "stripes": [
+        {
+          "left": {
+            "value": 30
+          },
+          "right": {
+            "value": 5
+          }
+        }
+      ]
+    },
+    {
+      "details": {
+        "label": "Autumn",
+        "tooltips": [
+          {
+            "text": "moderatly",
+            "symbol": "W",
+            "color": "#CD21D3"
+          },
+          {
+            "text": "many",
+            "symbol": "M",
+            "color": "#49ace2"
+          }
+        ]
+      },
+      "stripes": [
+        {
+          "left": {
+            "value": 25
+          },
+          "right": {
+            "value": 45
+          }
+        }
+      ]
+    },
+    {
+      "details": {
+        "label": "Winter",
+        "tooltips": [
+          {
+            "text": "little",
+            "symbol": "W",
+            "color": "#CD21D3"
+          },
+          {
+            "text": "none",
+            "symbol": "M",
+            "color": "#49ace2"
+          }
+        ]
+      },
+      "stripes": [
+        {
+          "left": {
+            "value": 15
+          },
+          "right": {
+            "value": 3
+          }
+        }
+      ]
+    }
+  ]
+}

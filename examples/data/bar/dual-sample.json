@@ -1,0 +1,149 @@
+
+{
+  "details": {
+    "disabled": false,
+    "label": "4 Seasons",
+    "tooltips": [
+      {
+        "text": 150,
+        "symbol": "W",
+        "color": "#FF0000"
+      },
+      {
+        "text": 160,
+        "symbol": "M",
+        "color": "#0000FF"
+      }
+    ]
+  },
+  "bars": [
+    {
+      "disabled": false,
+      "highlighted": false,
+      "details": {
+        "disabled": false,
+        "label": "Spring",
+        "tooltips": [
+          {
+            "text": "many",
+            "symbol": "x",
+            "color": "#FF0000"
+          },
+          {
+            "text": "little",
+            "symbol": "x",
+            "color": "#0000FF"
+          }
+        ]
+      },
+      "stripes": [
+        {
+          "left": {
+            "value": 50,
+            "color": "#FF0000"
+          },
+          "right": {
+            "value": 10,
+            "color": "#0000FF"
+          }
+        }
+      ]
+    },
+    {
+      "disabled": false,
+      "highlighted": false,
+      "details": {
+        "disabled": false,
+        "label": "Summer",
+        "tooltips": [
+          {
+            "text": "moderatly",
+            "symbol": "x",
+            "color": "#FF0000"
+          },
+          {
+            "text": "none",
+            "symbol": "x",
+            "color": "#0000FF"
+          }
+        ]
+      },
+      "stripes": [
+        {
+          "left": {
+            "value": 30,
+            "color": "#FF0000"
+          },
+          "right": {
+            "value": 5,
+            "color": "#0000FF"
+          }
+        }
+      ]
+    },
+    {
+      "disabled": false,
+      "highlighted": false,
+      "details": {
+        "disabled": false,
+        "label": "Autumn",
+        "tooltips": [
+          {
+            "text": "moderatly",
+            "symbol": "x",
+            "color": "#FF0000"
+          },
+          {
+            "text": "many",
+            "symbol": "x",
+            "color": "#0000FF"
+          }
+        ]
+      },
+      "stripes": [
+        {
+          "left": {
+            "value": 25,
+            "color": "#FF0000"
+          },
+          "right": {
+            "value": 45,
+            "color": "#0000FF"
+          }
+        }
+      ]
+    },
+    {
+      "disabled": false,
+      "highlighted": false,
+      "details": {
+        "disabled": false,
+        "label": "Winter",
+        "tooltips": [
+          {
+            "text": "little",
+            "symbol": "x",
+            "color": "#FF0000"
+          },
+          {
+            "text": "none",
+            "symbol": "x",
+            "color": "#0000FF"
+          }
+        ]
+      },
+      "stripes": [
+        {
+          "left": {
+            "value": 15,
+            "color": "#FF0000"
+          },
+          "right": {
+            "value": 3,
+            "color": "#0000FF"
+          }
+        }
+      ]
+    }
+  ]
+}
