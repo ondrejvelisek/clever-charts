@@ -1,5 +1,4 @@
 import * as Defaults from "../defaults/BarchartDefaults";
-import TooltipData from "./TooltipData";
 
 export default class BarData {
 
@@ -21,24 +20,57 @@ export default class BarData {
 		this._color = color;
 	}
 
+	/**
+	 * @param {BarData} barData
+	 */
+	static copyAs(barData) {
+		return new BarData(
+			{
+				disabled: barData.disabled,
+				highlighted: barData.highlighted,
+				color: barData.color
+			},
+			barData.details,
+			barData.stripes
+		);
+	}
+
 	get disabled() {
 		return this._disabled;
+	}
+	set disabled(disabled) {
+		this._disabled = disabled;
 	}
 
 	get highlighted() {
 		return this._highlighted;
 	}
+	set highlighted(highlighted) {
+		this._highlighted = highlighted;
+	}
 
 	get details() {
 		return this._detailsData;
+	}
+	set details(detailsData) {
+		this._detailsData = detailsData;
 	}
 
 	get stripes() {
 		return this._stripesData;
 	}
+	getStripe(index) {
+		return this._stripesData[index];
+	}
+	setStripe(index, stripeData) {
+		this._stripesData[index] = stripeData;
+	}
 
 	get color() {
 		return this._color;
+	}
+	set color(color) {
+		this._color = color;
 	}
 
 	calculateMinMax(minMax = "sum") {

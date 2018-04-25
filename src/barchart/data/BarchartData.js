@@ -1,3 +1,6 @@
+import DetailsData from "./DetailsData";
+import BarData from "./BarData";
+
 export default class BarchartData {
 
 	constructor(
@@ -14,16 +17,41 @@ export default class BarchartData {
 		this._barsData = barsData;
 	}
 
+	/**
+	 * @param {BarchartData} barchartData
+	 */
+	static copyAs(barchartData) {
+		return new BarchartData(
+			{
+				color: barchartData.color
+			},
+			barchartData.details,
+			barchartData.bars
+		);
+	}
+
+	get color() {
+		return this._color;
+	}
+	set color(color) {
+		this._color = color;
+	}
+
 	get details() {
 		return this._detailsData;
+	}
+	set details(detailsData) {
+		this._detailsData = detailsData;
 	}
 
 	get bars() {
 		return this._barsData;
 	}
-
-	get color() {
-		return this._color;
+	getBar(index) {
+		return this._barsData[index];
+	}
+	setBar(index, barData) {
+		this._barsData[index] = barData;
 	}
 
 	calculateMinMax(minMax = "sum") {

@@ -1,3 +1,4 @@
+
 export default class TooltipData {
 
 	constructor(
@@ -13,16 +14,36 @@ export default class TooltipData {
 		this._text = text;
 	}
 
+	/**
+	 * @param {TooltipData} tooltipData
+	 */
+	static copyAs(tooltipData) {
+		return new TooltipData({
+			text: tooltipData.text,
+			symbol: tooltipData.symbol,
+			color: tooltipData.color
+		});
+	}
+
 	get symbol() {
 		return this._symbol;
+	}
+	set symbol(symbol) {
+		this._symbol = symbol;
 	}
 
 	get color() {
 		return this._color;
 	}
+	set color(color) {
+		this._color = color;
+	}
 
 	get text() {
 		return this._text;
+	}
+	set text(text) {
+		this._text = text;
 	}
 
 	getPrecision(precision = "max") {

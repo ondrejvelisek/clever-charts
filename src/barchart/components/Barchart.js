@@ -4,6 +4,7 @@ import Bar from "./Bar";
 import Details from "./Details";
 import style from "../Barchart.css";
 import * as d3 from "d3";
+import TooltipData from "../data/TooltipData";
 
 class Barchart extends Component {
 
@@ -41,6 +42,9 @@ class Barchart extends Component {
 		this._format = format;
 		this._stripeBackgroundColor = stripeBackgroundColor;
 
+		this._details;
+		this._bars;
+
 		this._observable
 			.add("barEnter")
 			.add("barLeave")
@@ -55,6 +59,41 @@ class Barchart extends Component {
 			.add("barsEnter")
 			.add("barsLeave");
 
+	}
+
+	isBarDisabled(index) {
+		return this._bars[index].disabled;
+	}
+
+	updateData(updateFunction) {
+		this.setData(updateFunction(this.data));
+	}
+
+	updateDetailsData(updateFunction) {
+		this.setDetailsData(updateFunction(this._details.data));
+	}
+
+	updateBarData(index, updateFunction) {
+		this.setBarData(index, updateFunction(this._bars[index].data));
+	}
+
+	updateBarDetailsData(index, updateFunction) {
+		this.setBarData(index, updateFunction(this._bars[index]._details.data));
+	}
+
+	setBarData(index, barData) {
+		//this.data.setBar(index, barData);
+		this._bars[index].setData(barData);
+	}
+
+	setBarDetailsData(index, detailsData) {
+		//this.data.getBar(index).details = detailsData;
+		this._bars[index]._details.setData(detailsData);
+	}
+
+	setDetailsData(detailsData) {
+		//this.data.details = detailsData;
+		this._details.setData(detailsData);
 	}
 
 	_renderContainer(selector, x = 0, y = 0){
@@ -110,7 +149,7 @@ class Barchart extends Component {
 
 		const minMax = data.calculateMinMax(this.minMax);
 
-		const bars = data.bars.map(() => new Bar({
+		this._bars = data.bars.map(() => new Bar({
 			width: this.width,
 			height: this.barHeight,
 			labelFontSize: this.labelFontSize,
@@ -127,23 +166,35 @@ class Barchart extends Component {
 			stripeBackgroundColor: this.stripeBackgroundColor
 		}));
 		data.bars.forEach((barData, index) => {
-			const bar = bars[index];
+			const bar = this._bars[index];
 
 			const barsContainer = this._container.append("g")
 				.on("mouseenter", () => {
 					this._observable.fire("barsEnter");
 				})
 				.on("mouseleave", () => {
+					if (this.detailsVisible && this.enableBarHover) {
+						this.setDetailsData(this.data.details);
+					}
 					this._observable.fire("barsLeave");
 				});
 
 			const topDetailsWidth = (this.detailsVisible ? this.detailsHeight : 0);
 			bar.render(barsContainer.node(), 0, topDetailsWidth + this.barHeight*index, index)
 				.on("click", (index) => {
+					console.log(this._bars[index].data.details);
 					this._observable.fire("barClick", index);
 				})
 				.on("enter", (index) => {
-					console.log("HERE", index)
+					if (this.detailsVisible && this.enableBarHover) {
+						const detailsData = this._bars[index].data.details;
+						if (typeof detailsData.tooltips === 'undefined') {
+							this._details.updateTooltipsData([new TooltipData({
+								text:this._bars[index].data.stripes[0].value
+							})], data.details.getPrecision("max"), data.details.color);
+						}
+						this.setDetailsData(detailsData);
+					}
 					this._observable.fire("barEnter", index);
 				})
 				.on("leave", (index) => {
@@ -166,6 +217,15 @@ class Barchart extends Component {
 				})
 				.on("middleLeave", (index) => {
 					this._observable.fire("barMiddleLeave", index);
+				})
+				.on("disabled", (index, disabled) => {
+					if (this.detailsVisible && this.enableBarHover) {
+						this.updateDetailsData(detailsData => {
+							detailsData.disabled = disabled;
+							return detailsData;
+						})
+					}
+					this._observable.fire("barDisabled", index, disabled);
 				});
 
 			bar.setData(barData);
@@ -177,14 +237,6 @@ class Barchart extends Component {
 			this._details.clearData();
 		}
 		this._container.selectAll(`.${style["bar"]}`).remove();
-	}
-
-	setDetailsData(detailsData) {
-		if (this.detailsVisible) {
-			this._details.setData(detailsData);
-		} else {
-			throw "Cannot set data to details component. Parameter detailsVisible is set to false";
-		}
 	}
 
 	get labelFontSize() {

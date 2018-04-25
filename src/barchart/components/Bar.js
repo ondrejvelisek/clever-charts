@@ -42,6 +42,9 @@ class Bar extends Component {
 		this._format = format;
 		this._stripeBackgroundColor = stripeBackgroundColor;
 
+		this._details;
+		this._stripes;
+
 		this._observable
 			.add("leftEnter")
 			.add("leftLeave")
@@ -50,6 +53,14 @@ class Bar extends Component {
 			.add("middleEnter")
 			.add("middleLeave")
 			.add("disabled");
+	}
+
+	get stripes() {
+		return this._stripes;
+	}
+
+	get details() {
+		return this._details;
 	}
 
 	_render() {
@@ -94,10 +105,11 @@ class Bar extends Component {
 
 		this.container.attr("cursor", this.enableToggle ? "pointer" : "default");
 
-		this.on("click", (data) => {
+		this.on("click", (index) => {
 			if (this.enableToggle) {
 				this._disabled = !this._disabled;
 				this.container.classed(style["bar-disabled"], this.disabled);
+				this._observable.fire("disabled", index, this._disabled);
 			}
 		});
 	}
@@ -110,7 +122,6 @@ class Bar extends Component {
 			this._hover.setData(data);
 		}
 		this._disabled = data.disabled;
-		console.log(data);
 		this.container.classed(style["bar-disabled"], this.disabled);
 		this.container.classed(style["bar-highlighted"], data.highlighted);
 
@@ -128,7 +139,9 @@ class Bar extends Component {
 				activeColors: data.color ? [data.color] : colors,
 				dualValue: this.dualValue,
 				minMax: minMax,
-				backgroundColor: this.stripeBackgroundColor
+				backgroundColor: this.stripeBackgroundColor,
+				topCornerRounded: index === 0,
+				bottomCornerRounded: index === data.stripes.length-1
 			})
 		});
 
@@ -136,7 +149,7 @@ class Bar extends Component {
 		data.stripes.forEach((stripeData, index) => {
 
 			const detailsHeight = this.detailsHidden ? 0 : this.detailsHeight;
-			this._stripes[index].render(this.container.node(), 0, detailsHeight + 6*index, index);
+			this._stripes[index].render(this.container.node(), 0, detailsHeight + 5*index, index);
 
 			this._stripes[index].setData(stripeData);
 

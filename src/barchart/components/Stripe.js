@@ -13,12 +13,17 @@ class Stripe extends Component {
 			activeColors = Defaults.ACTIVE_COLORS,
 			dualValue = Defaults.DUAL_VALUE,
 			minMax = Defaults.MINMAX,
+			topCornerRounded = Defaults.CORNER_ROUNDED,
+			bottomCornerRounded = Defaults.CORNER_ROUNDED,
 		}) {
 		super(width, height, "stripe");
 		this._backgroundColor = backgroundColor;
 		this._activeColors = activeColors;
 		this._dualValue = dualValue;
-		this._minMax = minMax;}
+		this._minMax = minMax;
+		this._topCornerRounded = topCornerRounded;
+		this._bottomCornerRounded = bottomCornerRounded;
+	}
 
 	get dualValue() {
 		return this._dualValue;
@@ -36,15 +41,40 @@ class Stripe extends Component {
 		return this._minMax;
 	}
 
+	get topCornerRounded() {
+		return this._topCornerRounded;
+	}
+
+	get bottomCornerRounded() {
+		return this._bottomCornerRounded;
+	}
+
 	_render() {
 
-		this.container.append("clipPath")
-			.attr("id", "rounded-corners-"+this._maskIndex)
+		const clipPath = this.container.append("clipPath")
+			.attr("id", "rounded-corners-"+this._maskIndex);
+
+		clipPath
 			.append("rect")
 			.attr("width", this.width)
 			.attr("height", this.height)
 			.attr("rx", Math.min(this.width, this.height)/2)
 			.attr("ry", Math.min(this.width, this.height)/2);
+
+		if (!this.topCornerRounded) {
+			clipPath
+				.append("rect")
+				.attr("y", 0)
+				.attr("width", this.width)
+				.attr("height", this.height/2);
+		}
+		if (!this.bottomCornerRounded) {
+			clipPath
+				.append("rect")
+				.attr("y", this.height/2)
+				.attr("width", this.width)
+				.attr("height", this.height/2);
+		}
 
 		this._renderProgress(0, this.width, this.backgroundColor, "stripe-background");
 	}

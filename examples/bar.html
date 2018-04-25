@@ -696,22 +696,30 @@
 
 	barchart5.setData(barchart5Data);
 
-	console.log(barsData, barsData[0]);
+	//console.log(barsData, barsData[0]);
+
+	barchart5.on("barDisabled", (_, disabled) => {
+		barchart5.updateDetailsData(detailsData => {
+			detailsData.disabled = disabled;
+			return detailsData;
+        });
+	});
 
 	barchart5.on("barEnter", (index) => {
 		barchart5.setDetailsData(new CleverCharts.DetailsData({
-            label: `${index*5} - ${(index+1)*5} years`,
-			disabled: d3.select(barchart5.node()).select(style),
-            tooltips: [
-                new CleverCharts.TooltipData({color: "#CD21D3", text: barsData[index].stripes[0].left.value}),
-                new CleverCharts.TooltipData({color: "#49ace2", text: barsData[index].stripes[0].right.value})
-            ]
-        }));
+			label: `${index*5} - ${(index+1)*5} years`,
+            disabled: barchart5.isBarDisabled(index),
+			tooltips: [
+				new CleverCharts.TooltipData({text: barsData[index].stripes[0].left.value}),
+				new CleverCharts.TooltipData({text: barsData[index].stripes[0].right.value})
+			]
+		}));
 	});
 
 	barchart5.on("barsLeave", () => {
 		barchart5.setDetailsData(barchart5details);
-	});
+    });
+
 
 
 
@@ -908,6 +916,245 @@
 
 	barchart7.setData(barchart7Data);
 
+
+
+	// barchart8  ================================================================
+
+	var barchart8 = new CleverCharts.Barchart({
+		width: 360,
+		minMax: "auto",
+		enableBarHover: true,
+		enableBarToggle: true,
+		detailsVisible: true,
+        barHeight: 10
+	});
+
+	barchart8.render(".barchart8-ct");
+
+	const bars8Data = [
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "January"}), [new CleverCharts.StripeData({
+			value: 885
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "February"}), [new CleverCharts.StripeData({
+			value: -1422
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "March"}), [new CleverCharts.StripeData({
+			value: 2423
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "April"}), [new CleverCharts.StripeData({
+			value: 2483
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "May"}), [new CleverCharts.StripeData({
+			value: 2865
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "June"}), [new CleverCharts.StripeData({
+			value: 2774
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "July"}), [new CleverCharts.StripeData({
+			value: 2656
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "August"}), [new CleverCharts.StripeData({
+			value: 2556
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "September"}), [new CleverCharts.StripeData({
+			value: -1128
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "October"}), [new CleverCharts.StripeData({
+			value: 1598
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "November"}), [new CleverCharts.StripeData({
+			value: 1279
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "December"}), [new CleverCharts.StripeData({
+			value: -997
+		})]),
+	];
+
+	const barchart8Data = new CleverCharts.BarchartData({},
+		new CleverCharts.DetailsData({
+			label: "12 months",
+			tooltips: [
+				new CleverCharts.TooltipData({text: 495663})
+			]
+		}),
+		bars8Data
+	);
+
+	barchart8.setData(barchart8Data);
+
+
+	// barchart9  ================================================================
+
+	var barchart9 = new CleverCharts.Barchart({
+		width: 360,
+		minMax: "auto",
+		enableBarHover: true,
+		enableBarToggle: true,
+		detailsVisible: true,
+        barHeight: 10
+	});
+
+	barchart9.render(".barchart9-ct");
+
+	const bars9Data = [
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "January"}), [new CleverCharts.StripeData({
+			value: 885
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "February"}), [new CleverCharts.StripeData({
+			value: -1422
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "March"}), [new CleverCharts.StripeData({
+			value: 2423
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "April"}), [new CleverCharts.StripeData({
+			value: 2483
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "May"}), [new CleverCharts.StripeData({
+			value: 2865
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "June"}), [new CleverCharts.StripeData({
+			value: 2774
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "July"}), [new CleverCharts.StripeData({
+			value: 2656
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "August"}), [new CleverCharts.StripeData({
+			value: 2556
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "September"}), [new CleverCharts.StripeData({
+			value: -1128
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "October"}), [new CleverCharts.StripeData({
+			value: 1598
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "November"}), [new CleverCharts.StripeData({
+			value: 1279
+		})]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "December"}), [new CleverCharts.StripeData({
+			value: -997
+		})]),
+	];
+
+	const barchart9Data = new CleverCharts.BarchartData({},
+		new CleverCharts.DetailsData({
+			label: "12 months",
+			tooltips: [
+				new CleverCharts.TooltipData({text: 495663})
+			]
+		}),
+		bars9Data
+	);
+
+	barchart9.setData(barchart9Data);
+
+
+
+	// barchart10  ================================================================
+
+	var barchart10 = new CleverCharts.Barchart({
+		width: 360,
+		minMax: "auto",
+		enableBarHover: true,
+		enableBarToggle: true,
+		detailsVisible: true,
+		barHeight: 16
+	});
+
+	barchart10.render(".barchart10-ct");
+
+	const bars10Data = [
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "January"}), [
+			new CleverCharts.StripeData({ value: 885 }),
+			new CleverCharts.StripeData({ value: -154 })
+        ]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "February"}), [
+			new CleverCharts.StripeData({ value: 255 }),
+			new CleverCharts.StripeData({ value: 254 })
+		]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "March"}), [
+			new CleverCharts.StripeData({ value: -115 }),
+			new CleverCharts.StripeData({ value: -543 })
+		]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "April"}), [
+			new CleverCharts.StripeData({ value: -354 }),
+			new CleverCharts.StripeData({ value: 785 })
+		]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "May"}), [
+			new CleverCharts.StripeData({ value: -68 }),
+			new CleverCharts.StripeData({ value: 42 })
+		]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "June"}), [
+			new CleverCharts.StripeData({ value: 75 }),
+			new CleverCharts.StripeData({ value: 86 })
+		]),
+	];
+
+	const barchart10Data = new CleverCharts.BarchartData({},
+		new CleverCharts.DetailsData({
+			label: "6 months",
+			tooltips: [
+				new CleverCharts.TooltipData({text: 495663})
+			]
+		}),
+		bars10Data
+	);
+
+	barchart10.setData(barchart10Data);
+
+
+
+	// barchart11  ================================================================
+
+	var barchart11 = new CleverCharts.Barchart({
+		width: 360,
+		minMax: "auto",
+		enableBarHover: true,
+		enableBarToggle: true,
+		detailsVisible: true,
+		barHeight: 16,
+		dualValue: true
+	});
+
+	barchart11.render(".barchart11-ct");
+
+	const bars11Data = [
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "January"}), [
+			new CleverCharts.StripeData({ left: {value: 78}, right: { value: 35 } }),
+			new CleverCharts.StripeData({ left: {value: 12}, right: { value: 56 } })
+		]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "February"}), [
+			new CleverCharts.StripeData({ left: {value: -9}, right: { value: 45 } }),
+			new CleverCharts.StripeData({ left: {value: 12}, right: { value: -7 } })
+		]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "March"}), [
+			new CleverCharts.StripeData({ left: {value: 56}, right: { value: -8 } }),
+			new CleverCharts.StripeData({ left: {value: -24}, right: { value: -12 } })
+		]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "January"}), [
+			new CleverCharts.StripeData({ left: {value: 78}, right: { value: 35 } }),
+			new CleverCharts.StripeData({ left: {value: -15}, right: { value: 56 } })
+		]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "February"}), [
+			new CleverCharts.StripeData({ left: {value: -6}, right: { value: -5 } }),
+			new CleverCharts.StripeData({ left: {value: 12}, right: { value: -35 } })
+		]),
+		new CleverCharts.BarData({}, new CleverCharts.DetailsData({label: "March"}), [
+			new CleverCharts.StripeData({ left: {value: -6}, right: { value: -13 } }),
+			new CleverCharts.StripeData({ left: {value: -5}, right: { value: -6 } })
+		]),
+	];
+
+	const barchart11Data = new CleverCharts.BarchartData({},
+		new CleverCharts.DetailsData({
+			label: "6 months",
+			tooltips: [
+				new CleverCharts.TooltipData({text: 495663})
+			]
+		}),
+		bars11Data
+	);
+
+	barchart11.setData(barchart11Data);
 
 
 </script>

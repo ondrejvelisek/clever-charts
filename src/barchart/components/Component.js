@@ -25,6 +25,8 @@ class Component {
 		]);
 		this._alignRight = alignRight;
 		this._alignBottom = alignBottom;
+
+		this._data = null;
 	}
 
 	on(eventName, handler) {
@@ -59,6 +61,10 @@ class Component {
 
 	get alignBottom() {
 		return this._alignBottom;
+	}
+
+	get data() {
+		return this._data;
 	}
 
 	set width(value) {
@@ -157,12 +163,19 @@ class Component {
 		return this;
 	}
 
+	getData() {
+		if (!this.isRendered()) {
+			throw "Can't call getData() when component is not rendered, please call .render() first."
+		}
+		return this._data;
+	}
+
 	clearData() {
 		if (!this.isRendered()) {
 			throw "Can't call clearData() when widget is not rendered, please call .render() first."
 		}
-		this._data = null;
 		this._clearData();
+		this._data = null;
 		return this;
 	}
 

@@ -23,6 +23,8 @@ class Details extends Component {
 		this._tooltipSymbol = tooltipSymbol;
 		this._activeColors = activeColors;
 		this._format = format;
+
+		this._tooltips;
 	}
 
 	_render() {
@@ -71,15 +73,15 @@ class Details extends Component {
 
 		let previousTooltipX = this.width - Defaults.HORIZONTAL_PADDING;
 
-		const tooltips = tooltipsData.map((_, index) => new Tooltip({
+		this._tooltips = tooltipsData.map((_, index) => new Tooltip({
 			fontSize: this.tooltipFontSize,
 			symbol: tooltipsData.length>1 ? this.tooltipSymbol : undefined,
 			activeColor: color ? color : this.activeColors[index % 2],
 			format: format
 		}));
-		tooltips.forEach((_, index) => {
-			const reversedIndex = tooltips.length - 1 - index;
-			const tooltipReversed = tooltips[reversedIndex];
+		this._tooltips.forEach((_, index) => {
+			const reversedIndex = this._tooltips.length - 1 - index;
+			const tooltipReversed = this._tooltips[reversedIndex];
 			const tooltipData = tooltipsData[reversedIndex];
 
 			tooltipReversed.render(this.container.node(), previousTooltipX, this.labelFontSize, reversedIndex);

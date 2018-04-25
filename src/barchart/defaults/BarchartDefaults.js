@@ -18,3 +18,4 @@ export const STRIPE_HEIGHT = 5;
 export const STRIPE_BACKGROUND_COLOR = "#f0f0f0";
 export const TOOLTIP_SPACE = 3;
 export const BAR_HIGHLIGHTED = false;
+export const CORNER_ROUNDED = true;

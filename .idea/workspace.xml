@@ -1,0 +1,1018 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="095b5929-aaf2-42b3-b7f1-50a06bf35405" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/dist/clever-charts-1.0.8.min.js" afterPath="$PROJECT_DIR$/dist/clever-charts-1.0.8.min.js" />
+      <change beforePath="$PROJECT_DIR$/dist/clever-charts-1.0.8.min.js.map" afterPath="$PROJECT_DIR$/dist/clever-charts-1.0.8.min.js.map" />
+      <change beforePath="$PROJECT_DIR$/examples/bar.html" afterPath="$PROJECT_DIR$/examples/bar.html" />
+      <change beforePath="$PROJECT_DIR$/src/barchart/README.md" afterPath="$PROJECT_DIR$/src/barchart/README.md" />
+      <change beforePath="$PROJECT_DIR$/src/barchart/components/Bar.js" afterPath="$PROJECT_DIR$/src/barchart/components/Bar.js" />
+      <change beforePath="$PROJECT_DIR$/src/barchart/components/Barchart.js" afterPath="$PROJECT_DIR$/src/barchart/components/Barchart.js" />
+      <change beforePath="$PROJECT_DIR$/src/barchart/components/Component.js" afterPath="$PROJECT_DIR$/src/barchart/components/Component.js" />
+      <change beforePath="$PROJECT_DIR$/src/barchart/components/Details.js" afterPath="$PROJECT_DIR$/src/barchart/components/Details.js" />
+      <change beforePath="$PROJECT_DIR$/src/barchart/components/Stripe.js" afterPath="$PROJECT_DIR$/src/barchart/components/Stripe.js" />
+      <change beforePath="$PROJECT_DIR$/src/barchart/data/BarData.js" afterPath="$PROJECT_DIR$/src/barchart/data/BarData.js" />
+      <change beforePath="$PROJECT_DIR$/src/barchart/data/BarchartData.js" afterPath="$PROJECT_DIR$/src/barchart/data/BarchartData.js" />
+      <change beforePath="$PROJECT_DIR$/src/barchart/data/DetailsData.js" afterPath="$PROJECT_DIR$/src/barchart/data/DetailsData.js" />
+      <change beforePath="$PROJECT_DIR$/src/barchart/data/StripeData.js" afterPath="$PROJECT_DIR$/src/barchart/data/StripeData.js" />
+      <change beforePath="$PROJECT_DIR$/src/barchart/data/TooltipData.js" afterPath="$PROJECT_DIR$/src/barchart/data/TooltipData.js" />
+      <change beforePath="$PROJECT_DIR$/src/barchart/defaults/BarchartDefaults.js" afterPath="$PROJECT_DIR$/src/barchart/defaults/BarchartDefaults.js" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="bar.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/examples/bar.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="576">
+              <caret line="974" column="29" lean-forward="true" selection-start-line="974" selection-start-column="29" selection-end-line="974" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Details.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/barchart/components/Details.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-18">
+              <caret line="50" column="27" lean-forward="true" selection-start-line="50" selection-start-column="27" selection-end-line="50" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Barchart.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/barchart/components/Barchart.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="195" column="57" lean-forward="true" selection-start-line="195" selection-start-column="57" selection-end-line="195" selection-end-column="57" />
+              <folding>
+                <element signature="e#0#57#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BarchartData.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/barchart/data/BarchartData.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="468">
+              <caret line="29" column="10" lean-forward="true" selection-start-line="29" selection-start-column="10" selection-end-line="29" selection-end-column="10" />
+              <folding>
+                <element signature="e#0#40#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BarData.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/barchart/data/BarData.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="18">
+              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DetailsData.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/barchart/data/DetailsData.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="522">
+              <caret line="29" column="10" lean-forward="false" selection-start-line="29" selection-start-column="10" selection-end-line="29" selection-end-column="10" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StripeData.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/barchart/data/StripeData.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="630">
+              <caret line="35" column="7" lean-forward="true" selection-start-line="35" selection-start-column="7" selection-end-line="35" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TooltipData.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/barchart/data/TooltipData.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="72">
+              <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="8" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Bar.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/barchart/components/Bar.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="504">
+              <caret line="186" column="0" lean-forward="true" selection-start-line="186" selection-start-column="0" selection-end-line="189" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#57#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Stripe.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/barchart/components/Stripe.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="234">
+              <caret line="61" column="61" lean-forward="true" selection-start-line="61" selection-start-column="61" selection-end-line="61" selection-end-column="61" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>_renderStripe</find>
+      <find>stripe</find>
+      <find>toolt</find>
+      <find>details</find>
+      <find>slice</find>
+      <find>activeColor</find>
+      <find>stripeBackgroundColor</find>
+      <find>overBarColor</find>
+      <find>enable</find>
+      <find>invert-contro</find>
+      <find>symbol</find>
+      <find>highlighted</find>
+      <find>bar-over</find>
+      <find>highlight-control</find>
+      <find>console.log</find>
+      <find>click</find>
+      <find>high</find>
+      <find>getPrecisi</find>
+      <find>render</find>
+      <find>getPre</find>
+      <find>tooltip</find>
+      <find>bar</find>
+      <find>disable</find>
+      <find>addTooltip</find>
+      <find>_disabled</find>
+      <find>console.</find>
+      <find>this._data</find>
+      <find>_data</find>
+      <find>barDisabled</find>
+      <find>disabled</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>data</replace>
+      <replace>this._data</replace>
+      <replace>cc</replace>
+      <replace>this.container</replace>
+      <replace>enableHover</replace>
+      <replace>enableToggle</replace>
+    </replaceStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$</dir>
+      <dir>$PROJECT_DIR$/src/barchart/bar</dir>
+      <dir>$PROJECT_DIR$/src/barchart/components</dir>
+      <dir>$PROJECT_DIR$/src/bar</dir>
+      <dir>$PROJECT_DIR$/src/barchart</dir>
+    </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/bar/BarData.js" />
+        <option value="$PROJECT_DIR$/src/bar/BarStripe.js" />
+        <option value="$PROJECT_DIR$/src/bar/TooltipRenderer.js" />
+        <option value="$PROJECT_DIR$/src/bar/Bar.js" />
+        <option value="$PROJECT_DIR$/src/barchart/Barchart.js" />
+        <option value="$PROJECT_DIR$/src/barchart/package-info.js" />
+        <option value="$PROJECT_DIR$/src/barchart/bar/stripe/StripeDefaults.js" />
+        <option value="$PROJECT_DIR$/src/bar/BarRenderer.js" />
+        <option value="$PROJECT_DIR$/src/barchart/bar/details/DetailsDefaults.js" />
+        <option value="$PROJECT_DIR$/src/barchart/bar/stripe/Stripe.js" />
+        <option value="$PROJECT_DIR$/src/barchart/bar/details/Details.js" />
+        <option value="$PROJECT_DIR$/src/barchart/bar/details/DetailsData.js" />
+        <option value="$PROJECT_DIR$/src/barchart/bar/BarDefaults.js" />
+        <option value="$PROJECT_DIR$/src/barchart/bar/stripe/StripeRenderer.js" />
+        <option value="$PROJECT_DIR$/src/barchart/bar/details/DetailsRenderer.js" />
+        <option value="$PROJECT_DIR$/src/barchart/bar/Bar.js" />
+        <option value="$PROJECT_DIR$/src/barchart/bar/stripe/StripeData.js" />
+        <option value="$PROJECT_DIR$/src/barchart/bar/BarData.js" />
+        <option value="$PROJECT_DIR$/src/barchart/bar/BarRenderer.js" />
+        <option value="$PROJECT_DIR$/src/barchart/renderers/DetailsRenderer.js" />
+        <option value="$PROJECT_DIR$/src/barchart/renderers/StripeRenderer.js" />
+        <option value="$PROJECT_DIR$/src/barchart/renderers/BarRenderer.js" />
+        <option value="$PROJECT_DIR$/src/barchart/data/StripeDataSingle.js" />
+        <option value="$PROJECT_DIR$/src/barchart/data/StripeDataDual.js" />
+        <option value="$PROJECT_DIR$/src/barchart/defaults/HoverDefaults.js" />
+        <option value="$PROJECT_DIR$/src/barchart/BarchartRenderer.js" />
+        <option value="$PROJECT_DIR$/src/utils/Observable.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/examples/data/bar/categories.json" />
+        <option value="$PROJECT_DIR$/src/barchart/defaults/BarDefaults.js" />
+        <option value="$PROJECT_DIR$/src/barchart/defaults/DetailsDefaults.js" />
+        <option value="$PROJECT_DIR$/src/barchart/defaults/StripeDefaults.js" />
+        <option value="$PROJECT_DIR$/src/barchart/components/Hover.js" />
+        <option value="$PROJECT_DIR$/examples/data/bar/sample.json" />
+        <option value="$PROJECT_DIR$/src/barchart/components/Tooltip.js" />
+        <option value="$PROJECT_DIR$/src/CleverCharts.js" />
+        <option value="$PROJECT_DIR$/src/barchart/components/BarchartBackport.js" />
+        <option value="$PROJECT_DIR$/src/barchart/Barchart.css" />
+        <option value="$PROJECT_DIR$/src/barchart/README.md" />
+        <option value="$PROJECT_DIR$/src/barchart/components/Details.js" />
+        <option value="$PROJECT_DIR$/src/barchart/components/Component.js" />
+        <option value="$PROJECT_DIR$/src/barchart/data/DetailsData.js" />
+        <option value="$PROJECT_DIR$/src/barchart/data/StripeData.js" />
+        <option value="$PROJECT_DIR$/src/barchart/data/TooltipData.js" />
+        <option value="$PROJECT_DIR$/src/barchart/data/BarData.js" />
+        <option value="$PROJECT_DIR$/src/barchart/defaults/BarchartDefaults.js" />
+        <option value="$PROJECT_DIR$/src/barchart/components/Stripe.js" />
+        <option value="$PROJECT_DIR$/src/barchart/components/Bar.js" />
+        <option value="$PROJECT_DIR$/examples/bar.html" />
+        <option value="$PROJECT_DIR$/src/barchart/components/Barchart.js" />
+        <option value="$PROJECT_DIR$/src/barchart/data/BarchartData.js" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1290" />
+    <option name="y" value="565" />
+    <option name="width" value="1366" />
+    <option name="height" value="744" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="clever-charts" type="b2602c69:ProjectViewProjectNode" />
+              <item name="clever-charts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="clever-charts" type="b2602c69:ProjectViewProjectNode" />
+              <item name="clever-charts" type="462c0819:PsiDirectoryNode" />
+              <item name="examples" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="clever-charts" type="b2602c69:ProjectViewProjectNode" />
+              <item name="clever-charts" type="462c0819:PsiDirectoryNode" />
+              <item name="examples" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="clever-charts" type="b2602c69:ProjectViewProjectNode" />
+              <item name="clever-charts" type="462c0819:PsiDirectoryNode" />
+              <item name="examples" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="bar" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="clever-charts" type="b2602c69:ProjectViewProjectNode" />
+              <item name="clever-charts" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="clever-charts" type="b2602c69:ProjectViewProjectNode" />
+              <item name="clever-charts" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="bar" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="clever-charts" type="b2602c69:ProjectViewProjectNode" />
+              <item name="clever-charts" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="barchart" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="clever-charts" type="b2602c69:ProjectViewProjectNode" />
+              <item name="clever-charts" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="barchart" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="clever-charts" type="b2602c69:ProjectViewProjectNode" />
+              <item name="clever-charts" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="barchart" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="clever-charts" type="b2602c69:ProjectViewProjectNode" />
+              <item name="clever-charts" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="barchart" type="462c0819:PsiDirectoryNode" />
+              <item name="defaults" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="clever-charts" type="b2602c69:ProjectViewProjectNode" />
+              <item name="clever-charts" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="doughnut" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="clever-charts" type="b2602c69:ProjectViewProjectNode" />
+              <item name="clever-charts" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="histogram" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="clever-charts" type="b2602c69:ProjectViewProjectNode" />
+              <item name="clever-charts" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="line" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="AndroidView" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.JavaScript" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="$PROJECT_DIR$/node_modules/eslint" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="last_opened_file_path" value="/usr/share/npm" />
+    <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/barchart/renderers" />
+      <recent name="$PROJECT_DIR$/src/barchart/defaults" />
+      <recent name="$PROJECT_DIR$/src/barchart/data" />
+      <recent name="$PROJECT_DIR$/src/barchart/components" />
+      <recent name="$PROJECT_DIR$/src/barchart/renderer" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/barchart/components" />
+      <recent name="$PROJECT_DIR$/src/barchart/data" />
+      <recent name="$PROJECT_DIR$/src/barchart/defaults" />
+      <recent name="$PROJECT_DIR$/src/barchart/bar" />
+      <recent name="$PROJECT_DIR$/src/barchart/bar/details" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <module />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="095b5929-aaf2-42b3-b7f1-50a06bf35405" name="Default" comment="" />
+      <created>1522136201418</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1522136201418</updated>
+      <workItem from="1522136202909" duration="26292000" />
+      <workItem from="1522698353190" duration="70000" />
+      <workItem from="1522742700720" duration="21066000" />
+      <workItem from="1523008269156" duration="28000" />
+      <workItem from="1523358723055" duration="27912000" />
+      <workItem from="1523604126221" duration="35982000" />
+      <workItem from="1523949559711" duration="32616000" />
+      <workItem from="1524081015870" duration="623000" />
+      <workItem from="1524206481211" duration="32291000" />
+      <workItem from="1524253886611" duration="93000" />
+      <workItem from="1524394777508" duration="569000" />
+      <workItem from="1524555768584" duration="20253000" />
+    </task>
+    <task id="LOCAL-00001" summary="CAN-5644 Age pyramid">
+      <created>1523605301784</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1523605301784</updated>
+    </task>
+    <task id="LOCAL-00002" summary="CAN-5644 Age pyramid">
+      <created>1523950058253</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1523950058253</updated>
+    </task>
+    <task id="LOCAL-00003" summary="CAN-5644 Age pyramid">
+      <created>1523950099217</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1523950099217</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Fix reported issues with the compare feature">
+      <created>1523955269976</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1523955269976</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Fix reported issues with the compare feature">
+      <created>1524394827227</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1524394827230</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="197795000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1365" y="-4" width="1922" height="1085" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31204188" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22722512" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33991462" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="SonarLint" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="JProfiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="CAN-5644 Age pyramid" />
+    <MESSAGE value="Fix reported issues with the compare feature" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix reported issues with the compare feature" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="5" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/doughnut/DoughnutRenderer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="457">
+          <caret line="182" column="0" lean-forward="false" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="537" column="4" lean-forward="false" selection-start-line="537" selection-start-column="4" selection-end-line="537" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/data/bar/dual-categories-left.json" />
+    <entry file="file://$PROJECT_DIR$/src/barchart/BarchartDefaults.js" />
+    <entry file="file://$PROJECT_DIR$/src/barchart/BarchartData.js" />
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="236">
+          <caret line="11717" column="7" lean-forward="false" selection-start-line="11717" selection-start-column="7" selection-end-line="11717" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/barchart/renderers/DetailsRenderer.js" />
+    <entry file="file://$PROJECT_DIR$/src/barchart/renderers/StripeRenderer.js" />
+    <entry file="file://$PROJECT_DIR$/src/barchart/renderers/BarRenderer.js" />
+    <entry file="file://$PROJECT_DIR$/src/barchart/data/StripeDataSingle.js" />
+    <entry file="file://$PROJECT_DIR$/src/barchart/data/StripeDataDual.js" />
+    <entry file="file://$PROJECT_DIR$/src/barchart/BarchartRenderer.js" />
+    <entry file="file://$PROJECT_DIR$/src/barchart/Barchart.js" />
+    <entry file="file://$PROJECT_DIR$/src/bar/Bar.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="16" lean-forward="false" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/Observable.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="918">
+          <caret line="63" column="9" lean-forward="false" selection-start-line="63" selection-start-column="9" selection-end-line="63" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/npm-debug.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/barchart/defaults/BarDefaults.js" />
+    <entry file="file://$PROJECT_DIR$/src/barchart/defaults/DetailsDefaults.js" />
+    <entry file="file://$PROJECT_DIR$/src/barchart/defaults/HoverDefaults.js" />
+    <entry file="file://$PROJECT_DIR$/src/barchart/defaults/StripeDefaults.js" />
+    <entry file="file://$PROJECT_DIR$/src/barchart/components/Hover.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1152">
+          <caret line="64" column="67" lean-forward="false" selection-start-line="64" selection-start-column="67" selection-end-line="64" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/doughnut.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/data/bar/dual-categories.json" />
+    <entry file="file://$PROJECT_DIR$/src/line/LineRenderer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1101">
+          <caret line="158" column="31" lean-forward="false" selection-start-line="158" selection-start-column="31" selection-end-line="158" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bar/BarData.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="21" lean-forward="false" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/data/bar/dual-categories-middle.json" />
+    <entry file="file://$PROJECT_DIR$/examples/data/bar/categories.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="6" lean-forward="true" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CleverCharts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="21" column="32" lean-forward="true" selection-start-line="21" selection-start-column="32" selection-end-line="21" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bar/BarDefaults.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="28" column="29" lean-forward="false" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/barchart/Barchart.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="666">
+          <caret line="37" column="25" lean-forward="false" selection-start-line="37" selection-start-column="9" selection-end-line="37" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bar/BarRenderer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1784">
+          <caret line="216" column="63" lean-forward="false" selection-start-line="216" selection-start-column="55" selection-end-line="216" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/clever-charts-1.0.8.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="0" column="82541" lean-forward="false" selection-start-line="0" selection-start-column="82541" selection-end-line="0" selection-end-column="82541" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/barchart/components/Tooltip.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="7" column="10" lean-forward="true" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bar/Bar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1017">
+          <caret line="217" column="30" lean-forward="false" selection-start-line="217" selection-start-column="30" selection-end-line="217" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/barchart/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="342">
+            <caret line="19" column="16" lean-forward="false" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/barchart/components/BarchartBackport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="184" column="17" lean-forward="false" selection-start-line="184" selection-start-column="17" selection-end-line="185" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/data/bar/sample.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="22" lean-forward="false" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/data/bar/sample2.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="24" lean-forward="true" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/barchart/components/Component.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1854">
+          <caret line="105" column="31" lean-forward="false" selection-start-line="105" selection-start-column="26" selection-end-line="105" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/barchart/defaults/BarchartDefaults.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="20" column="19" lean-forward="false" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/barchart/components/Stripe.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="61" column="61" lean-forward="true" selection-start-line="61" selection-start-column="61" selection-end-line="61" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/bar.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="576">
+          <caret line="974" column="29" lean-forward="true" selection-start-line="974" selection-start-column="29" selection-end-line="974" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/barchart/components/Details.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-18">
+          <caret line="50" column="27" lean-forward="true" selection-start-line="50" selection-start-column="27" selection-end-line="50" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/barchart/components/Bar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="186" column="0" lean-forward="true" selection-start-line="186" selection-start-column="0" selection-end-line="189" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/barchart/data/BarData.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/barchart/data/DetailsData.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="522">
+          <caret line="29" column="10" lean-forward="false" selection-start-line="29" selection-start-column="10" selection-end-line="29" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/barchart/data/TooltipData.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="8" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/barchart/data/StripeData.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="35" column="7" lean-forward="true" selection-start-line="35" selection-start-column="7" selection-end-line="35" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/barchart/components/Barchart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="195" column="57" lean-forward="true" selection-start-line="195" selection-start-column="57" selection-end-line="195" selection-end-column="57" />
+          <folding>
+            <element signature="e#0#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/barchart/data/BarchartData.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="29" column="10" lean-forward="true" selection-start-line="29" selection-start-column="10" selection-end-line="29" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Python 3.5 interpreter library</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>clever-charts</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

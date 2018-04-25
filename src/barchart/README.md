@@ -4,6 +4,7 @@ Component structure and terminology
 ```
  Svg
  └─ Barchart
+    ├─ Details
     ├─ Bar
     ├─ Bar
     └─ Bar
