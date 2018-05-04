@@ -194,10 +194,10 @@ class Stripe extends Component {
 
 		twoColoredFill.append('path')
 			.attr('fill', color2)
-			.attr('d', 'M0,0 L10,0 L0,10 Z');
+			.attr('d', 'M20,0 L10,0 L20,10 Z');
 		twoColoredFill.append('path')
 			.attr('fill', color2)
-			.attr('d', 'M0,20 L20,0 L20,10 L10,20 Z');
+			.attr('d', 'M0,0 L20,20 L10,20 L0,10 Z');
 	}
 
 

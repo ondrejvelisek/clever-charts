@@ -100,7 +100,7 @@ class Tooltip extends Component {
 
 		twoColoredFill.append('path')
 			.attr('fill', color2)
-			.attr('d', 'M0,0 L1,0 L0,1 Z');
+			.attr('d', 'M0,0 L1,0 L1,1 Z');
 	}
 
 	_clearData() {
