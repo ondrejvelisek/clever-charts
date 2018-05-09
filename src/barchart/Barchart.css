@@ -1,0 +1,75 @@
+
+g text {
+    user-select: none;
+}
+
+.barchart {
+    background-color: white;
+}
+
+.barchart text {
+    font-family: Roboto;
+}
+
+.barchart .clickable-area {
+}
+
+
+.bar {
+}
+
+.bar.bar-disabled text {
+    fill: #cacaca;
+}
+.bar.bar-disabled .stripe .progress {
+    fill: #c9c9c9;
+}
+
+.bar.hover-enabled:hover .stripe .progress,
+.bar.bar-highlighted .stripe .progress {
+    fill: #ffea00;
+}
+
+
+.details text {
+    font-family: Roboto, sans-serif;
+}
+
+.details.details-disabled text {
+    fill: #cacaca;
+}
+
+.details .label {
+    font-weight: 700;
+}
+
+.details .tooltip .symbol {
+    font-weight: 900;
+}
+
+.details .tooltip .tooltip-text {
+}
+
+
+.stripe {
+}
+
+.stripe .progress {
+}
+
+.stripe .progress {
+}
+
+
+.hover {
+}
+
+.hover .hover-left {
+}
+
+.hover .hover-middle {
+}
+
+.hover .hover-right {
+}
+

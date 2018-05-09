@@ -1,0 +1,39 @@
+
+{
+  "bars": [
+    {
+      "details": {
+        "label": "Sole ownership"
+      },
+      "stripes": [
+        {"value": 1600}
+      ]
+    },
+    {
+      "disabled": true,
+      "details": {
+        "label": "State / Municipality"
+      },
+      "stripes": [
+        {"value": 500}
+      ]
+    },
+    {
+      "details": {
+        "label": "Cooperative"
+      },
+      "stripes": [
+        {"value": 75}
+      ]
+    },
+    {
+      "details": {
+        "label": "Joint tenancy"
+      },
+      "stripes": [
+        {"value": 120}
+      ]
+    }
+  ]
+}
+
