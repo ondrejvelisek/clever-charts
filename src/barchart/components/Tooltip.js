@@ -22,6 +22,8 @@ class Tooltip extends Component {
 		this._activeColor = activeColor;
 		this._format = format;
 		this._space = space;
+
+		this._canvas;
 	}
 
 	_render() {
@@ -31,6 +33,11 @@ class Tooltip extends Component {
 			.attr("class", style["tooltip-text"])
 			.attr("text-anchor","end")
 			.attr("font-size", this.fontSize);
+
+		this._canvas = d3.select("body")
+			.append('canvas')
+			.attr("class", "text-width-helper")
+			.text("Helper element for computing text width");
 
 	}
 
@@ -54,7 +61,7 @@ class Tooltip extends Component {
 		const tooltipText = this.container.select(`.${style["tooltip-text"]}`)
 			.text(text);
 
-		let tooltipWidth = tooltipText.node().getBBox().width;
+		let tooltipWidth = this._calculateTextWidth(tooltipText);
 
 		if (data.symbol || this.symbol) {
 
@@ -77,12 +84,27 @@ class Tooltip extends Component {
 				.attr("fill", color)
 				.attr("x", -tooltipWidth - this.space);
 
-			tooltipWidth += tooltipSymbol.node().getBBox().width + this.space;
+			tooltipWidth += this._calculateTextWidth(tooltipSymbol) + this.space;
 		}
 
 		this.width = tooltipWidth;
-		this.height = tooltipText.node().getBBox().height;
+	}
 
+	_calculateTextWidth(element) {
+
+		const context = this._canvas.node().getContext("2d");
+
+		const style = window.getComputedStyle(element.node());
+		const fontStyle = style.getPropertyValue("font-style");
+		const fontVariant = style.getPropertyValue("font-variant");
+		const fontWeight = style.getPropertyValue("font-weight");
+		const fontStrech = style.getPropertyValue("font-strech");
+		const fontSize = style.getPropertyValue("font-size");
+		const fontFamily = style.getPropertyValue("font-family");
+		context.font = `${fontStyle} ${fontVariant} ${fontWeight} ${fontStrech} ${fontSize} ${fontFamily}`;
+
+		var metrics = context.measureText(element.text());
+		return metrics.width;
 	}
 
 	_renderTwoColoredFill(color1, color2) {

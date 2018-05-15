@@ -16,6 +16,5 @@ export const BAR_DISABLED = false;
 export const HORIZONTAL_PADDING = 10;
 export const STRIPE_HEIGHT = 5;
 export const STRIPE_BACKGROUND_COLOR = "#f0f0f0";
-export const TOOLTIP_SPACE = 3;
-export const BAR_HIGHLIGHTED = false;
+export const TOOLTIP_SPACE = 5;
 export const CORNER_ROUNDED = true;
