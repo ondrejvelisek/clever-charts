@@ -17,6 +17,7 @@ class Stripe extends Component {
 			minMax = Defaults.MINMAX,
 			topCornerRounded = Defaults.CORNER_ROUNDED,
 			bottomCornerRounded = Defaults.CORNER_ROUNDED,
+			condensed = Defaults.DETAILS_HIDDEN
 		}) {
 		super(width, height, "stripe");
 		this._backgroundColor = backgroundColor;
@@ -25,6 +26,7 @@ class Stripe extends Component {
 		this._minMax = minMax;
 		this._topCornerRounded = topCornerRounded;
 		this._bottomCornerRounded = bottomCornerRounded;
+		this._condensed = condensed;
 	}
 
 	get dualValue() {
@@ -51,32 +53,58 @@ class Stripe extends Component {
 		return this._bottomCornerRounded;
 	}
 
+	get condensed() {
+		return this._condensed;
+	}
+
 	_render() {
 
 		const clipPath = this.container.append("clipPath")
 			.attr("id", "rounded-corners-"+this._maskIndex);
 
-		clipPath
-			.append("rect")
-			.attr("width", this.width)
-			.attr("height", this.height)
-			.attr("rx", Math.min(this.width, this.height)/2)
-			.attr("ry", Math.min(this.width, this.height)/2);
-
-		if (!this.topCornerRounded) {
-			clipPath
-				.append("rect")
-				.attr("y", 0)
-				.attr("width", this.width)
-				.attr("height", this.height/2);
-		}
-		if (!this.bottomCornerRounded) {
-			clipPath
-				.append("rect")
-				.attr("y", this.height/2)
-				.attr("width", this.width)
-				.attr("height", this.height/2);
-		}
+        if (this.topCornerRounded && this.bottomCornerRounded) {
+            clipPath
+                .append("rect")
+                .attr("width", this.width)
+                .attr("height", this.height)
+                .attr("rx", Math.min(this.width, this.height)/2)
+                .attr("ry", Math.min(this.width, this.height)/2);
+        } else if (!this.topCornerRounded && !this.bottomCornerRounded) {
+            clipPath
+                .append("rect")
+                .attr("width", this.width)
+                .attr("height", this.height);
+        } else {
+            clipPath
+                .append("rect")
+                .attr("width", this.width - 2*this.height)
+                .attr("height", this.height)
+                .attr("x", this.height);
+            if (this.topCornerRounded) {
+                clipPath
+                    .append("circle")
+                    .attr("cx", this.height)
+                    .attr("cy", this.height)
+                    .attr("r", this.height);
+                clipPath
+                    .append("circle")
+                    .attr("cx", this.width - this.height)
+                    .attr("cy", this.height)
+                    .attr("r", this.height);
+            }
+            if (this.bottomCornerRounded) {
+                clipPath
+                    .append("circle")
+                    .attr("cx", this.height)
+                    .attr("cy", 0)
+                    .attr("r", this.height);
+                clipPath
+                    .append("circle")
+                    .attr("cx", this.width - this.height)
+                    .attr("cy", 0)
+                    .attr("r", this.height);
+            }
+        }
 
 		this._renderProgress(0, this.width, this.backgroundColor, "stripe-background");
 	}
@@ -115,7 +143,7 @@ class Stripe extends Component {
 			.attr("x1", x)
 			.attr("x2", x)
 			.attr("y1", 0)
-			.attr("y2", -4)
+			.attr("y2", this.condensed ? -4 : -7)
 			.attr("stroke", "#C9C9C9")
 			.attr("stroke-width", 1)
 			.attr("stroke-dasharray", [1,2]);
@@ -124,7 +152,7 @@ class Stripe extends Component {
 			.attr("x1", x)
 			.attr("x2", x)
 			.attr("y1", this.height)
-			.attr("y2", this.height + 4)
+			.attr("y2", this.height + (this.condensed ? 4 : 7))
 			.attr("stroke", "#C9C9C9")
 			.attr("stroke-width", 1)
 			.attr("stroke-dasharray", [1,2]);

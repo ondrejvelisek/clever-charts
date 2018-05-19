@@ -133,7 +133,8 @@ class Bar extends Component {
 				minMax: minMax,
 				backgroundColor: this.stripeBackgroundColor,
 				topCornerRounded: index === 0,
-				bottomCornerRounded: index === data.stripes.length-1
+				bottomCornerRounded: index === data.stripes.length-1,
+				condensed: this.detailsHidden
 			})
 		});
 	}
