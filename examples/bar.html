@@ -20,31 +20,15 @@
 
 <body>
 
-<h1>Compatibility</h1>
+<h1>Basic examples</h1>
 
 <br>
-<input type="checkbox" class="invert-control1">Invert 1</button>
-<input type="checkbox" class="invert-control2">Invert 2</button>
-<input type="checkbox" class="invert-control3">Invert 3</button>
+<input type="checkbox" class="invert-control3">Invert</input>
+<button class="highlight-control3">Highlight 2nd</button>
 <br>
 
-<div class="bar1-ct"></div>
-<div class="bar1back-ct"></div>
 <div class="barchart1-ct"></div>
-<br>
-
-<button class="highlight-control1">Highlight 1->2</button>
-<button class="highlight-control2">Highlight 2->2</button>
-<button class="highlight-control3">Highlight 3->2</button>
-<br>
-
-<div class="bar2-ct"></div>
-<div class="bar2back-ct"></div>
 <div class="barchart2-ct"></div>
-<br>
-
-<div class="bar3-ct"></div>
-<div class="bar3back-ct"></div>
 <div class="barchart3-ct"></div>
 
 <h1>Compare</h1>
@@ -113,83 +97,6 @@
 
 <script>
 
-	// bar 1  ================================================================
-
-	var bar = new CleverCharts.Bar({
-		width:360
-	});
-
-	bar.render(".bar1-ct");
-
-	d3.json("data/bar/sample.json", function(json) {
-		bar.setData(json.content);
-	});
-
-	// simulate invert
-	d3.select(".invert-control1").on("click", function(){
-		if (this.checked){
-			d3.json("data/bar/sample.json", function(json)  {
-				bar.setData(json.content.map(function(item){
-					return {
-						value:item.value,
-						label:item.label,
-						disabled:!item.disabled
-					}
-				}));
-			});
-		} else {
-			d3.json("data/bar/sample.json", function(json) {
-				bar.setData(json.content);
-			});
-		}
-	});
-
-	bar.on("barClick", function(barIndex){
-		console.log("barClick:",barIndex);
-	});
-
-	bar.on("barDisabled", function(barIndex, disabled){
-		console.log("barDisabled:",barIndex, "disabled: ",disabled);
-	});
-
-	// bar 1 backport  ================================================================
-
-	var bar1b = new CleverCharts.BarLegacy({
-		width:360
-	});
-
-	bar1b.render(".bar1back-ct");
-
-	d3.json("data/bar/sample.json", function(json) {
-		bar1b.setData(json.content);
-	});
-
-	// simulate invert
-	d3.select(".invert-control2").on("click", function(){
-		if (this.checked){
-			d3.json("data/bar/sample.json", function(json)  {
-				bar1b.setData(json.content.map(function(item){
-					return {
-						value:item.value,
-						label:item.label,
-						disabled:!item.disabled
-					}
-				}));
-			});
-		} else {
-			d3.json("data/bar/sample.json", function(json) {
-				bar1b.setData(json.content);
-			});
-		}
-	});
-
-	bar1b.on("barClick", function(barIndex){
-		console.log("barClick:",barIndex);
-	});
-
-	bar1b.on("barDisabled", function(barIndex, disabled){
-		console.log("barDisabled:",barIndex, "disabled: ",disabled);
-	});
 
 	// barchart1 ================================================================
 
@@ -238,72 +145,6 @@
 
 
 
-	// bar 2  ================================================================
-
-	var bar2 = new CleverCharts.Bar({
-		width:360,
-		labelFontSize:24,
-		valueFontSize:20,
-		barHeight:60,
-		enableBarToggle:true,
-		enableBarHover:true
-	});
-
-	bar2.render(".bar2-ct");
-
-	d3.json("data/bar/categories.json", function(json) {
-		bar2.setData(json.content);
-	});
-
-	bar2.on("barOver", function(barIndex){
-		console.log("bar 2 over:",barIndex);
-	});
-
-	bar2.on("barOut", function(barIndex){
-		console.log("bar2 out:",barIndex);
-	});
-
-	// simulate highlight
-	d3.select(".highlight-control1").on("click", function(){
-		d3.json("data/bar/categories.json", function(json) {
-			json.content[1].highlighted = true;
-			bar2.setData(json.content);
-		});
-	})
-
-
-	// bar 2 backport  ================================================================
-	var bar2b = new CleverCharts.BarLegacy({
-		width:360,
-		labelFontSize:24,
-		valueFontSize:20,
-		barHeight:60,
-		enableBarToggle:true,
-		enableBarHover:true
-	});
-
-	bar2b.render(".bar2back-ct");
-
-	d3.json("data/bar/categories.json", function(json) {
-		bar2b.setData(json.content);
-	});
-
-	bar2b.on("barOver", function(barIndex){
-		console.log("bar 2 over:",barIndex);
-	});
-
-	bar2b.on("barOut", function(barIndex){
-		console.log("bar2 out:",barIndex);
-	});
-
-	// simulate highlight
-	d3.select(".highlight-control2").on("click", function(){
-		d3.json("data/bar/categories.json", function(json) {
-			json.content[1].highlighted = true;
-			bar2b.setData(json.content);
-		});
-	});
-
 	// barchart2 ================================================================
 
 	var barchart2 = new CleverCharts.Barchart({
@@ -343,47 +184,6 @@
 
 
 
-
-
-	// bar 3  ================================================================
-
-	var bar3 = new CleverCharts.Bar({
-		width:360,
-		activeBarColors:["#4AACE2", "#CD21D3"],
-		enableBarToggle:true,
-		minMax:"auto",
-		barHeight:48,
-		enableBarHover:true
-	});
-
-	bar3.render(".bar3-ct");
-
-	d3.json("data/bar/sample.json", function(json1) {
-		d3.json("data/bar/sample2.json", function(json2) {
-			bar3.setData(json1.content, json2.content);
-		});
-	});
-
-
-	// bar 3  ================================================================
-
-
-	var bar3b = new CleverCharts.BarLegacy({
-		width:360,
-		activeBarColors:["#4AACE2", "#CD21D3"],
-		enableBarToggle:true,
-		minMax:"auto",
-		barHeight:48,
-		enableBarHover:true
-	});
-
-	bar3b.render(".bar3back-ct");
-
-	d3.json("data/bar/sample.json", function(json1) {
-		d3.json("data/bar/sample2.json", function(json2) {
-			bar3b.setData(json1.content, json2.content);
-		});
-	});
 
 
 	// barchart3 ================================================================
