@@ -1,0 +1,88 @@
+
+{
+  "details": {
+    "label": "4 Seasons",
+    "tooltips": [
+      {"text": 2120}
+    ]
+  },
+  "bars": [
+    {
+      "details": {
+        "label": "Spring",
+        "tooltips": [
+          {
+            "text": "17 °C",
+            "symbol": "tmp",
+            "color": ["#ff9900", "#ffdd00"]
+          },
+          {
+            "text": 480,
+            "color": "#88ff00"
+          }
+        ]
+      },
+      "stripes": [
+        {"value": 480, "color": "#88ff00"}
+      ]
+    },
+    {
+      "details": {
+        "label": "Summer",
+        "tooltips": [
+          {
+            "text": "29 °C",
+            "symbol": "tmp",
+            "color": ["#ff0000", "#ff9900"]
+          },
+          {
+            "text": 830,
+            "color": "#ffdd00"
+          }
+        ]
+      },
+      "stripes": [
+        {"value": 830, "color": "#ffdd00"}
+      ]
+    },
+    {
+      "details": {
+        "label": "Autumn",
+        "tooltips": [
+          {
+            "text": "11 °C",
+            "symbol": "tmp",
+            "color": ["#0099ff", "#ff9900"]
+          },
+          {
+            "text": 350,
+            "color": "#ff9900"
+          }
+        ]
+      },
+      "stripes": [
+        {"value": 350, "color": "#ff9900"}
+      ]
+    },
+    {
+      "details": {
+        "label": "Winter",
+        "tooltips": [
+          {
+            "text": "3 °C",
+            "symbol": "tmp",
+            "color": ["#0000ff", "#00ffff"]
+          },
+          {
+            "text": 1450,
+            "color": "#00ffff"
+          }
+        ]
+      },
+      "stripes": [
+        {"value": 1450, "color": "#00ffff"}
+      ]
+    }
+  ]
+}
+

@@ -373,6 +373,41 @@
 
 
 
+
+	// TOOLTIPS ================================================================
+
+	var tooltips1 = new CleverCharts.Barchart({
+		minMax:"auto",
+        tooltipFontSize: 16,
+		tooltipSymbol: "±"
+	});
+	tooltips1.render(".tooltips1-ct");
+	d3.json("data/bar/sample2-new.json", function(json) {
+		tooltips1.setData(json);
+	});
+
+	var tooltips2 = new CleverCharts.Barchart({
+		minMax:"auto",
+		dualValue: true,
+		tooltipFontSize: 16,
+		tooltipSymbol: "±"
+	});
+	tooltips2.render(".tooltips2-ct");
+	d3.json("data/bar/dual-sample2.json", function(json) {
+		tooltips2.setData(json);
+	});
+
+	var tooltips3 = new CleverCharts.Barchart({
+		minMax:"auto"
+	});
+	tooltips3.render(".tooltips3-ct");
+	d3.json("data/bar/sample-new-tooltips.json", function(json) {
+		tooltips3.setData(json);
+	});
+
+
+
+
 	// COLORS ================================================================
 
 	var colors1 = new CleverCharts.Barchart({
