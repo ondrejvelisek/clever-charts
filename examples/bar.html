@@ -67,11 +67,11 @@
 <div class="tooltips2-ct"></div>
 <div class="tooltips3-ct"></div>
 
-<h1>Precision</h1>
+<h1>Formatting</h1>
 
-<div class="precision1-ct"></div>
-<div class="precision2-ct"></div>
-<div class="precision3-ct"></div>
+<div class="format1-ct"></div>
+<div class="format2-ct"></div>
+<div class="format3-ct"></div>
 
 <h1>Negative values</h1>
 
@@ -405,6 +405,44 @@
 		tooltips3.setData(json);
 	});
 
+
+
+
+
+
+
+
+
+	// FORMATTING ================================================================
+	// based on https://github.com/d3/d3-format
+
+	var format1 = new CleverCharts.Barchart({
+		minMax:"auto",
+		format:"+f"
+	});
+	format1.render(".format1-ct");
+	d3.json("data/bar/sample-new-negative2.json", function(json) {
+		format1.setData(json);
+	});
+
+	var format2 = new CleverCharts.Barchart({
+		minMax:"auto",
+		dualValue: true,
+		format:".2s"
+	});
+	format2.render(".format2-ct");
+	d3.json("data/bar/dual-sample2.json", function(json) {
+		format2.setData(json);
+	});
+
+	var format3 = new CleverCharts.Barchart({
+		minMax:"auto",
+		format:",.4f"
+	});
+	format3.render(".format3-ct");
+	d3.json("data/bar/sample-new-format.json", function(json) {
+		format3.setData(json);
+	});
 
 
 
