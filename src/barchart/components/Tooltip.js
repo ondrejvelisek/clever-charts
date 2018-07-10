@@ -76,17 +76,32 @@ class Tooltip extends Component {
 				color = data.color ? data.color : this.activeColor;
 			}
 
-			const tooltipSymbol = this.container.append("text")
-				.text(data.symbol ? data.symbol : this.symbol)
-				.attr("class", style["symbol"])
-				.attr("text-anchor","end")
-				.attr("font-size", this.fontSize)
-				.attr("fill", color)
-				.attr("x", -tooltipWidth - this.space);
+			const symbol = data.symbol ? data.symbol : this.symbol;
 
-			tooltipWidth += this._calculateTextWidth(tooltipSymbol) + this.space;
+			if (symbol === "_circle") {
+
+				this.container.append("circle")
+					.attr("r", 3)
+					.attr("fill", color)
+					.attr("cx", -tooltipWidth - this.space)
+					.attr("cy", -this.fontSize/3);
+
+				tooltipWidth += 6 + this.space;
+
+			} else {
+
+				const tooltipSymbol = this.container.append("text")
+					.text(data.symbol ? data.symbol : this.symbol)
+					.attr("class", style["symbol"])
+					.attr("text-anchor","end")
+					.attr("font-size", this.fontSize)
+					.attr("fill", color)
+					.attr("x", -tooltipWidth - this.space);
+
+				tooltipWidth += this._calculateTextWidth(tooltipSymbol) + this.space;
+			}
+
 		}
-
 		this.width = tooltipWidth;
 	}
 
