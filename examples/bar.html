@@ -3,7 +3,7 @@
 
 <head>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js"></script>
-    <script src="../dist/clever-charts-1.2.0.min.js"></script>
+    <script src="../dist/clever-charts-1.2.1.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet"/>
 </head>
 
@@ -55,12 +55,6 @@
 <div class="colors2-ct"></div>
 <div class="colors3-ct"></div>
 
-<h1>Hover</h1>
-
-<div class="hover1-ct"></div>
-<div class="hover2-ct"></div>
-<div class="hover3-ct"></div>
-
 <h1>Tooltips</h1>
 
 <div class="tooltips1-ct"></div>
@@ -94,6 +88,12 @@
 <div class="minmax4-ct"></div>
 <div class="minmax5-ct"></div>
 <div class="minmax6-ct"></div>
+
+<h1>Others</h1>
+
+<div class="others1-ct" style="margin-left: 200px"></div>
+<div class="others2-ct"></div>
+<div class="others3-ct"></div>
 
 <script>
 
@@ -320,60 +320,6 @@
 
 
 
-	// HOVER ================================================================
-
-	var hover1 = new CleverCharts.Barchart({
-		minMax:"auto",
-		detailsVisible: true,
-		barHeight:10
-	});
-	hover1.render(".hover1-ct");
-	d3.json("data/bar/sample-new.json", function(json) {
-		hover1.setData(json);
-	});
-
-	hover1.on("barsLeave", () => {
-		hover1.updateDetailsData(oldDetailsData => {
-			oldDetailsData.tooltips[0].text = 2120;
-			oldDetailsData.tooltips[0].symbol = "";
-			return hover1.data.details;
-		});
-	});
-	hover1.on("barLeftEnter", _ => {
-		hover1.updateDetailsData(oldDetailsData => {
-			oldDetailsData.label = "Low";
-			oldDetailsData.tooltips[0].text = 125;
-			oldDetailsData.tooltips[0].symbol = "\u263A";
-			oldDetailsData.tooltips[0].color = "#55AA55";
-			return oldDetailsData;
-		});
-	});
-
-	hover1.on("barMiddleEnter", _ => {
-		hover1.updateDetailsData(oldDetailsData => {
-			oldDetailsData.label = "Moderate";
-			oldDetailsData.tooltips[0].text = 952;
-			oldDetailsData.tooltips[0].symbol = "\u24D8";
-			oldDetailsData.tooltips[0].color = "#4466CC";
-			return oldDetailsData;
-		});
-	});
-
-	hover1.on("barRightEnter", _ => {
-		hover1.updateDetailsData(oldDetailsData => {
-			oldDetailsData.label = "High";
-			oldDetailsData.tooltips[0].text = 3562;
-			oldDetailsData.tooltips[0].symbol = "\u26A0";
-			oldDetailsData.tooltips[0].color = "#FF5522";
-			return oldDetailsData;
-		});
-	});
-
-
-
-
-
-
 	// TOOLTIPS ================================================================
 
 	var tooltips1 = new CleverCharts.Barchart({
@@ -576,6 +522,16 @@
 		minmax6.setData(json);
 	});
 
+
+  // OTHERS ================================================================
+
+  var others1 = new CleverCharts.Barchart({
+      enableBarHover:true
+  });
+  others1.render(".others1-ct");
+  d3.json("data/bar/sample-long-label.json", function(json) {
+      others1.setData(json);
+  });
 
 </script>
 </body>

@@ -2,7 +2,6 @@ import * as Defaults from "../defaults/BarchartDefaults";
 import Component from "./Component";
 import Details from "./Details";
 import Stripe from "./Stripe";
-import Hover from "./Hover";
 import style from "../Barchart.css";
 import DetailsData from "../data/DetailsData";
 
@@ -46,12 +45,6 @@ class Bar extends Component {
 		this._stripes;
 
 		this._observable
-			.add("leftEnter")
-			.add("leftLeave")
-			.add("rightEnter")
-			.add("rightLeave")
-			.add("middleEnter")
-			.add("middleLeave")
 			.add("disabled");
 	}
 
@@ -62,8 +55,6 @@ class Bar extends Component {
 		}
 
 		this.container.classed(style['hover-enabled'], this.enableHover);
-
-		this._createHover();
 
 		if (this.enableToggle) {
 			this._doEnableToggle();
@@ -83,8 +74,6 @@ class Bar extends Component {
 		this._createStripes(data);
 		this._renderStripes();
 		this._setStripesData(data);
-
-		this._renderHover();
 	}
 
 	_clearData() {
@@ -148,35 +137,6 @@ class Bar extends Component {
 
 	_setStripesData(data) {
 		data.stripes.forEach((stripeData, index) => this.stripes[index].setData(stripeData));
-	}
-
-	_createHover() {
-		this._hover = new Hover({
-			width: this.width,
-			height: this.height,
-		});
-	}
-
-	_renderHover() {
-		this._hover.render(this.container.node(), 0, 0)
-			.on("leftEnter", (data) => {
-				this._observable.fire("leftEnter", data);
-			})
-			.on("leftLeave", (data) => {
-				this._observable.fire("leftLeave", data);
-			})
-			.on("rightEnter", (data) => {
-				this._observable.fire("rightEnter", data);
-			})
-			.on("rightLeave", (data) => {
-				this._observable.fire("rightLeave", data);
-			})
-			.on("middleEnter", (data) => {
-				this._observable.fire("middleEnter", data);
-			})
-			.on("middleLeave", (data) => {
-				this._observable.fire("middleLeave", data);
-			});
 	}
 
 	_doEnableToggle() {

@@ -51,12 +51,6 @@ class Barchart extends Component {
 		this._observable
 			.add("barEnter")
 			.add("barLeave")
-			.add("barLeftEnter")
-			.add("barLeftLeave")
-			.add("barRightEnter")
-			.add("barRightLeave")
-			.add("barMiddleEnter")
-			.add("barMiddleLeave")
 			.add("barClick")
 			.add("barDisabled")
 			.add("barsEnter")
@@ -276,24 +270,6 @@ class Barchart extends Component {
 				})
 				.on("leave", (index) => {
 					this._observable.fire("barLeave", index);
-				})
-				.on("leftEnter", (index) => {
-					this._observable.fire("barLeftEnter", index);
-				})
-				.on("leftLeave", (index) => {
-					this._observable.fire("barLeftLeave", index);
-				})
-				.on("rightEnter", (index) => {
-					this._observable.fire("barRightEnter", index);
-				})
-				.on("rightLeave", (index) => {
-					this._observable.fire("barRightLeave", index);
-				})
-				.on("middleEnter", (index) => {
-					this._observable.fire("barMiddleEnter", index);
-				})
-				.on("middleLeave", (index) => {
-					this._observable.fire("barMiddleLeave", index);
 				})
 				.on("disabled", (index, disabled) => {
 					if (this.detailsVisible && this.enableBarHover) {
