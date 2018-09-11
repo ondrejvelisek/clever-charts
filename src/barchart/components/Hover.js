@@ -2,7 +2,8 @@ import * as Defaults from "../defaults/BarchartDefaults";
 import Component from "./Component";
 import style from "../Barchart.css";
 
-class Bar extends Component {
+// note: Currently unused
+class Hover extends Component {
 
 	constructor(
 		{
@@ -68,4 +69,4 @@ class Bar extends Component {
 
 }
 
-export default Bar;
+export default Hover;

@@ -34,10 +34,15 @@ class Tooltip extends Component {
 			.attr("text-anchor","end")
 			.attr("font-size", this.fontSize);
 
-		this._canvas = d3.select("body")
-			.append('canvas')
-			.attr("class", "text-width-helper")
-			.text("Helper element for computing text width");
+		if (d3.select(".text-width-helper").empty()) {
+			this._canvas = d3.select("body")
+				.append('canvas')
+				.attr("class", "text-width-helper")
+				.style("display","none")
+				.text("Helper element for computing text width");
+		} else {
+			this._canvas = d3.select(".text-width-helper");
+		}
 
 	}
 

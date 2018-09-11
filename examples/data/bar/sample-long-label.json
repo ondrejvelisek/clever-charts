@@ -1,0 +1,55 @@
+
+{
+  "details": {
+    "label": "4 Seasons",
+    "tooltips": [
+      {"text": 2120}
+    ]
+  },
+  "bars": [
+    {
+      "details": {
+        "label": "Spring, birds, streams, green grass, countryside dance",
+        "tooltips": [
+          {"text": 480, "symbol": "_circle"}
+        ]
+      },
+      "stripes": [
+        {"value": 480}
+      ]
+    },
+    {
+      "details": {
+        "label": "Summer, calm, insect, storm, wind, hot sun, sweat, laugh",
+        "tooltips": [
+          {"text": 110, "symbol": "_circle", "color": "red"},
+          {"text": 520, "symbol": "_circle", "color": "orange"},
+          {"text": 200, "symbol": "_circle", "color": "green"}
+        ]
+      },
+      "stripes": [
+        {"value": 830}
+      ]
+    },
+    {
+      "details": {
+        "label": "Autumn, dance, wine, grain, drunk sleep, hunt, run away"
+      },
+      "stripes": [
+        {"value": 350}
+      ]
+    },
+    {
+      "details": {
+        "label": "Winter, cold, wind, rain, snow, fireplace",
+        "tooltips": [
+          {"text": 1450}
+        ]
+      },
+      "stripes": [
+        {"value": 1450}
+      ]
+    }
+  ]
+}
+
