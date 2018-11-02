@@ -4,6 +4,11 @@ Simple javascript charts suited for BI applications
 
 ## Changelog
 
+### 1.2.2 > 1.2.3
+
+Add support of updating histogram selection without refreshing
+So handlers are not affected. See example of use
+
 ### 1.2.1 > 1.2.2
 
 Fix selection changes in inverted histogram filter
