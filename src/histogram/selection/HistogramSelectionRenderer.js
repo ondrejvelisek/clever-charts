@@ -245,6 +245,16 @@ export default class HistogramSelectionRenderer {
 		this._groupEl.on("click", this._onClick.bind(this));
 	}
 
+    /**
+     * @private
+     * updates histogram selection
+     * @param {HistogramSelection}
+     */
+	updateSelection(histogramSelection) {
+        this._histogramSelection = histogramSelection;
+        this._updateSelection();
+	}
+
 	/**
 	 * @private
 	 * Refreshes histogram data 
