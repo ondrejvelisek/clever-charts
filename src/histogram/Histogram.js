@@ -257,6 +257,29 @@ class Histogram {
 	hideSelectionLabels(){
 		this._histogramRenderer.hideSelectionLabels();
 	}
+
+    /**
+     * @private
+     * Update histogram selection. Updated selection should have the same length as the current one.
+     * @param {Array} selection
+     * @returns {Histogram} returns this widget instance
+     */
+    updateSelection(selection) {
+        if (!this._histogramRenderer.isRendered()) {
+            throw "Can't call activateSelection() when widget is not rendered, please call .render() first."
+        }
+
+        if (!this._histogramData) {
+            throw "Can't call activateSelection() when no data is available, please call .setData() first."
+        }
+
+        var histogramSelection = this._histogramSelection = this._selectionFactory.getHistogramSelection(selection, this._histogramData);
+        this._options.selection = histogramSelection.getSelection();
+        this._selection = selection;
+        this._histogramRenderer.updateSelection(histogramSelection);
+
+        return this;
+    }
 	
 	/**
 	 * @public
