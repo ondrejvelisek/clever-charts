@@ -200,6 +200,25 @@ export default class HistogramRenderer {
 		this._groupEl.node().innerHTML = "";
 	}
 
+    /**
+     * @private
+     * Update histogram selection. Updated selection should have the same length as the current one.
+     * @param {HistogramSelection} selection
+     * @returns {HistogramRenderer} returns this renderer instance
+     */
+    updateSelection(histogramSelection) {
+        if (!this.isRendered()) {
+            throw "Can't call updateSelection() when widget is not rendered, please call .render() first."
+        }
+
+        if (!this._histogramData) {
+            throw "Can't call updateSelection() when no data is available, please call .setData() first."
+        }
+        this._selectionRenderer.updateSelection(histogramSelection);
+
+        return this;
+    }
+
 	/**
 	 * @private
 	 * Refreshes histogram data 
