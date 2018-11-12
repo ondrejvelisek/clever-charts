@@ -22,7 +22,7 @@ g .selectionbar {
     border:0;
 }
 
-g > text {
+.histogram g > text {
     user-select: none;
 }
 
