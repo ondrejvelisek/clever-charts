@@ -245,16 +245,6 @@ export default class HistogramSelectionRenderer {
 		this._groupEl.on("click", this._onClick.bind(this));
 	}
 
-    /**
-     * @private
-     * updates histogram selection
-     * @param {HistogramSelection}
-     */
-	updateSelection(histogramSelection) {
-        this._histogramSelection = histogramSelection;
-        this._updateSelection();
-	}
-
 	/**
 	 * @private
 	 * Refreshes histogram data 
@@ -284,6 +274,28 @@ export default class HistogramSelectionRenderer {
 		this._handleClick();
 
 		return this;
+	}
+
+	setSelection(histogramSelection, options){
+		if (this.needRefresh(this._histogramSelection, histogramSelection)) {
+			return this.refresh(this._histogramData, histogramSelection, options);
+		}
+		this._histogramSelection = histogramSelection;
+		this._updateSelection();
+		return this;
+	}
+
+	needRefresh(prevHistogramSelection, histogramSelection) {
+		if (!prevHistogramSelection || !histogramSelection) {
+			return true;
+		}
+		const prev = prevHistogramSelection.getSelection();
+		const curr = histogramSelection.getSelection();
+		return (
+			!prev || !curr ||
+			prev.length !== curr.length ||
+			curr.reduce((acc, sel, i) => sel.from === prev[i].from && sel.to === prev[i].to ? acc : true, false)
+		);
 	}
 
 	/**

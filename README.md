@@ -4,6 +4,11 @@ Simple javascript charts suited for BI applications
 
 ## Changelog
 
+### 1.2.3 > 1.2.4
+
+Do not clear selection when selection is set
+Deprecate histogram updateSection
+
 ### 1.2.2 > 1.2.3
 
 Add support of updating histogram selection without refreshing
