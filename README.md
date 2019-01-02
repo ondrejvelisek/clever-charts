@@ -4,6 +4,11 @@ Simple javascript charts suited for BI applications
 
 ## Changelog
 
+### 1.2.4 > 1.2.6
+
+Add support for histogram segment icons and divider
+Add related examples
+
 ### 1.2.3 > 1.2.4
 
 Do not clear selection when selection is set
