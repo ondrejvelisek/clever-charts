@@ -33,32 +33,32 @@
     {
       "min": 6133.6,
       "max": 7146.2,
-      "volume": 94
+      "volume": 5900
     },
     {
       "min": 7146.2,
       "max": 8158.8,
-      "volume": 44
+      "volume": 12000
     },
     {
       "min": 8158.8,
       "max": 9171.4,
-      "volume": 11
+      "volume": 18000
     },
     {
       "min": 9171.4,
       "max": 10184.0,
-      "volume": 20
+      "volume": 20000
     },
     {
       "min": 10184.0,
       "max": 11196.6,
-      "volume": 4
+      "volume": 10000
     },
     {
       "min": 11196.6,
       "max": 12209.2,
-      "volume": 3
+      "volume": 4400
     },
     {
       "min": 12209.2,

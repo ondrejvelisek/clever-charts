@@ -14,6 +14,14 @@ g .selectionbar {
     cursor:default;
 }
 
+g .selectionbaricon {
+    cursor:default;
+}
+
+g .selectionbargroup {
+    cursor:default;
+}
+
 .x-axis>path {
     stroke: #F1F1F1;
 }

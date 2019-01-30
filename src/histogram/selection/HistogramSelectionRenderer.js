@@ -152,8 +152,8 @@ export default class HistogramSelectionRenderer {
 	 */
 	_clear(){
 		this._destroyHandles();
-		if (this._selectionBars){
-			this._selectionBars.remove();
+		if (this._selectionBarGroups){
+			this._selectionBarGroups.remove();
 		}
 	}
 
@@ -379,9 +379,9 @@ export default class HistogramSelectionRenderer {
 	 */
 	_handleHoverState(){
 		var g = this._groupEl;
-		g.selectAll("."+style.selectionbar).on("mouseout", this._onSelectionMouseOut.bind(this));
-		g.selectAll("."+style.selectionbar).on("mouseover", this._onSelectionMouseOver.bind(this));
-	}	
+        g.selectAll("."+style.selectionbargroup).on("mouseout", this._onSelectionMouseOut.bind(this));
+        g.selectAll("."+style.selectionbargroup).on("mouseover", this._onSelectionMouseOver.bind(this));
+	}
 
 	/**
 	 * @private 
@@ -444,15 +444,24 @@ export default class HistogramSelectionRenderer {
 		var selection = this._histogramSelection.getSelection();
 
 		// hover selection bars
-		this._selectionBars = this._groupEl.selectAll("."+style.selectionbar)
-			.data(selection)
-			.enter().append("rect")
+		this._selectionBarGroups = this._groupEl.selectAll("."+style.selectionbargroup)
+			.data([...selection].reverse()) // reverse because left icons needs to be in foreground
+			.enter().append("g")
+			.attr("class", style.selectionbargroup)
+			.attr("y", 0)
+			.attr("height", height);
+
+		this._selectionBarsIcons = this._selectionBarGroups.append("image")
+			.attr("class", style.selectionbaricon)
+			.attr("xlink:href", function(d) {
+				return d.icon ? d.icon.src : null;
+			});
+
+		this._selectionBars = this._selectionBarGroups.append("rect")
 			.attr("class", style.selectionbar)
 			.attr("y", 0)
 			.attr("fill", "rgba(0,0,0,0.00)")
-			.attr("height", height);      
-
-
+			.attr("height", height);
 		this._renderHandles();
 	}
 
@@ -549,13 +558,16 @@ export default class HistogramSelectionRenderer {
 	_getBarColor (barX, selection, data, d){
 		var inactiveBarColor = this._options.inactiveBarColor;
 		var overSelectionColor = this._options.overSelectionColor;
-		
+        var segmentDivider = this._options.segmentDivider;
+
 		var barSelectionIndex = this._getBarSelectionIndex(barX, selection, data);
 		if (barSelectionIndex == null){
 			return inactiveBarColor;
+		} else if (segmentDivider && selection.some(sel => (barX === sel.position.to || barX === sel.position.from) && !sel.disabled)) {
+			return segmentDivider;
 		} else if (selection[barSelectionIndex].disabled){
 			return inactiveBarColor;
-		} if (this._histogramSelection.allowsToggle() && this._overSelectionIndex == barSelectionIndex){
+		} else if (this._histogramSelection.allowsToggle() && this._overSelectionIndex == barSelectionIndex){
 			return overSelectionColor;
 		} else {
 			return this._getSelectionColor(selection[barSelectionIndex], d);
@@ -706,18 +718,58 @@ export default class HistogramSelectionRenderer {
 		}
 		
 		// selection rects
-		this._groupEl.selectAll("."+style.selectionbar)
-			.data(selection)
-			.attr("data-selection-index", function(d,i){
-				return i;
-			})
-			.attr("x", (d) => { 
-				return this._histogramData.valueToPosition(d.from);
+		this._selectionBarGroups
+            .data([...selection].reverse()) // reverse because left icons needs to be in foreground
+			.attr("transform", (d) => {
+				return `translate(${this._histogramData.valueToPosition(d.from)}, 0)`;
 			})
 			.attr("width", (d) => {
 				return this._histogramData.valueToPosition(d.to) - this._histogramData.valueToPosition(d.from);
-			})
+			});
 
+        this._selectionBarsIcons
+            .data([...selection].reverse()) // reverse because left icons needs to be in foreground
+            .attr("data-selection-index", function(d,i){
+                return selection.length - i - 1;
+            })
+            .attr("visibility", (d) => d.disabled ? "hidden" : "visible")
+            .attr("x", (d) => {
+                return (this._histogramData.valueToPosition(d.to) - this._histogramData.valueToPosition(d.from))/2;
+            })
+            .attr("y", (d) => {
+                return d.icon && d.icon.align === "bottom" ? 3*this._options.height/4 : this._options.height/2;
+            })
+            .attr("transform", (d) => {
+                if (!d.icon) {
+                    return null;
+                }
+                const y = d.icon.align === "bottom" ? -d.icon.height : -d.icon.height/2;
+                return `translate(${-this.selectionIconWidth(d)/2},${y})`
+            })
+            .attr("width", this.selectionIconWidth.bind(this))
+            .attr("height", (d) => {
+                return d.icon ? d.icon.height : null;
+            });
+
+		this._selectionBars
+            .data([...selection].reverse()) // reverse because left icons needs to be in foreground
+			.attr("data-selection-index", function(d,i){
+				return selection.length - i - 1;
+			})
+			.attr("fill", "rgba(0,0,0,0.00)")
+			.attr("width", (d) => {
+				return this._histogramData.valueToPosition(d.to) - this._histogramData.valueToPosition(d.from);
+			});
+	}
+
+	selectionIconWidth(selection){
+		if (!selection.icon) {
+			return null;
+		} else if (selection.icon.width === "stretch") {
+			return this._histogramData.valueToPosition(selection.to) - this._histogramData.valueToPosition(selection.from);
+		} else {
+			return selection.icon.width
+		}
 	}
 
 	/**

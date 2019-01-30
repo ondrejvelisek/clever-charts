@@ -100,6 +100,12 @@ class Histogram {
 		this._options.selectionType = getOptionValue(options.selectionType, null);
 
 		/**
+		 * @public
+		 * Color selections should be divided by vertical line. If null no divider is rendered.
+		 */
+		this._options.segmentDivider = getOptionValue(options.segmentDivider, null);
+
+		/**
 		 * @private
 		 * observable handler
 		 */
