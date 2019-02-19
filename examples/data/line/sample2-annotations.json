@@ -1,0 +1,74 @@
+{
+  "annotations": [
+    {
+      "id":20143,
+      "title": "Change of format",
+      "subtitle": "Dec 14, 2015"
+    },
+    {
+      "id":20143,
+      "title": "New terminals",
+      "subtitle": "Jun 1, 2021"
+    },
+    {
+      "id":20144,
+      "title": "EUR acceptance",
+      "subtitle": "Jun 14, 2021"
+    }
+  ],
+  "series": [
+    {
+      "appearance": {},
+      "data": [
+        {
+          "id":20134,
+          "label":"2013 (Q4)",
+          "tooltip":"425 <span style='font-size:8px;'>EUR</span>",
+          "value":425
+        },
+        {
+          "id":20141,
+          "label":"2014 (Q1)",
+          "tooltip":"440 <span style='font-size:8px;'>EUR</span>",
+          "value":440
+        },
+        {
+          "id":20142,
+          "label":"2014 (Q2)",
+          "tooltip":"460 <span style='font-size:8px;'>EUR</span>",
+          "value":460
+        },
+        {
+          "id":20143,
+          "label":"2014 (Q3)",
+          "tooltip":"470 <span style='font-size:8px;'>EUR</span>",
+          "value":470
+        },
+        {
+          "id":20144,
+          "label":"2014 (Q4)",
+          "tooltip":"440 <span style='font-size:8px;'>EUR</span>",
+          "value":440
+        },
+        {
+          "id":20151,
+          "label":"2015 (Q1)",
+          "tooltip":"460 <span style='font-size:8px;'>EUR</span>",
+          "value":460
+        },
+        {
+          "id":20152,
+          "label":"2015 (Q2)",
+          "tooltip":"500 <span style='font-size:8px;'>EUR</span>",
+          "value":500
+        },
+        {
+          "id":20153,
+          "label":"2015 (Q3)",
+          "tooltip":"560 <span style='font-size:8px;'>EUR</span>",
+          "value":560
+        }
+      ]
+    }
+  ]
+}

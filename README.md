@@ -4,6 +4,15 @@ Simple javascript charts suited for BI applications
 
 ## Changelog
 
+### 1.2.6 > 1.2.7
+
+Add new component Linechart
+ * Adds support for line hover and line tooltip
+ * Adds support for annotations
+ * Consumes different data format
+ * Fixes bug with all negative values
+Deprecate component Line
+
 ### 1.2.4 > 1.2.6
 
 Add support for histogram segment icons and divider

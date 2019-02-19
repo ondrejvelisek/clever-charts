@@ -3,7 +3,7 @@
 
 <head>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js"></script>
-    <script src="../dist/clever-charts-1.1.0.min.js"></script>
+    <script src="../dist/clever-charts-1.2.7.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet"/>
 </head>
 
@@ -13,6 +13,19 @@
 
 <body>
     <br>
+    <h2>Current usage</h2>
+
+    <div class="linechart1-ct"></div>
+    <div class="linechart2-ct"></div>
+    <div class="linechart3-ct"></div>
+    <div class="linechart4-ct"></div>
+    <div class="linechart5-ct"></div>
+    <div class="linechart6-ct"></div>
+    <div class="linechart7-ct"></div>
+    <div class="linechart8-ct"></div>
+
+    <h2>Deprecated usage</h2>
+
     <div class="line1-ct"></div>
     <div class="line2-ct"></div>
     <div class="line3-ct"></div>
@@ -26,6 +39,106 @@
     <div class="line11-ct"></div>
     <div class="line12-ct"></div>
     <script>
+
+        // line 1  ================================================================
+        var linechart1 = new CleverCharts.Linechart({
+            width:360,
+            height:200
+        });
+
+        linechart1.render(".linechart1-ct");
+
+        d3.json("data/line/sample2-positive.json", (json) => {
+            linechart1.setData(json);
+        });
+
+        // line 2  ================================================================
+        var linechart2 = new CleverCharts.Linechart({
+            width:360,
+            height:200
+        });
+
+        linechart2.render(".linechart2-ct");
+
+        d3.json("data/line/sample2-negative.json", (json) => {
+            linechart2.setData(json);
+        });
+
+        // line 3  ================================================================
+        var linechart3 = new CleverCharts.Linechart({
+            width:360,
+            height:200
+        });
+
+        linechart3.render(".linechart3-ct");
+
+        d3.json("data/line/sample2-diverse.json", (json) => {
+            linechart3.setData(json);
+        });
+
+        // line 4 ================================================================
+        var linechart4 = new CleverCharts.Linechart({
+            width:360,
+            height:200
+        });
+
+        linechart4.render(".linechart4-ct");
+
+        d3.json("data/line/sample2-incomplete.json", (json) => {
+            linechart4.setData(json);
+        });
+
+        // line 5 ================================================================
+        var linechart5 = new CleverCharts.Linechart({
+            width:360,
+            height:200
+        });
+
+        linechart5.render(".linechart5-ct");
+
+        d3.json("data/line/sample2-compare.json", (json) => {
+            linechart5.setData(json);
+        });
+
+        // line 6 ================================================================
+        var linechart6 = new CleverCharts.Linechart({
+            width:360,
+            height:200
+        });
+
+        linechart6.render(".linechart6-ct");
+
+        d3.json("data/line/sample2-tooltips.json", (json) => {
+            linechart6.setData(json);
+        });
+
+        // line 7 ================================================================
+        var linechart7 = new CleverCharts.Linechart({
+            width:360,
+            height:200
+        });
+
+        linechart7.render(".linechart7-ct");
+
+        d3.json("data/line/sample2-annotations.json", (json) => {
+            linechart7.setData(json);
+        });
+
+        // line 8 ================================================================
+        var linechart8 = new CleverCharts.Linechart({
+            width:360,
+            height:200
+        });
+
+        linechart8.render(".linechart8-ct");
+
+        d3.json("data/line/sample2-benchmark.json", (json) => {
+            linechart8.setData(json);
+        });
+
+
+
+
         // line 1  ================================================================
         var line = new CleverCharts.Line({
             width:360,
