@@ -1,0 +1,76 @@
+.linechart text {
+    font-size: 11px;
+    fill:#7d7d7d;
+    font-family: Roboto;
+}
+
+.white-fill {
+    fill:#ffffff;
+}
+
+.linechart text.white-fill {
+    fill:#ffffff;
+}
+
+.linechart {
+    overflow: visible;
+}
+
+.area {
+    
+}
+
+.linechart-mask {
+
+}
+
+.tooltip-group {
+    
+}
+
+.tooltip-hover-area {
+    
+}
+
+.tooltip-line-circle {
+    fill: white;
+}
+
+.label-axis-circle {
+    stroke:#bababa;
+    fill: white;
+}
+
+.tooltip-label-mask {
+}
+
+.tooltip-top-label {
+    border-radius: 4px;
+    font-size: 11px;
+    pointer-events: none;
+    white-space: nowrap;
+    font-family: Roboto;    
+    padding:3px 10px;
+    line-height:17px;
+    z-index:10;
+
+    color: #4a4a4a;
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.tooltip-top-label.dark {
+    color: #ffffff;
+    background-color: #4a4a4a;
+    box-shadow: none;
+    text-align: center;
+}
+
+.tooltip-top-label.dark hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #666666;
+    margin: 4px 8px;
+    padding: 0;
+}

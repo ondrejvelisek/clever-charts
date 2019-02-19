@@ -1,0 +1,117 @@
+{
+  "annotations": [],
+  "series": [
+    {
+      "appearance": {
+        "lineColor": "#0081ff",
+        "fillColor": "#0081ff"
+      },
+      "data": [
+        {
+          "id":20134,
+          "label":"2013 (Q4)",
+          "tooltip":"425 <span style='font-size:8px;'>EUR</span>",
+          "value":225
+        },
+        {
+          "id":20141,
+          "label":"2014 (Q1)",
+          "tooltip":"440 <span style='font-size:8px;'>EUR</span>",
+          "value":340
+        },
+        {
+          "id":20142,
+          "label":"2014 (Q2)",
+          "tooltip":"460 <span style='font-size:8px;'>EUR</span>",
+          "value":660
+        },
+        {
+          "id":20143,
+          "label":"2014 (Q3)",
+          "tooltip":"470 <span style='font-size:8px;'>EUR</span>",
+          "value":570
+        },
+        {
+          "id":20144,
+          "label":"2014 (Q4)",
+          "tooltip":"440 <span style='font-size:8px;'>EUR</span>",
+          "value":240
+        },
+        {
+          "id":20151,
+          "label":"2015 (Q1)",
+          "tooltip":"460 <span style='font-size:8px;'>EUR</span>",
+          "value":260
+        },
+        {
+          "id":20152,
+          "label":"2015 (Q2)",
+          "tooltip":"500 <span style='font-size:8px;'>EUR</span>",
+          "value":400
+        },
+        {
+          "id":20153,
+          "label":"2015 (Q3)",
+          "tooltip":"560 <span style='font-size:8px;'>EUR</span>",
+          "value":560
+        }
+      ]
+    },
+    {
+      "appearance": {
+        "lineColor": "#e8493f",
+        "fillColor": "#e8493f"
+      },
+      "data": [
+        {
+          "id":20134,
+          "label":"2013 (Q4)",
+          "tooltip":"425 <span style='font-size:8px;'>EUR</span>",
+          "value":425
+        },
+        {
+          "id":20141,
+          "label":"2014 (Q1)",
+          "tooltip":"440 <span style='font-size:8px;'>EUR</span>",
+          "value":240
+        },
+        {
+          "id":20142,
+          "label":"2014 (Q2)",
+          "tooltip":"460 <span style='font-size:8px;'>EUR</span>",
+          "value":60
+        },
+        {
+          "id":20143,
+          "label":"2014 (Q3)",
+          "tooltip":"470 <span style='font-size:8px;'>EUR</span>",
+          "value":-170
+        },
+        {
+          "id":20144,
+          "label":"2014 (Q4)",
+          "tooltip":"440 <span style='font-size:8px;'>EUR</span>",
+          "value":-160
+        },
+        {
+          "id":20151,
+          "label":"2015 (Q1)",
+          "tooltip":"460 <span style='font-size:8px;'>EUR</span>",
+          "value":100
+        },
+        {
+          "id":20152,
+          "label":"2015 (Q2)",
+          "tooltip":"500 <span style='font-size:8px;'>EUR</span>",
+          "value":520
+        },
+        {
+          "id":20153,
+          "label":"2015 (Q3)",
+          "tooltip":"560 <span style='font-size:8px;'>EUR</span>",
+          "value":860
+        }
+      ]
+    }
+  ]
+}
