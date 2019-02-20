@@ -48,16 +48,17 @@ class LinechartLabel extends Component {
         const textAnchor = this._getTextAnchor(data.x, bottomLabelWidth, data.width);
         const bottomMaskWidth = bottomMaskPadding*2 + bottomLabelWidth;
 
-        this._createMaskGradientElement(this.container, bottomMaskWidth, data.x);
+        this._createMaskGradientElement(this.container, bottomMaskWidth);
 
         labelMask
             .attr("width", bottomMaskWidth)
             .attr("fill", "url(#"+this.container.select('linearGradient').attr("id")+")")
-            .attr("x", ()=>{
+            .attr("x", -bottomMaskWidth/2)
+            .attr("transform", () => {
                 return {
-                    "start":-bottomMaskPadding,
-                    "middle":data.x-bottomMaskWidth/2,
-                    "end":data.width-bottomLabelWidth,
+                    "start":"translate("+bottomLabelWidth/2+", 0)",
+                    "middle":"translate("+data.x+", 0)",
+                    "end":"translate("+(data.width-bottomLabelWidth/2)+", 0)"
                 }[textAnchor]
             });
 
@@ -72,12 +73,12 @@ class LinechartLabel extends Component {
             });
     }
 
-    _createMaskGradientElement(container, bottomMaskWidth, xPos){
+    _createMaskGradientElement(container, bottomMaskWidth){
         const handleMaskGradientEl = container.append("linearGradient")
             .attr("id", style["tooltip-label-mask"]+"-"+(gradientID++)+"-gradient")
             .attr("gradientUnits", "userSpaceOnUse")
-            .attr("y1", "0").attr("x1", xPos-bottomMaskWidth/2)
-            .attr("y2", "0").attr("x2", xPos+bottomMaskWidth/2);
+            .attr("y1", "0").attr("x1", -bottomMaskWidth/2)
+            .attr("y2", "0").attr("x2", bottomMaskWidth/2);
 
         handleMaskGradientEl.selectAll("stop")
             .data([

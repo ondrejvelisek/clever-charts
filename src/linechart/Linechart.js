@@ -45,6 +45,7 @@ class Linechart extends Component {
     }
 
     _setData(container, data, lastData) {
+        container.selectAll("*").remove();
 
         const {xAxis, yAxis} = this._getAxes(data.series);
 
@@ -56,8 +57,6 @@ class Linechart extends Component {
         this._renderMask(container, data, xAxis, yAxis);
     }
 
-
-
     _getAxes(series) {
         const verticalSpacing = this.height / 4;
         const xAxis = d3.scalePoint().range([0, this.width]);
@@ -66,6 +65,15 @@ class Linechart extends Component {
         const minMax = this._calculateMinMax(series);
         yAxis.domain([minMax.min, minMax.max]);
         return {xAxis, yAxis}
+    }
+
+    _clearData() {
+        this._width = null;
+        this._height = null;
+        this._tooltip.destroy();
+        this._tooltip = null;
+        this._label = null;
+        this._lines = null;
     }
 
 
@@ -143,16 +151,20 @@ class Linechart extends Component {
     }
 
     _renderAnnotations(container, xAxis, annotations) {
-        const mergedAnotations = this._mergeAnnotatios(annotations);
+        const mergedAnnotations = this._mergeAnnotations(annotations);
 
-        this._annotations = Object.keys(mergedAnotations).map(id => {
+        this._annotations = Object.keys(mergedAnnotations).map(id => {
+            if (typeof xAxis(id) === 'undefined') {
+                console.warn(`Annotation (in presentation component) ${JSON.stringify(mergedAnnotations[id])} has id '${id}' which is not present in linechart data`);
+                return;
+            }
             const annotation = new LinechartAnnotation();
             annotation.render(this.container.node());
             annotation.setData({
                 xAxis,
                 id,
                 height: this.height,
-                length: mergedAnotations[id].length,
+                length: mergedAnnotations[id].length,
                 highlight: false
             });
             return annotation;
@@ -242,13 +254,21 @@ class Linechart extends Component {
             renderDot: true
         });
 
-        this._tooltip.setData({
-            html: this._getValueTooltipHTML(valueData),
-            x: xAxis(valueId),
-            y: yAxis(Math.max.apply(Math, valueData.map(item => item.value))),
-            dark: false,
-            visible: true
-        });
+        let hasTooltips = false;
+        valueData.forEach(lineData => lineData.tooltip && (hasTooltips = true));
+        if (hasTooltips) {
+            this._tooltip.setData({
+                html: this._getValueTooltipHTML(valueData),
+                x: xAxis(valueId),
+                y: yAxis(Math.max.apply(Math, valueData.map(item => item.value))),
+                dark: false,
+                visible: true
+            });
+        } else {
+            this._tooltip.setData({
+                visible: false
+            });
+        }
     }
 
     _onValueLeave() {
@@ -321,7 +341,7 @@ class Linechart extends Component {
         }).join("<hr />");
     }
 
-    _mergeAnnotatios(annotations) {
+    _mergeAnnotations(annotations) {
         const merged = {};
 
         annotations.forEach(annotation => {

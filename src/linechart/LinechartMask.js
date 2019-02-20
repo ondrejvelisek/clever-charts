@@ -40,9 +40,13 @@ class LinechartMask extends Component {
     }
 
     _renderAnnotations(container, xAxis, annotations, mergedData) {
-        const mergedAnnotations = this._mergeAnnotatios(annotations);
+        const mergedAnnotations = this._mergeAnnotations(annotations);
 
         Object.keys(mergedAnnotations).forEach((id, index) => {
+            if (typeof xAxis(id) === 'undefined') {
+                console.warn(`Annotation (in mask component) ${JSON.stringify(mergedAnnotations[id])} has id '${id}' which is not present in linechart data`);
+                return;
+            }
             const annotationGroup = container.append("g")
                 .on("mouseenter", () => this.observable.fire("annotationEnter", mergedAnnotations[id], mergedData[id], id, index))
                 .on("mouseleave", () => this.observable.fire("annotationLeave", mergedAnnotations[id], mergedData[id], id, index));
@@ -63,7 +67,7 @@ class LinechartMask extends Component {
         });
     }
 
-    _mergeAnnotatios(annotations) {
+    _mergeAnnotations(annotations) {
         const merged = {};
         annotations.forEach(annotation => {
             merged[annotation.id] = merged[annotation.id] || [];
@@ -73,7 +77,10 @@ class LinechartMask extends Component {
     }
 
     _renderTooltipAreas(container, xAxis, yAxis, mergedData) {
-        const hoverWidth = this.width / (Object.keys(mergedData).length-1);
+        let hoverWidth = this.width;
+        if (Object.keys(mergedData).length > 1) {
+            hoverWidth = this.width / (Object.keys(mergedData).length-1);
+        }
 
         Object.keys(mergedData).forEach((valueId, valueIndex) => {
             container.append("rect")

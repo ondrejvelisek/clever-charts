@@ -75,7 +75,8 @@ class Component {
 
 	destroy(){
 		if (this.isRendered()) {
-			this.clearData();
+            this._lastData = null;
+			this._clearData();
 			this._container.datum(null);
 			this._container.remove();
 			this._container = null;
@@ -99,6 +100,10 @@ class Component {
 	_setData(container, data, lastData) {
 		// prepared to be implemented by subclasses
 	}
+
+    _clearData(container) {
+        // prepared to be implemented by subclasses
+    }
 }
 
 export default Component;

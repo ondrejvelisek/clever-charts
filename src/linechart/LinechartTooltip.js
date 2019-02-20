@@ -26,7 +26,7 @@ class LinechartTooltip extends Component {
         this.container.node().innerHTML = data.html;
         this.container
             .style("left", `${this._getLabelLeft(data.x, data.width)}px`)
-            .style("top", `${data.y - 12 - this.container.node().offsetHeight}px`)
+            .style("top", `${this._getLabelTop(data.y)}px`)
             .style("visibility", data.visible ? "visible" : "hidden")
             .classed(style["dark"], data.dark);
     }
@@ -44,6 +44,16 @@ class LinechartTooltip extends Component {
         }
 
         return labelLeft;
+    }
+
+    _getLabelTop(yPos){
+        const yTop = yPos - 12 - this.container.node().offsetHeight;
+
+        if (yTop >= 0) {
+            return yTop;
+        } else {
+            return yPos + 12;
+        }
     }
 }
 

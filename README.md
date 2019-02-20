@@ -4,6 +4,18 @@ Simple javascript charts suited for BI applications
 
 ## Changelog
 
+### 1.2.7 > 1.2.8
+
+Linechart bugfixes
+ * Multiple times setData call
+ * first/last null value in data
+ * Unpresent value id in annotation
+ * Bottom label mask at edge positions
+ * Single value label
+ * Destroy call throws an error
+ * Typo
+Linechart tooltip does not overflow top line.
+
 ### 1.2.6 > 1.2.7
 
 Add new component Linechart
