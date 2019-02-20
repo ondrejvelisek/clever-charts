@@ -45,7 +45,7 @@ class LinechartLine extends Component {
             return;
         }
         lineData.forEach(item => {
-            if (point && item.value !== null && Number(point) === Number(item.id)) {
+            if (point && item.value !== null && String(point) === String(item.id)) {
                 this._point
                     .attr("visibility", "visible")
                     .attr("stroke-width", appearance.lineWidth || LINE_WIDTH)
@@ -91,7 +91,7 @@ class LinechartLine extends Component {
             .y(function(d) { return yAxis(d.value); });
 
         // apply grouping if needed (null or other splits)
-        const groupedData = this._getGroupedData(lineData);
+        const groupedData = this._getPartedData(lineData);
 
         return groupedData.map(partData => {
             const part = {};
@@ -128,16 +128,21 @@ class LinechartLine extends Component {
         });
     }
 
-    _getGroupedData(data){
-        let group = [];
-        const result = [group];
+    _getPartedData(data){
+        let group;
+        let lastEmpty = true;
+        const result = [];
 
-        data.forEach(item=>{
-            if (item.value === null){
-                group = [];
-                result.push(group);
+        data.forEach(item => {
+            if (item.value === null) {
+                lastEmpty = true;
             } else {
+                if (lastEmpty) {
+                    group = [];
+                    result.push(group);
+                }
                 group.push(item);
+                lastEmpty = false;
             }
         });
 

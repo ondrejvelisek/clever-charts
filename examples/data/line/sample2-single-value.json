@@ -1,0 +1,16 @@
+{
+  "annotations": [],
+  "series": [
+    {
+      "appearance": {},
+      "data": [
+        {
+          "id":2013,
+          "label":"2013",
+          "tooltip":"42500 <span style='font-size:8px;'>EUR</span>",
+          "value":42500
+        }
+      ]
+    }
+  ]
+}
