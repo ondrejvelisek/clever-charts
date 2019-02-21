@@ -43,7 +43,7 @@ class LinechartLabel extends Component {
             .attr("y", data.y + LABEL_OFFSET)
             .text(data.label);
 
-        const bottomLabelWidth = label.node().getBBox().width;
+        const bottomLabelWidth = label.node().getComputedTextLength();
         const bottomMaskPadding = 25;
         const textAnchor = this._getTextAnchor(data.x, bottomLabelWidth, data.width);
         const bottomMaskWidth = bottomMaskPadding*2 + bottomLabelWidth;
