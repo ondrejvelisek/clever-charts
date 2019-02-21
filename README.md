@@ -4,6 +4,10 @@ Simple javascript charts suited for BI applications
 
 ## Changelog
 
+### 1.2.8 > 1.2.9
+
+Fix bug when rendering Linechart into display-none element
+
 ### 1.2.7 > 1.2.8
 
 Linechart bugfixes
