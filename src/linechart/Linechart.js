@@ -5,7 +5,8 @@ import {
     AXIS_COLOR, HIGHLIGHT_COLOR,
     LABEL_OFFSET,
     LINE_COLOR,
-    MARGIN,
+    MARGIN_TOP,
+    MARGIN_BOTTOM,
     ZERO_LINE_COLOR
 } from './LinechartDefaults';
 import LinechartMask from './LinechartMask';
@@ -60,7 +61,7 @@ class Linechart extends Component {
     _getAxes(series) {
         const verticalSpacing = this.height / 4;
         const xAxis = d3.scalePoint().range([0, this.width]);
-        const yAxis = d3.scaleLinear().range([this.height-verticalSpacing, verticalSpacing]);
+        const yAxis = d3.scaleLinear().range([this.height-verticalSpacing, MARGIN_TOP]);
         xAxis.domain(series[0].data.map(function (d) { return d.id; }));
         const minMax = this._calculateMinMax(series);
         yAxis.domain([minMax.min, minMax.max]);
@@ -109,8 +110,8 @@ class Linechart extends Component {
         container.append("line")
             .attr("x1", 0)
             .attr("x2", this.width)
-            .attr("y1", this.height-MARGIN)
-            .attr("y2", this.height-MARGIN)
+            .attr("y1", this.height-MARGIN_BOTTOM)
+            .attr("y2", this.height-MARGIN_BOTTOM)
             .attr("stroke-width", 1)
             .attr("stroke", axisColor);
 
@@ -119,13 +120,13 @@ class Linechart extends Component {
             container.append("text")
                 .text(series[0].data[0].label)
                 .attr("x", 0)
-                .attr("y", this.height - MARGIN + LABEL_OFFSET)
+                .attr("y", this.height - MARGIN_BOTTOM + LABEL_OFFSET)
 
             container.append("text")
                 .text(series[0].data[series[0].data.length-1].label)
                 .attr("x", this.width)
                 .attr("text-anchor", "end")
-                .attr("y", this.height - MARGIN + LABEL_OFFSET)
+                .attr("y", this.height - MARGIN_BOTTOM + LABEL_OFFSET)
 
             // render single label in the middle if only one item is available
         } else if (series[0].data.length == 1){
@@ -133,7 +134,7 @@ class Linechart extends Component {
                 .text(series[0].data[0].label)
                 .attr("x", this.width/2)
                 .attr("text-anchor", "middle")
-                .attr("y", this.height - MARGIN + LABEL_OFFSET)
+                .attr("y", this.height - MARGIN_BOTTOM + LABEL_OFFSET)
         }
     }
 
@@ -142,7 +143,7 @@ class Linechart extends Component {
         this._label.render(container.node());
         this._label.setData({
             x: 0,
-            y: this.height - MARGIN,
+            y: this.height - MARGIN_BOTTOM,
             width: 360,
             label: "",
             visible: false,
@@ -353,7 +354,7 @@ class Linechart extends Component {
 
     _shouldRenderZeroLine(yAxis){
         const zeroLinePosition = yAxis(0);
-        const axisPosition = this.height - MARGIN;
+        const axisPosition = this.height - MARGIN_BOTTOM;
         const treshold = 10;
         return zeroLinePosition < axisPosition - treshold && zeroLinePosition > 0;
     }
