@@ -1,7 +1,7 @@
 import style from "./Linechart.css";
 import * as d3 from "d3";
 import Component from './Component';
-import {DOT_SIZE, LINE_WIDTH, MARGIN} from './LinechartDefaults';
+import {DOT_SIZE, LINE_WIDTH, MARGIN_TOP, MARGIN_BOTTOM} from './LinechartDefaults';
 import LinechartLine from './LinechartLine';
 
 class LinechartMask extends Component {
@@ -29,7 +29,7 @@ class LinechartMask extends Component {
     _setData(container, data, lastData) {
         const verticalSpacing = this.height / 4;
         const xAxis = d3.scalePoint().range([0, this.width]);
-        const yAxis = d3.scaleLinear().range([this.height-verticalSpacing, verticalSpacing]);
+        const yAxis = d3.scaleLinear().range([this.height-verticalSpacing, MARGIN_TOP]);
         xAxis.domain(data.series[0].data.map(function (d) { return d.id; }));
         const minMax = this._calculateMinMax(data.series);
         yAxis.domain([minMax.min, minMax.max]);
@@ -54,14 +54,14 @@ class LinechartMask extends Component {
                 .attr("x1", xAxis(id))
                 .attr("x2", xAxis(id))
                 .attr("y1", 0)
-                .attr("y2", this.height - MARGIN)
+                .attr("y2", this.height - MARGIN_BOTTOM)
                 .attr("stroke-width", 3)
                 .attr("stroke", 'transparent');
             if (mergedAnnotations[id].length > 1) {
                 annotationGroup.append("circle")
                     .attr("fill", "transparent")
                     .attr("cx", xAxis(id))
-                    .attr("cy", this.height - MARGIN)
+                    .attr("cy", this.height - MARGIN_BOTTOM)
                     .attr("r", 7.5);
             }
         });

@@ -1,6 +1,6 @@
 import style from "./Linechart.css";
 import Component from './Component';
-import {HIGHLIGHT_COLOR, MARGIN} from './LinechartDefaults';
+import {HIGHLIGHT_COLOR, MARGIN_BOTTOM} from './LinechartDefaults';
 
 class LinechartAnnotation extends Component {
     constructor() {
@@ -33,18 +33,18 @@ class LinechartAnnotation extends Component {
             .attr("x1", xAxis(id))
             .attr("x2", xAxis(id))
             .attr("y1", 0)
-            .attr("y2", height - MARGIN)
+            .attr("y2", height - MARGIN_BOTTOM)
             .attr("stroke-width", 1)
             .attr("stroke-dasharray","2 ,2");
 
         if (length > 1) {
             annotationGroup.circle = this.container.append("circle")
                 .attr("cx", xAxis(id))
-                .attr("cy", height - MARGIN)
+                .attr("cy", height - MARGIN_BOTTOM)
                 .attr("r", 7.5)
             annotationGroup.text = this.container.append("text")
                 .attr("x", xAxis(id))
-                .attr("y", height - MARGIN + 4)
+                .attr("y", height - MARGIN_BOTTOM + 4)
                 .attr("text-anchor", "middle")
                 .text(length);
         }

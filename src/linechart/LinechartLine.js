@@ -7,7 +7,7 @@ import {
     LINE_COLOR,
     LINE_OPACITY,
     LINE_WIDTH,
-    MARGIN
+    MARGIN_BOTTOM
 } from './LinechartDefaults';
 import * as d3 from 'd3';
 
@@ -76,7 +76,7 @@ class LinechartLine extends Component {
     }
 
     _renderLine({height, xAxis, yAxis, lineData, renderAreas}) {
-        let minHeight = height - MARGIN;
+        let minHeight = height - MARGIN_BOTTOM;
         let areaZero = Math.max(Math.min(minHeight, yAxis(0)), 0);
 
         // define the area
@@ -151,7 +151,7 @@ class LinechartLine extends Component {
 
     _shouldRenderZeroLine(yAxis, height){
         const zeroLinePosition = yAxis(0);
-        const axisPosition = height - MARGIN;
+        const axisPosition = height - MARGIN_BOTTOM;
         const treshold = 10;
         return zeroLinePosition < axisPosition - treshold;
     }

@@ -12,7 +12,8 @@ export const DOT_SIZE = 6;
 export const HIGHLIGHT_COLOR = "#f8e71c";
 
 export const LABEL_OFFSET = 23;
-export const MARGIN = 28;
+export const MARGIN_TOP = 13;
+export const MARGIN_BOTTOM = 28;
 
 export const AXIS_COLOR = "#f0f0f0";
 export const ZERO_LINE_COLOR = "#bababa";
