@@ -23,7 +23,9 @@ class Bar extends Component {
 			dualValue = Defaults.DUAL_VALUE,
 			disabled = Defaults.BAR_DISABLED,
 			format = Defaults.FORMAT,
-			stripeBackgroundColor = Defaults.STRIPE_BACKGROUND_COLOR
+			stripeBackgroundColor = Defaults.STRIPE_BACKGROUND_COLOR,
+			showOnlyTool = Defaults.SHOW_ONLY_TOOL,
+			onlyToolText = Defaults.ONLY_TOOL_TEXT
 		}
 	) {
 		super(width, height, "bar");
@@ -40,12 +42,15 @@ class Bar extends Component {
 		this._disabled = disabled;
 		this._format = format;
 		this._stripeBackgroundColor = stripeBackgroundColor;
+		this._showOnlyTool = showOnlyTool;
+		this._onlyToolText = onlyToolText;
 
 		this._details;
 		this._stripes;
 
 		this._observable
-			.add("disabled");
+			.add("disabled")
+			.add("selectOnly");
 	}
 
 	_render() {
@@ -82,6 +87,11 @@ class Bar extends Component {
 		}
 	}
 
+	_setDisabledValue(data) {
+		this._disabled = data.disabled;
+		this.container.classed(style["bar-disabled"], this.disabled);
+	}
+
 	_createDetails() {
 		this._details = new Details({
 			width: this.width,
@@ -90,12 +100,19 @@ class Bar extends Component {
 			tooltipFontSize: this.tooltipFontSize,
 			tooltipSymbol: this.tooltipSymbol,
 			activeColors: this.activeColors,
-			format: this.format
+			format: this.format,
+			showOnlyTool: this.showOnlyTool,
+			onlyToolText: this.onlyToolText,
+			enableToggle: this.enableToggle
 		});
 	}
 
 	_renderDetails() {
-		this._details.render(this.container.node(), 0, 0);
+		const index = this.container.datum();
+		this._details.render(this.container.node(), 0, 0, index)
+			.on("selectOnly", (index) => {
+				this._observable.fire("selectOnly", index);
+			});
 	}
 
 	_setDetailsData(detailsData) {
@@ -124,7 +141,7 @@ class Bar extends Component {
 				topCornerRounded: index === 0,
 				bottomCornerRounded: index === data.stripes.length-1,
 				condensed: this.detailsHidden
-			})
+			});
 		});
 	}
 
@@ -207,6 +224,14 @@ class Bar extends Component {
 
 	get details() {
 		return this._details;
+	}
+
+	get showOnlyTool() {
+		return this._showOnlyTool;
+	}
+
+	get onlyToolText() {
+		return this._onlyToolText;
 	}
 
 }

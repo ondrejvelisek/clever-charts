@@ -3,6 +3,7 @@ import Component from "./Component";
 import style from "../Barchart.css";
 import * as d3 from "d3";
 import Tooltip from "./Tooltip";
+import OnlyTool from "./OnlyTool";
 
 class Details extends Component {
 
@@ -15,6 +16,9 @@ class Details extends Component {
 			tooltipSymbol = Defaults.TOOLTIP_SYMBOL,
 			activeColors = Defaults.ACTIVE_COLORS,
 			format = Defaults.FORMAT,
+			showOnlyTool = Defaults.SHOW_ONLY_TOOL,
+			onlyToolText = Defaults.ONLY_TOOL_TEXT,
+			enableToggle = Defaults.ENABLE_BAR_TOGGLE
 		}
 	) {
 		super(width, height, "details");
@@ -23,6 +27,9 @@ class Details extends Component {
 		this._tooltipSymbol = tooltipSymbol;
 		this._activeColors = activeColors;
 		this._format = format;
+		this._showOnlyTool = showOnlyTool;
+		this._onlyToolText = onlyToolText;
+		this._enableToggle = enableToggle;
 
 		this._tooltips;
 		this._tooltipsBackground;
@@ -31,6 +38,9 @@ class Details extends Component {
 		this._tipWrapper;
 		this._tip;
 		this._canvas;
+
+		this._observable
+			.add("selectOnly");
 	}
 
 	_render() {
@@ -82,13 +92,37 @@ class Details extends Component {
 		this._clearData();
 
 		this._label.text(data.label);
-
 		this.container.classed(style['details-disabled'], data.disabled);
 
 		if (data.tooltips) {
 			this._createTooltips(data);
 			this._renderAndSetTooltipsData(data.tooltips);
 		}
+
+		if (this.showOnlyTool && this.enableToggle) {
+			this._createOnlyTool();
+			this._renderAndSetOnlyToolData();
+		}
+
+		if (this._calculateTextWidth(this._label) > this._rightSideStart) {
+			this._handleLongLabel(this._rightSideStart);
+		}
+	}
+
+	_createOnlyTool() {
+		this._onlyTool = new OnlyTool({
+			fontSize: this.tooltipFontSize - 1,
+			onlyToolText: this.onlyToolText
+		});
+	}
+
+	_renderAndSetOnlyToolData() {
+		const index = this.container.datum();
+		this._onlyTool.render(this.container.node(), this._rightSideStart, this.labelFontSize - 1, index)
+			.on("selectOnly", (index) => {
+				this._observable.fire("selectOnly", index);
+			});
+		this._rightSideStart -= this._onlyTool.width + 24;
 	}
 
 	/**
@@ -130,13 +164,10 @@ class Details extends Component {
 			previousTooltipX -= tooltipReversed.width + 24;
 		});
 
-		if (this._calculateTextWidth(this._label) > previousTooltipX + 12) {
-			this._handleLongLabel(previousTooltipX);
-		}
+		this._rightSideStart = previousTooltipX + 12;
 	}
 
 	_handleLongLabel(maxWidth) {
-
 		// render white background under values
 		this._tooltipsBackground = this.container
 			.insert("g", "g." + style["tooltip"]);
@@ -235,6 +266,18 @@ class Details extends Component {
 
 	get tooltips() {
 		return this._tooltips;
+	}
+
+	get showOnlyTool() {
+		return this._showOnlyTool;
+	}
+
+	get onlyToolText() {
+		return this._onlyToolText;
+	}
+
+	get enableToggle() {
+		return this._enableToggle;
 	}
 }
 

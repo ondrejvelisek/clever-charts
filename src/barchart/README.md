@@ -10,6 +10,7 @@ Component structure and terminology
     └─ Bar
        ├─ Details
        |  ├─ Label
+       |  ├─ OnlyTool
        |  └─ Tooltips
        |     ├─ Tooltip
        |     ├─ Tooltip

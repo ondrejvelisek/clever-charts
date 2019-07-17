@@ -30,6 +30,11 @@ g text {
     fill: #ffea00;
 }
 
+.bar.hover-enabled:hover .details .onlyTool {
+    visibility: visible;
+}
+
+
 
 .details text {
     font-family: Roboto, sans-serif;
@@ -45,6 +50,16 @@ g text {
 
 .details .tooltip .symbol {
     font-weight: 900;
+}
+
+.details .onlyTool {
+    font-weight: 400;
+    fill: #bababa;
+    visibility: hidden;
+}
+
+.details .onlyTool:hover {
+    fill: #0081ff;
 }
 
 .details .tooltip .tooltip-text {

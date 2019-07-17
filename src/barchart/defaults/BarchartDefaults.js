@@ -18,3 +18,5 @@ export const STRIPE_HEIGHT = 5;
 export const STRIPE_BACKGROUND_COLOR = "#f0f0f0";
 export const TOOLTIP_SPACE = 7;
 export const CORNER_ROUNDED = true;
+export const SHOW_ONLY_TOOL = true;
+export const ONLY_TOOL_TEXT = 'Only';
