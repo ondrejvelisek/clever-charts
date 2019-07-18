@@ -53,12 +53,15 @@ g text {
 }
 
 .details .onlyTool {
-    font-weight: 400;
-    fill: #bababa;
     visibility: hidden;
 }
 
-.details .onlyTool:hover {
+.details text.onlyTool {
+    font-weight: 400;
+    fill: #bababa;
+}
+
+.details g.onlyTool:hover text {
     fill: #0081ff;
 }
 

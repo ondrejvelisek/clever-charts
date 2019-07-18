@@ -2,6 +2,7 @@ import * as Defaults from "../defaults/BarchartDefaults";
 import Component from "./Component";
 import style from "../Barchart.css";
 import * as d3 from "d3";
+import * as BarchartUtils from "../utils/BarchartUtils";
 
 class OnlyTool extends Component {
 
@@ -18,9 +19,6 @@ class OnlyTool extends Component {
 		this._onlyToolText = onlyToolText;
 
 		this._canvas;
-
-		this._observable
-			.add("selectOnly");
 	}
 
 	_render() {
@@ -28,6 +26,7 @@ class OnlyTool extends Component {
 		this._onlyToolTextSvg = this.container.append("text")
 			.text(this.onlyToolText)
 			.attr("class", style["onlyTool"])
+			.attr("x", "-7")
 			.attr("text-anchor","end")
 			.attr("font-size", this.fontSize);
 
@@ -41,34 +40,7 @@ class OnlyTool extends Component {
 			this._canvas = d3.select(".text-width-helper");
 		}
 
-		this._doSelectOnly();
-
-		this.width = this._calculateTextWidth(this._onlyToolTextSvg);
-	}
-
-	_doSelectOnly() {
-		this.container.attr("cursor", "pointer");
-		this.on("click", (index) => {
-			d3.event.stopPropagation();
-			this._observable.fire("selectOnly", index);
-		});
-	}
-
-	_calculateTextWidth(element) {
-
-		const context = this._canvas.node().getContext("2d");
-
-		const style = window.getComputedStyle(element.node());
-		const fontStyle = style.getPropertyValue("font-style");
-		const fontVariant = style.getPropertyValue("font-variant");
-		const fontWeight = style.getPropertyValue("font-weight");
-		const fontStrech = style.getPropertyValue("font-strech");
-		const fontSize = style.getPropertyValue("font-size");
-		const fontFamily = style.getPropertyValue("font-family");
-		context.font = `${fontStyle} ${fontVariant} ${fontWeight} ${fontStrech} ${fontSize} ${fontFamily}`;
-
-		var metrics = context.measureText(element.text());
-		return metrics.width;
+		this.width = BarchartUtils.calculateTextWidth(this._onlyToolTextSvg, this._canvas) + 14;
 	}
 
 	get onlyToolText() {
