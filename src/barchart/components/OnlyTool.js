@@ -2,7 +2,7 @@ import * as Defaults from "../defaults/BarchartDefaults";
 import Component from "./Component";
 import style from "../Barchart.css";
 import * as d3 from "d3";
-import * as BarchartUtils from "../utils/BarchartUtils";
+import * as CleverChartsUtils from "../../utils/CleverChartsUtils";
 
 class OnlyTool extends Component {
 
@@ -40,7 +40,7 @@ class OnlyTool extends Component {
 			this._canvas = d3.select(".text-width-helper");
 		}
 
-		this.width = BarchartUtils.calculateTextWidth(this._onlyToolTextSvg, this._canvas) + 14;
+		this.width = CleverChartsUtils.calculateTextWidth(this._onlyToolTextSvg, this._canvas) + 14;
 	}
 
 	get onlyToolText() {

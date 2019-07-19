@@ -4,7 +4,7 @@ import style from "../Barchart.css";
 import * as d3 from "d3";
 import Tooltip from "./Tooltip";
 import OnlyTool from "./OnlyTool";
-import * as BarchartUtils from "../utils/BarchartUtils";
+import * as CleverChartsUtils from "../../utils/CleverChartsUtils";
 
 class Details extends Component {
 
@@ -105,7 +105,7 @@ class Details extends Component {
 			this._renderOnlyTool();
 		}
 
-		if (BarchartUtils.calculateTextWidth(this._label, this._canvas) > this._rightSideStart) {
+		if (CleverChartsUtils.calculateTextWidth(this._label, this._canvas) > this._rightSideStart) {
 			this._handleLongLabel(this._rightSideStart);
 		}
 	}

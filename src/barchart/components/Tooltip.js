@@ -2,7 +2,7 @@ import * as Defaults from "../defaults/BarchartDefaults";
 import Component from "./Component";
 import style from "../Barchart.css";
 import * as d3 from "d3";
-import * as BarchartUtils from "../utils/BarchartUtils";
+import * as CleverChartsUtils from "../../utils/CleverChartsUtils";
 
 class Tooltip extends Component {
 
@@ -67,7 +67,7 @@ class Tooltip extends Component {
 		const tooltipText = this.container.select(`.${style["tooltip-text"]}`)
 			.text(text);
 
-		let tooltipWidth = BarchartUtils.calculateTextWidth(tooltipText, this._canvas);
+		let tooltipWidth = CleverChartsUtils.calculateTextWidth(tooltipText, this._canvas);
 
 		if (data.symbol || this.symbol) {
 
@@ -104,7 +104,7 @@ class Tooltip extends Component {
 					.attr("fill", color)
 					.attr("x", -tooltipWidth - this.space);
 
-				tooltipWidth += BarchartUtils.calculateTextWidth(tooltipSymbol, this._canvas) + this.space;
+				tooltipWidth += CleverChartsUtils.calculateTextWidth(tooltipSymbol, this._canvas) + this.space;
 			}
 
 		}
