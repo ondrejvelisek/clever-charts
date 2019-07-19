@@ -4,6 +4,10 @@ Simple javascript charts suited for BI applications
 
 ## Changelog
 
+### 1.2.10 > 1.2.11
+
+Add only tool in Barchart
+
 ### 1.2.9 > 1.2.10
 
 Add default top margin in Linechart

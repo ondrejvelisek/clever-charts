@@ -2,6 +2,7 @@ import * as Defaults from "../defaults/BarchartDefaults";
 import Component from "./Component";
 import style from "../Barchart.css";
 import * as d3 from "d3";
+import * as CleverChartsUtils from "../../utils/CleverChartsUtils";
 
 class Tooltip extends Component {
 
@@ -66,7 +67,7 @@ class Tooltip extends Component {
 		const tooltipText = this.container.select(`.${style["tooltip-text"]}`)
 			.text(text);
 
-		let tooltipWidth = this._calculateTextWidth(tooltipText);
+		let tooltipWidth = CleverChartsUtils.calculateTextWidth(tooltipText, this._canvas);
 
 		if (data.symbol || this.symbol) {
 
@@ -103,28 +104,11 @@ class Tooltip extends Component {
 					.attr("fill", color)
 					.attr("x", -tooltipWidth - this.space);
 
-				tooltipWidth += this._calculateTextWidth(tooltipSymbol) + this.space;
+				tooltipWidth += CleverChartsUtils.calculateTextWidth(tooltipSymbol, this._canvas) + this.space;
 			}
 
 		}
 		this.width = tooltipWidth;
-	}
-
-	_calculateTextWidth(element) {
-
-		const context = this._canvas.node().getContext("2d");
-
-		const style = window.getComputedStyle(element.node());
-		const fontStyle = style.getPropertyValue("font-style");
-		const fontVariant = style.getPropertyValue("font-variant");
-		const fontWeight = style.getPropertyValue("font-weight");
-		const fontStrech = style.getPropertyValue("font-strech");
-		const fontSize = style.getPropertyValue("font-size");
-		const fontFamily = style.getPropertyValue("font-family");
-		context.font = `${fontStyle} ${fontVariant} ${fontWeight} ${fontStrech} ${fontSize} ${fontFamily}`;
-
-		var metrics = context.measureText(element.text());
-		return metrics.width;
 	}
 
 	_renderTwoColoredFill(color1, color2) {

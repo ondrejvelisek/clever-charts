@@ -27,7 +27,9 @@ class Barchart extends Component {
 			enableBarHover = Defaults.ENABLE_BAR_HOVER,
 			enableBarToggle = Defaults.ENABLE_BAR_TOGGLE,
 			format = Defaults.FORMAT,
-			stripeBackgroundColor = Defaults.STRIPE_BACKGROUND_COLOR
+			stripeBackgroundColor = Defaults.STRIPE_BACKGROUND_COLOR,
+			showOnlyTool = Defaults.SHOW_ONLY_TOOL,
+			onlyToolText = Defaults.ONLY_TOOL_TEXT
 		}
 	) {
 		super(width, height, "barchart");
@@ -44,6 +46,8 @@ class Barchart extends Component {
 		this._enableBarToggle = enableBarToggle;
 		this._format = format;
 		this._stripeBackgroundColor = stripeBackgroundColor;
+		this._showOnlyTool = showOnlyTool;
+		this._onlyToolText = onlyToolText;
 
 		this._details;
 		this._bars;
@@ -54,7 +58,8 @@ class Barchart extends Component {
 			.add("barClick")
 			.add("barDisabled")
 			.add("barsEnter")
-			.add("barsLeave");
+			.add("barsLeave")
+			.add("selectOnly");
 
 	}
 
@@ -153,6 +158,18 @@ class Barchart extends Component {
 			this._createDetails();
 			this._renderDetails();
 		}
+
+		this._doSelectOnly();
+	}
+
+	_doSelectOnly() {
+		this.on("selectOnly", (onlyIndex) => {
+			this.bars.forEach((bar, index) => {
+				const barData = bar.data;
+				barData.disabled = onlyIndex !== index;
+				bar._setDisabledValue(barData);
+			});
+		});
 	}
 
 	/**
@@ -204,7 +221,8 @@ class Barchart extends Component {
 			tooltipFontSize: this.tooltipFontSize,
 			tooltipSymbol: this.tooltipSymbol,
 			activeColors: this.activeColors,
-			format: this.format
+			format: this.format,
+			showOnlyTool: false
 		});
 	}
 
@@ -237,7 +255,9 @@ class Barchart extends Component {
 			enableHover: this.enableBarHover,
 			minMax: minMax,
 			format: format,
-			stripeBackgroundColor: this.stripeBackgroundColor
+			stripeBackgroundColor: this.stripeBackgroundColor,
+			showOnlyTool: this.showOnlyTool,
+			onlyToolText: this.onlyToolText
 		}));
 	}
 
@@ -278,6 +298,9 @@ class Barchart extends Component {
 						this.details.setData(detailsData);
 					}
 					this._observable.fire("barDisabled", index, disabled);
+				})
+				.on("selectOnly", (index) => {
+					this._observable.fire("selectOnly", index);
 				});
 		});
 
@@ -351,6 +374,14 @@ class Barchart extends Component {
 
 	get bars() {
 		return this._bars;
+	}
+
+	get showOnlyTool() {
+		return this._showOnlyTool;
+	}
+
+	get onlyToolText() {
+		return this._onlyToolText;
 	}
 }
 
