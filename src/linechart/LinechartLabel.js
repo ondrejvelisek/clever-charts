@@ -15,9 +15,11 @@ class LinechartLabel extends Component {
         }
 
         this.container.selectAll("*").remove();
+        const annotationCircles = data.annotationCircles || [];
+        const valueId = data.valueId;
         const newData = Object.assign({}, lastData, data);
         this._renderLabel(newData);
-        if (newData.renderDot) {
+        if (newData.renderDot && annotationCircles.indexOf(valueId) < 0) {
             this._renderCircle(newData);
         }
         this.container.attr("visibility", data.visible ? "visible" : "hidden");

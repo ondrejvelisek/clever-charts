@@ -52,9 +52,9 @@ class Linechart extends Component {
 
         this._renderZeroLine(container, xAxis, yAxis);
         this._renderXAxis(container, AXIS_COLOR, data.series);
-        this._renderLabel(container);
         this._renderAnnotations(container, xAxis, data.annotations);
         this._renderDataLines(container, xAxis, yAxis, data.series);
+        this._renderLabel(container);
         this._renderMask(container, data, xAxis, yAxis);
     }
 
@@ -153,6 +153,9 @@ class Linechart extends Component {
 
     _renderAnnotations(container, xAxis, annotations) {
         const mergedAnnotations = this._mergeAnnotations(annotations);
+        this._annotationCircles = Object.keys(mergedAnnotations).filter(annotation => {
+            return mergedAnnotations[annotation].length > 1;
+        });
 
         this._annotations = Object.keys(mergedAnnotations).map(id => {
             if (typeof xAxis(id) === 'undefined') {
@@ -252,7 +255,9 @@ class Linechart extends Component {
             x: xAxis(valueId),
             label: valueData[0].label,
             visible: true,
-            renderDot: true
+            renderDot: true,
+            valueId,
+            annotationCircles: this._annotationCircles
         });
 
         let hasTooltips = false;
