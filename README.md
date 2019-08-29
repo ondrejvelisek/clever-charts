@@ -8,6 +8,7 @@ Simple javascript charts suited for BI applications
 
 Set fixed width of linechart label gradient
 Render linechart label group only after annotations and lines group
+Add option enableLineTooltip for linechart
 
 ### 1.2.10 > 1.2.11
 

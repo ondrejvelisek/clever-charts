@@ -6,10 +6,11 @@ import LinechartLine from './LinechartLine';
 
 class LinechartMask extends Component {
 
-    constructor(width, height) {
+    constructor(width, height, enableLineTooltip) {
         super('linechart-mask');
         this._width = width;
         this._height = height;
+        this._enableLineTooltip = enableLineTooltip;
         this.observable.add('lineEnter');
         this.observable.add('lineLeave');
         this.observable.add('tooltipEnter');
@@ -26,6 +27,10 @@ class LinechartMask extends Component {
         return this._height;
     }
 
+    get enableLineTooltip() {
+        return this._enableLineTooltip;
+    }
+
     _setData(container, data, lastData) {
         const verticalSpacing = this.height / 4;
         const xAxis = d3.scalePoint().range([0, this.width]);
@@ -35,7 +40,9 @@ class LinechartMask extends Component {
         yAxis.domain([minMax.min, minMax.max]);
         const mergedData = this._mergeSeriesData(data.series);
         this._renderTooltipAreas(container, xAxis, yAxis, mergedData);
-        this._renderTooltipLines(container, xAxis, yAxis, data.series);
+        if (this.enableLineTooltip) {
+            this._renderTooltipLines(container, xAxis, yAxis, data.series);
+        }
         this._renderAnnotations(container, xAxis, data.annotations, mergedData);
     }
 
