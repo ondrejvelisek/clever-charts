@@ -15,9 +15,11 @@ class LinechartLabel extends Component {
         }
 
         this.container.selectAll("*").remove();
+        const annotationCircles = data.annotationCircles || [];
+        const valueId = data.valueId;
         const newData = Object.assign({}, lastData, data);
         this._renderLabel(newData);
-        if (newData.renderDot) {
+        if (newData.renderDot && annotationCircles.indexOf(valueId) < 0) {
             this._renderCircle(newData);
         }
         this.container.attr("visibility", data.visible ? "visible" : "hidden");
@@ -74,6 +76,10 @@ class LinechartLabel extends Component {
     }
 
     _createMaskGradientElement(container, bottomMaskWidth){
+        const gradientEdge = 15/bottomMaskWidth;
+        const colorWhite = 'rgba(255,255,255,1)';
+        const colorTransparent = 'rgba(255,255,255,0)';
+
         const handleMaskGradientEl = container.append("linearGradient")
             .attr("id", style["tooltip-label-mask"]+"-"+(gradientID++)+"-gradient")
             .attr("gradientUnits", "userSpaceOnUse")
@@ -82,10 +88,10 @@ class LinechartLabel extends Component {
 
         handleMaskGradientEl.selectAll("stop")
             .data([
-                { offset: "0%", color: "rgba(255,255,255,0)" },
-                { offset: "20%", color: "rgba(255,255,255,1)" },
-                { offset: "80%", color: "rgba(255,255,255,1)" },
-                { offset: "100%", color: "rgba(255,255,255,0)" }
+                { offset: "0", color: colorTransparent},
+                { offset: gradientEdge, color: colorWhite},
+                { offset: 1 - gradientEdge, color: colorWhite},
+                { offset: "1", color: colorTransparent}
             ])
             .enter().append("stop")
             .attr("offset", function (d) { return d.offset; })

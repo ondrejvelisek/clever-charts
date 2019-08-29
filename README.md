@@ -4,6 +4,11 @@ Simple javascript charts suited for BI applications
 
 ## Changelog
 
+### 1.2.11 > 1.2.12
+
+Set fixed width of linechart label gradient
+Render linechart label group only after annotations and lines group
+
 ### 1.2.10 > 1.2.11
 
 Add only tool in Barchart
