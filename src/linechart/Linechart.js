@@ -10,7 +10,7 @@ import {
     ZERO_LINE_COLOR
 } from './LinechartDefaults';
 import LinechartMask from './LinechartMask';
-import {WIDTH, HEIGHT} from './LinechartDefaults';
+import {WIDTH, HEIGHT, ENABLE_LINE_TOOLTIP} from './LinechartDefaults';
 import LinechartLabel from './LinechartLabel';
 import LinechartTooltip from './LinechartTooltip';
 import LinechartLine from './LinechartLine';
@@ -22,10 +22,15 @@ import LinechartAnnotation from './LinechartAnnotation';
  * @param {Object} options
  */
 class Linechart extends Component {
-    constructor({width = WIDTH, height = HEIGHT}) {
+    constructor({
+        width = WIDTH,
+        height = HEIGHT,
+        enableLineTooltip = ENABLE_LINE_TOOLTIP
+    }) {
         super('linechart');
         this._width = width;
         this._height = height;
+        this._enableLineTooltip = enableLineTooltip;
     }
 
     get width() {
@@ -34,6 +39,10 @@ class Linechart extends Component {
 
     get height() {
         return this._height;
+    }
+
+    get enableLineTooltip() {
+        return this._enableLineTooltip;
     }
 
     _renderContainer(selector, x = 0, y = 0){
@@ -194,7 +203,7 @@ class Linechart extends Component {
     }
 
     _renderMask(container, data, xAxis, yAxis) {
-        const mask = new LinechartMask(this.width, this.height);
+        const mask = new LinechartMask(this.width, this.height, this.enableLineTooltip);
         mask.render(container.node());
         mask.on('lineEnter', (lineData, lineIndex) => {
             this._onLineEnter(container, lineData, lineIndex);

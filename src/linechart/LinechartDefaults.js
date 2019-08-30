@@ -1,6 +1,7 @@
 
 export const WIDTH = 360;
 export const HEIGHT = 200;
+export const ENABLE_LINE_TOOLTIP = true;
 
 export const LINE_COLOR = "#0081ff";
 export const LINE_OPACITY = 1;
