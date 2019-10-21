@@ -23,6 +23,7 @@ class Bar extends Component {
 			dualValue = Defaults.DUAL_VALUE,
 			disabled = Defaults.BAR_DISABLED,
 			format = Defaults.FORMAT,
+			stripeHeight = Defaults.STRIPE_HEIGHT,
 			stripeBackgroundColor = Defaults.STRIPE_BACKGROUND_COLOR,
 			showOnlyTool = Defaults.SHOW_ONLY_TOOL,
 			onlyToolText = Defaults.ONLY_TOOL_TEXT
@@ -41,6 +42,7 @@ class Bar extends Component {
 		this._dualValue = dualValue;
 		this._disabled = disabled;
 		this._format = format;
+		this._stripeHeight = stripeHeight;
 		this._stripeBackgroundColor = stripeBackgroundColor;
 		this._showOnlyTool = showOnlyTool;
 		this._onlyToolText = onlyToolText;
@@ -137,6 +139,7 @@ class Bar extends Component {
 				activeColors: colors,
 				dualValue: this.dualValue,
 				minMax: minMax,
+				height: this.stripeHeight,
 				backgroundColor: this.stripeBackgroundColor,
 				topCornerRounded: index === 0,
 				bottomCornerRounded: index === data.stripes.length-1,
@@ -213,10 +216,13 @@ class Bar extends Component {
 		return this._format;
 	}
 
+	get stripeHeight() {
+		return this._stripeHeight;
+	}
+
 	get stripeBackgroundColor() {
 		return this._stripeBackgroundColor;
 	}
-
 
 	get stripes() {
 		return this._stripes;
