@@ -21,7 +21,7 @@ class Barchart extends Component {
 			activeColors = Defaults.ACTIVE_COLORS,
 			minMax = Defaults.MINMAX,
 			detailsVisible = Defaults.DETAILS_HIDDEN,
-			detailsHeight = labelFontSize + 10,
+			detailsBottomSpace = Defaults.DETAILS_BOTTOM_SPACE,
 			dualValue = Defaults.DUAL_VALUE,
 			barHeight = Defaults.BAR_HEIGHT,
 			enableBarHover = Defaults.ENABLE_BAR_HOVER,
@@ -42,7 +42,7 @@ class Barchart extends Component {
 		this._activeColors = activeColors;
 		this._minMax = minMax;
 		this._detailsVisible = detailsVisible;
-		this._detailsHeight = detailsHeight;
+		this._detailsBottomSpace = detailsBottomSpace;
 		this._dualValue = dualValue;
 		this._barHeight = barHeight;
 		this._enableBarHover = enableBarHover;
@@ -348,8 +348,12 @@ class Barchart extends Component {
 		return this._detailsVisible;
 	}
 
+	get detailsBottomSpace() {
+		return this._detailsBottomSpace;
+	}
+
 	get detailsHeight() {
-		return this._detailsHeight;
+		return this._detailsBottomSpace + this._labelFontSize;
 	}
 
 	get dualValue() {

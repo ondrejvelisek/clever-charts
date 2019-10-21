@@ -6,6 +6,7 @@ export const TOOLTIP_FONT_SIZE = 11;
 export const TOOLTIP_SYMBOL = '_circle';
 export const ACTIVE_COLORS = ["#49ace2", "#ca62dc"];
 export const DETAILS_HIDDEN = false;
+export const DETAILS_BOTTOM_SPACE = 10;
 export const MINMAX = "sum";
 export const DUAL_VALUE = false;
 export const ENABLE_BAR_HOVER = false;

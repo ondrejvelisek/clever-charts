@@ -17,7 +17,7 @@ class Bar extends Component {
 			activeColors = Defaults.ACTIVE_COLORS,
 			minMax = Defaults.MINMAX,
 			detailsHidden = Defaults.DETAILS_HIDDEN,
-			detailsHeight = labelFontSize + 10,
+			detailsHeight = labelFontSize + Defaults.DETAILS_BOTTOM_SPACE,
 			enableHover = Defaults.ENABLE_BAR_HOVER,
 			enableToggle = Defaults.ENABLE_BAR_TOGGLE,
 			dualValue = Defaults.DUAL_VALUE,
