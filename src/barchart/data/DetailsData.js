@@ -3,7 +3,8 @@ export default class DetailsData {
 	constructor(
 		{
 			label,
-			disabled
+			disabled,
+			color
 		},
 		tooltips
 	) {
@@ -11,6 +12,7 @@ export default class DetailsData {
 
 		this._label = label;
 		this._disabled = disabled;
+		this._color = color;
 		this._tooltips = tooltips;
 	}
 
@@ -21,7 +23,8 @@ export default class DetailsData {
 		return new DetailsData(
 			{
 				label: detailsData.label,
-				disabled: detailsData.disabled
+				disabled: detailsData.disabled,
+				color: detailsData.color
 			},
 			detailsData.tooltips,
 		);
@@ -55,6 +58,13 @@ export default class DetailsData {
 	}
 	set disabled(disabled) {
 		this._disabled = disabled;
+	}
+
+	get color() {
+		return this._color;
+	}
+	set color(color) {
+		this._color = color;
 	}
 
 	getPrecision(precision = "max") {

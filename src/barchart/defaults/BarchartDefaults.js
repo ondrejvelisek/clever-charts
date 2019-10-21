@@ -20,3 +20,5 @@ export const TOOLTIP_SPACE = 7;
 export const CORNER_ROUNDED = true;
 export const SHOW_ONLY_TOOL = true;
 export const ONLY_TOOL_TEXT = 'Only';
+export const SHOW_LABEL_CIRCLE = false;
+export const LABEL_CIRCLE_RADIUS = 3.5;

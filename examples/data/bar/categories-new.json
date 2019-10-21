@@ -2,6 +2,7 @@
   "bars": [
     {
       "details": {
+        "color":"#ed78b6",
         "label": "Label 1",
         "tooltips": [
           {"text": "80 regions"}
@@ -13,6 +14,7 @@
     },
     {
       "details": {
+        "color":"#e8b43f",
         "label": "Label 2",
         "tooltips": [
           {"text": "32 regions"}
@@ -24,6 +26,7 @@
     },
     {
       "details": {
+        "color":"#4a4a4a",
         "label": "Label 2",
         "tooltips": [
           {"text": "10 regions"}

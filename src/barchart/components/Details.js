@@ -20,7 +20,8 @@ class Details extends Component {
 			horizontalPadding = Defaults.HORIZONTAL_PADDING,
 			showOnlyTool = Defaults.SHOW_ONLY_TOOL,
 			onlyToolText = Defaults.ONLY_TOOL_TEXT,
-			enableToggle = Defaults.ENABLE_BAR_TOGGLE
+			enableToggle = Defaults.ENABLE_BAR_TOGGLE,
+			showLabelCircle = Defaults.SHOW_LABEL_CIRCLE
 		}
 	) {
 		super(width, height, "details");
@@ -33,10 +34,12 @@ class Details extends Component {
 		this._showOnlyTool = showOnlyTool;
 		this._onlyToolText = onlyToolText;
 		this._enableToggle = enableToggle;
+		this._showLabelCircle = showLabelCircle;
 
 		this._tooltips;
 		this._tooltipsBackground;
 		this._label;
+		this._labelCircle;
 
 		this._tipWrapper;
 		this._tip;
@@ -47,11 +50,21 @@ class Details extends Component {
 	}
 
 	_render() {
+		let labelPadding = this.horizontalPadding;
+
+		if (this.showLabelCircle) {
+			labelPadding = this.horizontalPadding + 2 * Defaults.LABEL_CIRCLE_RADIUS + 10;
+			this._labelCircle = this.container.append("circle")
+				.attr("r", Defaults.LABEL_CIRCLE_RADIUS)
+				.attr("fill", 'transparent')
+				.attr("cx", Defaults.LABEL_CIRCLE_RADIUS)
+				.attr("cy", 2 * this.labelFontSize/3);
+		}
 
 		this._label = this.container.append("text")
 			.text("")
 			.attr("class", style["label"])
-			.attr("x", this.horizontalPadding)
+			.attr("x", labelPadding)
 			.attr("y", this.labelFontSize)
 			.attr("font-size", this.labelFontSize);
 
@@ -93,6 +106,10 @@ class Details extends Component {
 	 */
 	_setData(data) {
 		this._clearData();
+
+		if (this._labelCircle) {
+			this._labelCircle.attr('fill', data.color);
+		}
 
 		this._label.text(data.label);
 		this.container.classed(style['details-disabled'], data.disabled);
@@ -269,6 +286,10 @@ class Details extends Component {
 
 	get enableToggle() {
 		return this._enableToggle;
+	}
+
+	get showLabelCircle() {
+		return this._showLabelCircle;
 	}
 }
 

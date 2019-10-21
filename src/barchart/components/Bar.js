@@ -27,7 +27,8 @@ class Bar extends Component {
 			stripeHeight = Defaults.STRIPE_HEIGHT,
 			stripeBackgroundColor = Defaults.STRIPE_BACKGROUND_COLOR,
 			showOnlyTool = Defaults.SHOW_ONLY_TOOL,
-			onlyToolText = Defaults.ONLY_TOOL_TEXT
+			onlyToolText = Defaults.ONLY_TOOL_TEXT,
+			showLabelCircle = Defaults.SHOW_LABEL_CIRCLE
 		}
 	) {
 		super(width, height, "bar");
@@ -48,6 +49,7 @@ class Bar extends Component {
 		this._stripeBackgroundColor = stripeBackgroundColor;
 		this._showOnlyTool = showOnlyTool;
 		this._onlyToolText = onlyToolText;
+		this._showLabelCircle = showLabelCircle;
 
 		this._details;
 		this._stripes;
@@ -108,7 +110,8 @@ class Bar extends Component {
 			horizontalPadding: this.horizontalPadding,
 			showOnlyTool: this.showOnlyTool,
 			onlyToolText: this.onlyToolText,
-			enableToggle: this.enableToggle
+			enableToggle: this.enableToggle,
+			showLabelCircle: this.showLabelCircle
 		});
 	}
 
@@ -247,6 +250,9 @@ class Bar extends Component {
 		return this._onlyToolText;
 	}
 
+	get showLabelCircle() {
+		return this._showLabelCircle;
+	}
 }
 
 export default Bar;

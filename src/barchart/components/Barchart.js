@@ -31,7 +31,8 @@ class Barchart extends Component {
 			stripeHeight = Defaults.STRIPE_HEIGHT,
 			stripeBackgroundColor = Defaults.STRIPE_BACKGROUND_COLOR,
 			showOnlyTool = Defaults.SHOW_ONLY_TOOL,
-			onlyToolText = Defaults.ONLY_TOOL_TEXT
+			onlyToolText = Defaults.ONLY_TOOL_TEXT,
+			showLabelCircle = Defaults.SHOW_LABEL_CIRCLE
 		}
 	) {
 		super(width, height, "barchart");
@@ -52,6 +53,7 @@ class Barchart extends Component {
 		this._stripeBackgroundColor = stripeBackgroundColor;
 		this._showOnlyTool = showOnlyTool;
 		this._onlyToolText = onlyToolText;
+		this._showLabelCircle = showLabelCircle;
 
 		this._details;
 		this._bars;
@@ -263,7 +265,8 @@ class Barchart extends Component {
 			stripeHeight: this.stripeHeight,
 			stripeBackgroundColor: this.stripeBackgroundColor,
 			showOnlyTool: this.showOnlyTool,
-			onlyToolText: this.onlyToolText
+			onlyToolText: this.onlyToolText,
+			showLabelCircle: this.showLabelCircle
 		}));
 	}
 
@@ -396,6 +399,10 @@ class Barchart extends Component {
 
 	get onlyToolText() {
 		return this._onlyToolText;
+	}
+
+	get showLabelCircle() {
+		return this._showLabelCircle;
 	}
 }
 
