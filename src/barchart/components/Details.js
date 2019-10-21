@@ -17,6 +17,7 @@ class Details extends Component {
 			tooltipSymbol = Defaults.TOOLTIP_SYMBOL,
 			activeColors = Defaults.ACTIVE_COLORS,
 			format = Defaults.FORMAT,
+			horizontalPadding = Defaults.HORIZONTAL_PADDING,
 			showOnlyTool = Defaults.SHOW_ONLY_TOOL,
 			onlyToolText = Defaults.ONLY_TOOL_TEXT,
 			enableToggle = Defaults.ENABLE_BAR_TOGGLE
@@ -28,6 +29,7 @@ class Details extends Component {
 		this._tooltipSymbol = tooltipSymbol;
 		this._activeColors = activeColors;
 		this._format = format;
+		this._horizontalPadding = horizontalPadding;
 		this._showOnlyTool = showOnlyTool;
 		this._onlyToolText = onlyToolText;
 		this._enableToggle = enableToggle;
@@ -49,7 +51,7 @@ class Details extends Component {
 		this._label = this.container.append("text")
 			.text("")
 			.attr("class", style["label"])
-			.attr("x", Defaults.HORIZONTAL_PADDING)
+			.attr("x", this.horizontalPadding)
 			.attr("y", this.labelFontSize)
 			.attr("font-size", this.labelFontSize);
 
@@ -154,7 +156,7 @@ class Details extends Component {
 	 * @param {TooltipData[]} tooltipsData
 	 */
 	_renderAndSetTooltipsData(tooltipsData) {
-		let previousTooltipX = this.width - Defaults.HORIZONTAL_PADDING;
+		let previousTooltipX = this.width - this.horizontalPadding;
 		this._tooltips.forEach((_, index) => {
 			const reversedIndex = this._tooltips.length - 1 - index;
 			const tooltipReversed = this._tooltips[reversedIndex];
@@ -247,6 +249,10 @@ class Details extends Component {
 	}
 	set format(format) {
 		this._format = format;
+	}
+
+	get horizontalPadding() {
+		return this._horizontalPadding;
 	}
 
 	get tooltips() {

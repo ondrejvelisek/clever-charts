@@ -27,6 +27,7 @@ class Barchart extends Component {
 			enableBarHover = Defaults.ENABLE_BAR_HOVER,
 			enableBarToggle = Defaults.ENABLE_BAR_TOGGLE,
 			format = Defaults.FORMAT,
+			horizontalPadding = Defaults.HORIZONTAL_PADDING,
 			stripeHeight = Defaults.STRIPE_HEIGHT,
 			stripeBackgroundColor = Defaults.STRIPE_BACKGROUND_COLOR,
 			showOnlyTool = Defaults.SHOW_ONLY_TOOL,
@@ -46,6 +47,7 @@ class Barchart extends Component {
 		this._enableBarHover = enableBarHover;
 		this._enableBarToggle = enableBarToggle;
 		this._format = format;
+		this._horizontalPadding = horizontalPadding;
 		this._stripeHeight = stripeHeight;
 		this._stripeBackgroundColor = stripeBackgroundColor;
 		this._showOnlyTool = showOnlyTool;
@@ -257,6 +259,7 @@ class Barchart extends Component {
 			enableHover: this.enableBarHover,
 			minMax: minMax,
 			format: format,
+			horizontalPadding: this.horizontalPadding,
 			stripeHeight: this.stripeHeight,
 			stripeBackgroundColor: this.stripeBackgroundColor,
 			showOnlyTool: this.showOnlyTool,
@@ -364,6 +367,10 @@ class Barchart extends Component {
 
 	get format() {
 		return this._format;
+	}
+
+	get horizontalPadding() {
+		return this._horizontalPadding;
 	}
 
 	get stripeHeight() {

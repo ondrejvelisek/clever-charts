@@ -23,6 +23,7 @@ class Bar extends Component {
 			dualValue = Defaults.DUAL_VALUE,
 			disabled = Defaults.BAR_DISABLED,
 			format = Defaults.FORMAT,
+			horizontalPadding = Defaults.HORIZONTAL_PADDING,
 			stripeHeight = Defaults.STRIPE_HEIGHT,
 			stripeBackgroundColor = Defaults.STRIPE_BACKGROUND_COLOR,
 			showOnlyTool = Defaults.SHOW_ONLY_TOOL,
@@ -42,6 +43,7 @@ class Bar extends Component {
 		this._dualValue = dualValue;
 		this._disabled = disabled;
 		this._format = format;
+		this._horizontalPadding = horizontalPadding;
 		this._stripeHeight = stripeHeight;
 		this._stripeBackgroundColor = stripeBackgroundColor;
 		this._showOnlyTool = showOnlyTool;
@@ -103,6 +105,7 @@ class Bar extends Component {
 			tooltipSymbol: this.tooltipSymbol,
 			activeColors: this.activeColors,
 			format: this.format,
+			horizontalPadding: this.horizontalPadding,
 			showOnlyTool: this.showOnlyTool,
 			onlyToolText: this.onlyToolText,
 			enableToggle: this.enableToggle
@@ -214,6 +217,10 @@ class Bar extends Component {
 
 	get format() {
 		return this._format;
+	}
+
+	get horizontalPadding() {
+		return this._horizontalPadding;
 	}
 
 	get stripeHeight() {
