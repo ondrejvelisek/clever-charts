@@ -4,6 +4,10 @@ Simple javascript charts suited for BI applications
 
 ## Changelog
 
+### 1.2.12 > 1.2.13
+
+Adjust highlight yellow color
+
 ### 1.2.11 > 1.2.12
 
 Set fixed width of linechart label gradient

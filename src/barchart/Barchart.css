@@ -27,7 +27,7 @@ g text {
 
 .bar.hover-enabled:hover .stripe .progress,
 .bar.bar-highlighted .stripe .progress {
-    fill: #ffea00;
+    fill: #fff300;
 }
 
 .bar.hover-enabled:hover .details .onlyTool {
