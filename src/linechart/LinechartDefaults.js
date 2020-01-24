@@ -10,7 +10,7 @@ export const FILL_OPACITY = 0.1;
 export const LINE_WIDTH = 3;
 export const DOT_SIZE = 6;
 
-export const HIGHLIGHT_COLOR = "#f8e71c";
+export const HIGHLIGHT_COLOR = "#fff300";
 
 export const LABEL_OFFSET = 23;
 export const MARGIN_TOP = 13;

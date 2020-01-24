@@ -42,7 +42,7 @@ export const INACTIVE_BAR_OPACITY = 1;
  * @public
  * Default over bar color
  */
-export const OVER_SELECTION_COLOR = "#ffea00";
+export const OVER_SELECTION_COLOR = "#fff300";
 
 /**
  * @public

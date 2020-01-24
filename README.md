@@ -4,6 +4,10 @@ Simple javascript charts suited for BI applications
 
 ## Changelog
 
+### 1.2.13 > 1.2.14
+
+Adjust highlight yellow color
+
 ### 1.2.12 > 1.2.13
 
 Add more barchart configuration options:
