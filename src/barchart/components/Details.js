@@ -17,9 +17,11 @@ class Details extends Component {
 			tooltipSymbol = Defaults.TOOLTIP_SYMBOL,
 			activeColors = Defaults.ACTIVE_COLORS,
 			format = Defaults.FORMAT,
+			horizontalPadding = Defaults.HORIZONTAL_PADDING,
 			showOnlyTool = Defaults.SHOW_ONLY_TOOL,
 			onlyToolText = Defaults.ONLY_TOOL_TEXT,
-			enableToggle = Defaults.ENABLE_BAR_TOGGLE
+			enableToggle = Defaults.ENABLE_BAR_TOGGLE,
+			showLabelCircle = Defaults.SHOW_LABEL_CIRCLE
 		}
 	) {
 		super(width, height, "details");
@@ -28,13 +30,16 @@ class Details extends Component {
 		this._tooltipSymbol = tooltipSymbol;
 		this._activeColors = activeColors;
 		this._format = format;
+		this._horizontalPadding = horizontalPadding;
 		this._showOnlyTool = showOnlyTool;
 		this._onlyToolText = onlyToolText;
 		this._enableToggle = enableToggle;
+		this._showLabelCircle = showLabelCircle;
 
 		this._tooltips;
 		this._tooltipsBackground;
 		this._label;
+		this._labelCircle;
 
 		this._tipWrapper;
 		this._tip;
@@ -45,11 +50,21 @@ class Details extends Component {
 	}
 
 	_render() {
+		let labelPadding = this.horizontalPadding;
+
+		if (this.showLabelCircle) {
+			labelPadding = this.horizontalPadding + 2 * Defaults.LABEL_CIRCLE_RADIUS + 10;
+			this._labelCircle = this.container.append("circle")
+				.attr("r", Defaults.LABEL_CIRCLE_RADIUS)
+				.attr("fill", 'transparent')
+				.attr("cx", Defaults.LABEL_CIRCLE_RADIUS)
+				.attr("cy", 2 * this.labelFontSize/3);
+		}
 
 		this._label = this.container.append("text")
 			.text("")
 			.attr("class", style["label"])
-			.attr("x", Defaults.HORIZONTAL_PADDING)
+			.attr("x", labelPadding)
 			.attr("y", this.labelFontSize)
 			.attr("font-size", this.labelFontSize);
 
@@ -91,6 +106,10 @@ class Details extends Component {
 	 */
 	_setData(data) {
 		this._clearData();
+
+		if (this._labelCircle) {
+			this._labelCircle.attr('fill', data.color);
+		}
 
 		this._label.text(data.label);
 		this.container.classed(style['details-disabled'], data.disabled);
@@ -154,7 +173,7 @@ class Details extends Component {
 	 * @param {TooltipData[]} tooltipsData
 	 */
 	_renderAndSetTooltipsData(tooltipsData) {
-		let previousTooltipX = this.width - Defaults.HORIZONTAL_PADDING;
+		let previousTooltipX = this.width - this.horizontalPadding;
 		this._tooltips.forEach((_, index) => {
 			const reversedIndex = this._tooltips.length - 1 - index;
 			const tooltipReversed = this._tooltips[reversedIndex];
@@ -249,6 +268,10 @@ class Details extends Component {
 		this._format = format;
 	}
 
+	get horizontalPadding() {
+		return this._horizontalPadding;
+	}
+
 	get tooltips() {
 		return this._tooltips;
 	}
@@ -263,6 +286,10 @@ class Details extends Component {
 
 	get enableToggle() {
 		return this._enableToggle;
+	}
+
+	get showLabelCircle() {
+		return this._showLabelCircle;
 	}
 }
 

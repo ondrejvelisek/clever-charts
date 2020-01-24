@@ -4,9 +4,17 @@ Simple javascript charts suited for BI applications
 
 ## Changelog
 
-### 1.2.12 > 1.2.13
+### 1.2.13 > 1.2.14
 
 Adjust highlight yellow color
+
+### 1.2.12 > 1.2.13
+
+Add more barchart configuration options:
+* stripeHeight: height of stripe
+* detailsBottomSpace: vertical space between details (label and tooltip) and stripe
+* horizontalPadding: padding around details (label and tooltip)
+* showLabelCircle: new option to display additional circle with bar color. Useful for charts with more colors
 
 ### 1.2.11 > 1.2.12
 

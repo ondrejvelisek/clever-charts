@@ -17,15 +17,18 @@ class Bar extends Component {
 			activeColors = Defaults.ACTIVE_COLORS,
 			minMax = Defaults.MINMAX,
 			detailsHidden = Defaults.DETAILS_HIDDEN,
-			detailsHeight = labelFontSize + 10,
+			detailsHeight = labelFontSize + Defaults.DETAILS_BOTTOM_SPACE,
 			enableHover = Defaults.ENABLE_BAR_HOVER,
 			enableToggle = Defaults.ENABLE_BAR_TOGGLE,
 			dualValue = Defaults.DUAL_VALUE,
 			disabled = Defaults.BAR_DISABLED,
 			format = Defaults.FORMAT,
+			horizontalPadding = Defaults.HORIZONTAL_PADDING,
+			stripeHeight = Defaults.STRIPE_HEIGHT,
 			stripeBackgroundColor = Defaults.STRIPE_BACKGROUND_COLOR,
 			showOnlyTool = Defaults.SHOW_ONLY_TOOL,
-			onlyToolText = Defaults.ONLY_TOOL_TEXT
+			onlyToolText = Defaults.ONLY_TOOL_TEXT,
+			showLabelCircle = Defaults.SHOW_LABEL_CIRCLE
 		}
 	) {
 		super(width, height, "bar");
@@ -41,9 +44,12 @@ class Bar extends Component {
 		this._dualValue = dualValue;
 		this._disabled = disabled;
 		this._format = format;
+		this._horizontalPadding = horizontalPadding;
+		this._stripeHeight = stripeHeight;
 		this._stripeBackgroundColor = stripeBackgroundColor;
 		this._showOnlyTool = showOnlyTool;
 		this._onlyToolText = onlyToolText;
+		this._showLabelCircle = showLabelCircle;
 
 		this._details;
 		this._stripes;
@@ -101,9 +107,11 @@ class Bar extends Component {
 			tooltipSymbol: this.tooltipSymbol,
 			activeColors: this.activeColors,
 			format: this.format,
+			horizontalPadding: this.horizontalPadding,
 			showOnlyTool: this.showOnlyTool,
 			onlyToolText: this.onlyToolText,
-			enableToggle: this.enableToggle
+			enableToggle: this.enableToggle,
+			showLabelCircle: this.showLabelCircle
 		});
 	}
 
@@ -137,6 +145,7 @@ class Bar extends Component {
 				activeColors: colors,
 				dualValue: this.dualValue,
 				minMax: minMax,
+				height: this.stripeHeight,
 				backgroundColor: this.stripeBackgroundColor,
 				topCornerRounded: index === 0,
 				bottomCornerRounded: index === data.stripes.length-1,
@@ -213,10 +222,17 @@ class Bar extends Component {
 		return this._format;
 	}
 
+	get horizontalPadding() {
+		return this._horizontalPadding;
+	}
+
+	get stripeHeight() {
+		return this._stripeHeight;
+	}
+
 	get stripeBackgroundColor() {
 		return this._stripeBackgroundColor;
 	}
-
 
 	get stripes() {
 		return this._stripes;
@@ -234,6 +250,9 @@ class Bar extends Component {
 		return this._onlyToolText;
 	}
 
+	get showLabelCircle() {
+		return this._showLabelCircle;
+	}
 }
 
 export default Bar;
