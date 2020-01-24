@@ -3,7 +3,7 @@
 
 <head>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js"></script>
-    <script src="../dist/clever-charts-1.2.11.min.js"></script>
+    <script src="../dist/clever-charts-1.2.13.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet"/>
 </head>
 
@@ -30,6 +30,8 @@
 <div class="barchart1-ct"></div>
 <div class="barchart2-ct"></div>
 <div class="barchart3-ct"></div>
+<br>
+<div class="barchart4-ct"></div>
 
 <h1>Compare</h1>
 
@@ -213,6 +215,35 @@
 
 
 
+	// barchart4 ================================================================
+
+	var barchart4 = new CleverCharts.Barchart({
+		width:240,
+		labelFontSize:11,
+		tooltipFontSize:11,
+		detailsBottomSpace:7,
+		barHeight:31,
+		horizontalPadding:0,
+		stripeHeight:3,
+		enableBarHover:true,
+		enableBarToggle:true,
+		showLabelCircle:true
+	});
+
+	barchart4.render(".barchart4-ct");
+
+	d3.json("data/bar/categories-new.json", function(json) {
+		barchart4.setData(json);
+	});
+
+
+
+
+
+
+
+
+
 	// COMPARE ================================================================
 
 	var compare1 = new CleverCharts.Barchart({
@@ -324,7 +355,7 @@
 
 	var tooltips1 = new CleverCharts.Barchart({
 		minMax:"auto",
-        tooltipFontSize: 16,
+		tooltipFontSize: 16,
 		tooltipSymbol: "±"
 	});
 	tooltips1.render(".tooltips1-ct");

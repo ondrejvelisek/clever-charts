@@ -21,15 +21,18 @@ class Barchart extends Component {
 			activeColors = Defaults.ACTIVE_COLORS,
 			minMax = Defaults.MINMAX,
 			detailsVisible = Defaults.DETAILS_HIDDEN,
-			detailsHeight = labelFontSize + 10,
+			detailsBottomSpace = Defaults.DETAILS_BOTTOM_SPACE,
 			dualValue = Defaults.DUAL_VALUE,
 			barHeight = Defaults.BAR_HEIGHT,
 			enableBarHover = Defaults.ENABLE_BAR_HOVER,
 			enableBarToggle = Defaults.ENABLE_BAR_TOGGLE,
 			format = Defaults.FORMAT,
+			horizontalPadding = Defaults.HORIZONTAL_PADDING,
+			stripeHeight = Defaults.STRIPE_HEIGHT,
 			stripeBackgroundColor = Defaults.STRIPE_BACKGROUND_COLOR,
 			showOnlyTool = Defaults.SHOW_ONLY_TOOL,
-			onlyToolText = Defaults.ONLY_TOOL_TEXT
+			onlyToolText = Defaults.ONLY_TOOL_TEXT,
+			showLabelCircle = Defaults.SHOW_LABEL_CIRCLE
 		}
 	) {
 		super(width, height, "barchart");
@@ -39,15 +42,18 @@ class Barchart extends Component {
 		this._activeColors = activeColors;
 		this._minMax = minMax;
 		this._detailsVisible = detailsVisible;
-		this._detailsHeight = detailsHeight;
+		this._detailsBottomSpace = detailsBottomSpace;
 		this._dualValue = dualValue;
 		this._barHeight = barHeight;
 		this._enableBarHover = enableBarHover;
 		this._enableBarToggle = enableBarToggle;
 		this._format = format;
+		this._horizontalPadding = horizontalPadding;
+		this._stripeHeight = stripeHeight;
 		this._stripeBackgroundColor = stripeBackgroundColor;
 		this._showOnlyTool = showOnlyTool;
 		this._onlyToolText = onlyToolText;
+		this._showLabelCircle = showLabelCircle;
 
 		this._details;
 		this._bars;
@@ -255,9 +261,12 @@ class Barchart extends Component {
 			enableHover: this.enableBarHover,
 			minMax: minMax,
 			format: format,
+			horizontalPadding: this.horizontalPadding,
+			stripeHeight: this.stripeHeight,
 			stripeBackgroundColor: this.stripeBackgroundColor,
 			showOnlyTool: this.showOnlyTool,
-			onlyToolText: this.onlyToolText
+			onlyToolText: this.onlyToolText,
+			showLabelCircle: this.showLabelCircle
 		}));
 	}
 
@@ -339,8 +348,12 @@ class Barchart extends Component {
 		return this._detailsVisible;
 	}
 
+	get detailsBottomSpace() {
+		return this._detailsBottomSpace;
+	}
+
 	get detailsHeight() {
-		return this._detailsHeight;
+		return this._detailsBottomSpace + this._labelFontSize;
 	}
 
 	get dualValue() {
@@ -363,6 +376,14 @@ class Barchart extends Component {
 		return this._format;
 	}
 
+	get horizontalPadding() {
+		return this._horizontalPadding;
+	}
+
+	get stripeHeight() {
+		return this._stripeHeight;
+	}
+
 	get stripeBackgroundColor() {
 		return this._stripeBackgroundColor;
 	}
@@ -382,6 +403,10 @@ class Barchart extends Component {
 
 	get onlyToolText() {
 		return this._onlyToolText;
+	}
+
+	get showLabelCircle() {
+		return this._showLabelCircle;
 	}
 }
 
